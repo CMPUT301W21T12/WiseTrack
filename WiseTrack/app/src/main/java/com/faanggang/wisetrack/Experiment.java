@@ -5,6 +5,8 @@ public class Experiment {
     String description;
     String region;
     int minTrials;
+    int crowdSource;
+    float[] geolocation = new float[2];
 
     public Experiment(String name, String description, String region, int minTrials) {
         this.name = name;
@@ -43,5 +45,21 @@ public class Experiment {
 
     public void setMinTrials(int minTrials) {
         this.minTrials = minTrials;
+    }
+
+    public int getCrowdSource() {
+        return crowdSource;
+    }
+
+    public void setCrowdSource(int crowdSource) {
+        this.crowdSource = crowdSource;
+    }
+
+    public float[] getGeolocation() {
+        return geolocation;
+    }
+
+    public void setGeolocation(float[] geolocation) {
+        this.geolocation = geolocation;
     }
 }
