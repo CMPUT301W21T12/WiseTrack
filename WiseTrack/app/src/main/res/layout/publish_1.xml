@@ -55,14 +55,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/region_input" />
 
-    <Button
-        android:id="@+id/publish_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Publish"
-        app:layout_constraintEnd_toEndOf="@+id/minTrials_input"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/minTrials_input"
-        app:layout_constraintTop_toBottomOf="@+id/minTrials_input" />
 </androidx.constraintlayout.widget.ConstraintLayout>

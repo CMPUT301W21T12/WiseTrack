@@ -1,11 +1,19 @@
 package com.faanggang.wisetrack;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class PublishExperiment extends DialogFragment {
+public class PublishExperimentFragment extends DialogFragment {
 
     private EditText inputName;
     private EditText inputDescription;
@@ -34,43 +42,30 @@ public class PublishExperiment extends DialogFragment {
         super.onCreate(savedInstanceState);
 
         View view = LayoutInflater.from(getActivity())
-                .inflate(R.layout.add_experiment_fragment, null);
+                .inflate(R.layout.publish_1, null);
 
-        inputYear = view.findViewById(R.id.add_year);
-        inputMonth = view.findViewById(R.id.add_month);
-        inputDay = view.findViewById(R.id.add_day);
-        experimentDescription = view.findViewById(R.id.add_description);
+        inputName = view.findViewById(R.id.name_input);
+        inputDescription = view.findViewById(R.id.description_input);
+        inputRegion = view.findViewById(R.id.region_input);
+        inputMinTrials = view.findViewById(R.id.minTrials_input);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         return builder
                 .setView(view)
-                .setTitle("Add Experiment")
+                .setTitle("Publish New Experiment")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String description = experimentDescription.getText().toString();
+                        String name = inputName.getText().toString();
+                        String description = inputDescription.getText().toString();
+                        String region = inputRegion.getText().toString();
+                        int minTrials = Integer.parseInt(inputMinTrials.getText().toString());
 
-                        Calendar date = Calendar.getInstance();
-
-                        int year, month, day;
-
-                        try {
-                            year = Integer.parseInt(inputYear.getText().toString());
-                            month = Integer.parseInt(inputMonth.getText().toString());
-                            day = Integer.parseInt(inputDay.getText().toString());
-
-                            date.set(year, month, day);
-
-                        } catch (Exception e){
-
-                            builder.setMessage("Date error: failed to create Experiment object");
-
-                        } finally {
-                            listener.onOkPressed(new Experiment(date, description));
-                        }
-
+                        listener.onPublish(
+                                new Experiment(name, description, region, minTrials)
+                        );
 
                     }}).create();
 

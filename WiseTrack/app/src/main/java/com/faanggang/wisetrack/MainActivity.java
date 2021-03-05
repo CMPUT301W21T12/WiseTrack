@@ -11,7 +11,8 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity
+    implements PublishExperimentFragment.OnFragmentInteractionListener{
 
     ListView experimentList;
     ArrayAdapter<Experiment> experimentAdapter;
@@ -29,10 +30,16 @@ public class MainActivity extends AppCompatActivity{
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TO DO
+                new PublishExperimentFragment().show(getSupportFragmentManager(),
+                        "PUBLISH_EXPERIMENT");
             }
         });
 
 
+    }
+
+    @Override
+    public void onPublish(Experiment experiment){
+        experimentAdapter.add(experiment);
     }
 }
