@@ -11,71 +11,57 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.faanggang.wisetrack.userauth.NewUserActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.faanggang.wisetrack.userauth.NewUserActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.HashMap;
 import java.util.Map;
 
 public class StartActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen);
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+    }
+
     public void menuClick(View view) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        String userID = sharedPref.getString("ID", "");
-        Activity current = this;
-        // if new user
-        if (userID == "") {
-            //create new user
-            Map<String, Object> user = new HashMap<>();
-            user.put("firstName", "First Name");
-            user.put("lastName", "last Name");
-            user.put("email", "Email");
-            user.put("phoneNumber", "0");
-            user.put("userName", "User Name");
-
-            db.collection("Users")
-                    .add(user)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d("Added user", "DocumentSnapshot added with ID: " + documentReference.getId());
-                            editor.putString("ID", documentReference.getId());
-                            editor.apply();
-                            Intent intent = new Intent(current, MainActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-                    //add failure later
+        if(currentUser == null){
+            Intent intent = new Intent(this, NewUserActivity.class);
+            startActivity(intent);
+        } else {
+            Log.w("USERID", currentUser.getUid());
         }
-        else {
-            db.document("Users/" + userID)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        Log.d("get user", document.getId() + " => " + document.getData());
-                        Intent intent = new Intent(current, MainActivity.class);
-                        startActivity(intent);
-                    }
 
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
 
-                }
-            });
+    }
 
+    public void getIDButton(View view) {
+        if(currentUser == null){
+            Intent intent = new Intent(this, NewUserActivity.class);
+            startActivity(intent);
+        } else {
+            Log.w("USERID", currentUser.getUid());
         }
 
     }
