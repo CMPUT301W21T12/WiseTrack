@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.faanggang.wisetrack.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class CommentCustomList extends ArrayAdapter<Comment> {
     private ArrayList<Comment> comments;
@@ -34,8 +35,9 @@ public class CommentCustomList extends ArrayAdapter<Comment> {
         TextView cmtUsername = view.findViewById(R.id.comment_username);
         TextView cmtDateTime = view.findViewById(R.id.comment_datetime);
         TextView cmtContent = view.findViewById(R.id.comment_content);
-
-
-
+        cmtUsername.setText(cmt.getAuthorID());
+        cmtContent.setText(cmt.getContent());
+        cmtDateTime.setText(cmt.getDatetimeString());
+        return view;
     }
 }
