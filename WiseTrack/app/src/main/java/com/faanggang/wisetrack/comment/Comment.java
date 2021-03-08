@@ -1,6 +1,6 @@
 package com.faanggang.wisetrack.comment;
 
-public abstract class Comment {
+public class Comment {
     private String experimentID;
     private String authorID;
     private String content;
