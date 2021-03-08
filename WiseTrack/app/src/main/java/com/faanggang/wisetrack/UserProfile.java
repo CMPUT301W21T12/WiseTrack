@@ -1,11 +1,13 @@
 package com.faanggang.wisetrack;
 
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
 public class UserProfile {
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
-    private int userID;
+    private String userID;
     private int phoneNumber;
 
     public UserProfile() {
@@ -13,7 +15,7 @@ public class UserProfile {
         this.firstName = "FirstName";
         this.lastName = "LastName";
         this.email = "Email";
-        this.userID = 0;
+        this.userID = NULL;
         this.phoneNumber = 0;
     }
 
