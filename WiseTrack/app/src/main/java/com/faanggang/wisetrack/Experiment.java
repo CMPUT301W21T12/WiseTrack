@@ -6,10 +6,10 @@ public class Experiment {
     String region;
     int minTrials;
     int crowdSource;
-    float[] geolocation;
+    boolean geolocation;
 
     public Experiment(String name, String description, String region,
-                      int minTrials, int crowdSource, float[] geolocation) {
+                      int minTrials, int crowdSource, boolean geolocation) {
         this.name = name;
         this.description = description;
         this.region = region;
@@ -58,11 +58,11 @@ public class Experiment {
         this.crowdSource = crowdSource;
     }
 
-    public float[] getGeolocation() {
+    public boolean getGeolocation() {
         return geolocation;
     }
 
-    public void setGeolocation(float[] geolocation) {
+    public void setGeolocation(boolean geolocation) {
         this.geolocation = geolocation;
     }
 }
