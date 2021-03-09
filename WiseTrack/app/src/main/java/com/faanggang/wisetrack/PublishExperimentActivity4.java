@@ -1,13 +1,22 @@
 package com.faanggang.wisetrack;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PublishExperimentActivity4 extends AppCompatActivity
     implements View.OnClickListener{
@@ -16,8 +25,9 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     private Button publish;
     private Button cancel;
     private String name, description, region;
-    private int minTrials, trialType;
+    private int minTrials, crowdSource;
     private boolean geolocation;
+    private static final String TAG = "DocSnippets";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,39 +44,42 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         description = extras.getString("EXTRA_DESCRIPTION");
         region = extras.getString("EXTRA_REGION");
         minTrials = extras.getInt("EXTRA_MIN_TRIALS");
-        trialType = extras.getInt("EXTRA_TRIAL_TYPE");
+        crowdSource = extras.getInt("EXTRA_TRIAL_TYPE");
         geolocation = extras.getBoolean("EXTRA_GEOLOCATION");
 
         String minTrials_str = String.valueOf(minTrials);
-        String trialType_str;
+        String crowdSource_str;
         String geolocation_str = String.valueOf(geolocation);
 
-        switch(trialType) {
+        switch(crowdSource) {
             case 0:
-                trialType_str = "Count";
+                crowdSource_str = "Count";
                 break;
             case 1:
-                trialType_str = "Binomial trials";
+                crowdSource_str = "Binomial trials";
                 break;
             case 2:
-                trialType_str = "Non-negative integer counts";
+                crowdSource_str = "Non-negative integer counts";
                 break;
             case 3:
-                trialType_str = "Measurement trials";
+                crowdSource_str = "Measurement trials";
                 break;
             default:
-                trialType_str = "";
+                crowdSource_str = "";
         }
 
         String text_description =
-                "Experiment name: " + name + "\n" +
-                "Description: " + description + "\n" +
+                "Experiment name: " + name + "\n\n" +
+                "Description: " + description + "\n\n" +
                 "Region: " + region + "\n" +
                 "Minimum trials: " + minTrials_str + "\n" +
-                "Trial type: " + trialType_str + "\n" +
+                "Trial type: " + crowdSource_str + "\n" +
                 "Geolocation required: " + geolocation_str;
 
         experiment_description.setText(text_description);
+
+        publish.setOnClickListener(this);
+        cancel.setOnClickListener(this);
 
     }
 
@@ -74,14 +87,38 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     public void onClick(View v) {
 
         if(v.getId() == R.id.publish4_publish_button) {
-            float [] geolocation_arr = null;
 
-            if(geolocation)
-                geolocation_arr = new float[2];
+            // Firebase:
+            // Add experiment document data to "Experiments" collection with auto-generated id
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", name);
+            data.put("description", description);
+            data.put("region", region);
+            data.put("minTrials", minTrials);
+            data.put("crowdSource", crowdSource);
+            data.put("geolocation", geolocation);
 
-            Experiment experiment = new Experiment(
-                    name, description, region, minTrials, trialType, geolocation_arr);
+            FirebaseFirestore db = FirebaseFirestore.getInstance();;
+
+            db.collection("Experiments")
+                    .add(data)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
         }
+
+        // GO back to main
+        Intent intent = new Intent(PublishExperimentActivity4.this, MainActivity.class);
+        startActivity(intent);
 
     }
 }
