@@ -10,8 +10,8 @@
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="-27dp"
-        tools:layout_editor_absoluteY="89dp">
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="173dp">
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -31,8 +31,8 @@
             android:id="@+id/publish4_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="48dp"
             android:text="Summary"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,10 +40,10 @@
 
         <TextView
             android:id="@+id/publish4_description"
-            android:layout_width="wrap_content"
+            android:layout_width="323dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="36dp"
             android:text="Description"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,8 +53,8 @@
             android:id="@+id/publish4_publish_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="44dp"
             android:text="Publish"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/publish4_description" />
@@ -63,8 +63,8 @@
             android:id="@+id/publish4_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="44dp"
             android:text="Cancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/publish4_description" />
