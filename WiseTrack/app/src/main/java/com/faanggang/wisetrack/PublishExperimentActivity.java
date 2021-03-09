@@ -41,11 +41,11 @@ public class PublishExperimentActivity extends AppCompatActivity {
                 String region = inputRegion.getText().toString();
                 int minTrials = Integer.parseInt(inputMinTrials.getText().toString());
 
-/*                intent.putExtra(EXTRA_NAME, name);
-                intent.putExtra(EXTRA_DESCRIPTION, description);
-                intent.putExtra(EXTRA_REGION, region);
-                intent.putExtra(EXTRA_MIN_TRIALS, minTrials);
-*/
+                intent.putExtra("EXTRA_NAME", name);
+                intent.putExtra("EXTRA_DESCRIPTION", description);
+                intent.putExtra("EXTRA_REGION", region);
+                intent.putExtra("EXTRA_MIN_TRIALS", minTrials);
+
                 Intent nextIntent = new Intent(PublishExperimentActivity.this, PublishExperimentActivity2.class);
                 startActivity(nextIntent);
 

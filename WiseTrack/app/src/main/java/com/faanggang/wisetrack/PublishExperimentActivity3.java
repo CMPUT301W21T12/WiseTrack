@@ -27,9 +27,8 @@ public class PublishExperimentActivity3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            //    Intent nextIntent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
-            //    startActivity(nextIntent);
-
+                Intent nextIntent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
+                startActivity(nextIntent);
             }
         });
 
@@ -38,9 +37,8 @@ public class PublishExperimentActivity3 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            //    Intent nextIntent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
-            //    startActivity(nextIntent);
-
+                Intent nextIntent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
+                startActivity(nextIntent);
             }
         });
     }

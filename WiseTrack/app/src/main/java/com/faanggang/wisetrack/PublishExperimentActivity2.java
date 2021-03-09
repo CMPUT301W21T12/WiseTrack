@@ -33,8 +33,8 @@ public class PublishExperimentActivity2 extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
+                intent.putExtra("EXTRA_TRIAL_TYPE", 0);
                 startActivity(nextIntent);
-
             }
         });
 
@@ -44,8 +44,8 @@ public class PublishExperimentActivity2 extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
+                intent.putExtra("EXTRA_TRIAL_TYPE", 1);
                 startActivity(nextIntent);
-
             }
         });
 
@@ -55,6 +55,7 @@ public class PublishExperimentActivity2 extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
+                intent.putExtra("EXTRA_TRIAL_TYPE", 2);
                 startActivity(nextIntent);
 
             }
@@ -66,6 +67,7 @@ public class PublishExperimentActivity2 extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
+                intent.putExtra("EXTRA_TRIAL_TYPE", 3);
                 startActivity(nextIntent);
 
             }

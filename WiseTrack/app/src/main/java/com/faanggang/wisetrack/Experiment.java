@@ -6,7 +6,7 @@ public class Experiment {
     String region;
     int minTrials;
     int crowdSource;
-    float[] geolocation = new float[2];
+    float[] geolocation;
 
     public Experiment(String name, String description, String region, int minTrials) {
         this.name = name;
