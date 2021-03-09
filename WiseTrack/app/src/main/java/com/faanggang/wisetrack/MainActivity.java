@@ -22,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
 
+
         setContentView(R.layout.main_menu);  // EDIT LATER: display main_menu later
-                                                // create class to handle menu button clicks?
+        // create class to handle menu button clicks?
+
 
         Button publishButton = findViewById(R.id.menuPublish_button);
 
@@ -36,12 +38,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
-/*    @Override
-    public void onPublish(Experiment experiment){
-        experimentAdapter.add(experiment);
-    }
- */
 }
