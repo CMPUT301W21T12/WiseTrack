@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class PublishExperimentActivity3 extends AppCompatActivity {
+import java.util.EmptyStackException;
+
+public class PublishExperimentActivity3 extends AppCompatActivity
+    implements View.OnClickListener{
 
     private Button yes;
     private Button no;
@@ -17,29 +20,37 @@ public class PublishExperimentActivity3 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_experiment3);
 
-        Intent intent = getIntent();
+        yes = findViewById(R.id.publish3_yes_button);
+        no = findViewById(R.id.publish3_no_button);
 
-        yes = findViewById(R.id.yes_button);
-        no = findViewById(R.id.no_button);
+        yes.setOnClickListener(this);
+        no.setOnClickListener(this);
 
-        yes.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent nextIntent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
-                startActivity(nextIntent);
-            }
-        });
-
-        no.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent nextIntent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
-                startActivity(nextIntent);
-            }
-        });
     }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
+        Bundle extras = getIntent().getExtras();
+
+        // put in previous extras/variables to the next intent so that the next activity
+        // can access them
+        if( extras != null)
+            intent.putExtras(extras);
+
+        boolean geolocation;
+
+        if (v.getId() == R.id.publish3_yes_button)
+            geolocation = true;
+        else if (v.getId() == R.id.publish3_no_button)
+            geolocation = false;
+        else
+            throw new EmptyStackException();
+
+        intent.putExtra("EXTRA_GEOLOCATION", geolocation);
+
+        startActivity(intent);
+
+    }
+
 }

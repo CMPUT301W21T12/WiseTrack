@@ -21,8 +21,6 @@ public class PublishExperimentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_experiment);
 
-        Intent intent = getIntent();
-
         inputName = findViewById(R.id.name_input);
         inputDescription = findViewById(R.id.description_input);
         inputRegion = findViewById(R.id.region_input);
@@ -41,28 +39,18 @@ public class PublishExperimentActivity extends AppCompatActivity {
                 String region = inputRegion.getText().toString();
                 int minTrials = Integer.parseInt(inputMinTrials.getText().toString());
 
+                Intent intent = new Intent(PublishExperimentActivity.this, PublishExperimentActivity2.class);
+
                 intent.putExtra("EXTRA_NAME", name);
                 intent.putExtra("EXTRA_DESCRIPTION", description);
                 intent.putExtra("EXTRA_REGION", region);
                 intent.putExtra("EXTRA_MIN_TRIALS", minTrials);
 
-                Intent nextIntent = new Intent(PublishExperimentActivity.this, PublishExperimentActivity2.class);
-                startActivity(nextIntent);
+                startActivity(intent);
 
             }
         });
 
-
-
-
-
-/*        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-*/
     }
 
 }

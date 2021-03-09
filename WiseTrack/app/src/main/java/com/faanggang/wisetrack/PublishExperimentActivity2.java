@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class PublishExperimentActivity2 extends AppCompatActivity {
+import java.util.EmptyStackException;
+
+public class PublishExperimentActivity2 extends AppCompatActivity
+    implements View.OnClickListener{
 
     private Button counts;
     private Button binomial;
@@ -19,59 +22,45 @@ public class PublishExperimentActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_experiment2);
 
-        Intent intent = getIntent();
-
         counts = findViewById(R.id.counts_button);
-        binomial = findViewById(R.id.counts_button);
+        binomial = findViewById(R.id.binomial_button);
         nonNegative = findViewById(R.id.non_negative_button);
         measurements = findViewById(R.id.measurements_button);
 
+        counts.setOnClickListener(this);
+        binomial.setOnClickListener(this);
+        nonNegative.setOnClickListener(this);
+        measurements.setOnClickListener(this);
+        
+    }
 
-        counts.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
 
-            @Override
-            public void onClick(View view) {
+        Bundle extras = getIntent().getExtras();
 
-                Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
-                intent.putExtra("EXTRA_TRIAL_TYPE", 0);
-                startActivity(nextIntent);
-            }
-        });
+        // put in previous extras/variables to the next intent so that the next activity
+        // can access them
+        if( extras != null)
+            intent.putExtras(extras);
+        
+        int trialType;
 
-        binomial.setOnClickListener(new View.OnClickListener() {
+        if (v.getId() == R.id.counts_button)
+                trialType = 0;
+        else if (v.getId() == R.id.binomial_button)
+                trialType = 1;
+        else if (v.getId() == R.id.non_negative_button)
+                trialType = 2;
+        else if (v.getId() == R.id.measurements_button)
+                trialType = 3;
+        else
+            throw new EmptyStackException();
 
-            @Override
-            public void onClick(View view) {
+        intent.putExtra("EXTRA_TRIAL_TYPE", trialType);
 
-                Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
-                intent.putExtra("EXTRA_TRIAL_TYPE", 1);
-                startActivity(nextIntent);
-            }
-        });
-
-        nonNegative.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
-                intent.putExtra("EXTRA_TRIAL_TYPE", 2);
-                startActivity(nextIntent);
-
-            }
-        });
-
-        measurements.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                Intent nextIntent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
-                intent.putExtra("EXTRA_TRIAL_TYPE", 3);
-                startActivity(nextIntent);
-
-            }
-        });
+        startActivity(intent);
 
     }
 }
