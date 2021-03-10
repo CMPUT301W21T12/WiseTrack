@@ -12,9 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +28,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     private TextView experiment_description;
     private Button publish;
     private Button cancel;
+    private ArrayList<String> keywords;
     private String name, description, region;
     private int minTrials, crowdSource;
     private boolean geolocation;
@@ -37,7 +42,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         experiment_description = findViewById(R.id.publish4_description);
         publish = findViewById(R.id.publish4_publish_button);
         cancel = findViewById(R.id.publish4_cancel_button);
-
+        keywords = new ArrayList<>();
         Bundle extras = getIntent().getExtras();
 
         name = extras.getString("EXTRA_NAME");
@@ -46,6 +51,8 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         minTrials = extras.getInt("EXTRA_MIN_TRIALS");
         crowdSource = extras.getInt("EXTRA_TRIAL_TYPE");
         geolocation = extras.getBoolean("EXTRA_GEOLOCATION");
+        keywords.addAll(Arrays.asList(name.split(" ")));
+        // keywords.addAll(Arrays.asList(description.split(" "))); perhaps?
 
         String minTrials_str = String.valueOf(minTrials);
         String crowdSource_str;
@@ -97,6 +104,8 @@ public class PublishExperimentActivity4 extends AppCompatActivity
             data.put("minTrials", minTrials);
             data.put("crowdSource", crowdSource);
             data.put("geolocation", geolocation);
+            data.put("keywords", keywords);
+            data.put("date", new Timestamp(Calendar.getInstance().getTime()));
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();;
 

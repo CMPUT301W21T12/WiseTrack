@@ -30,7 +30,8 @@ public class ExperimentAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // set all the text views this shouldnt b very hard
+        ExperimentItemView item = (ExperimentItemView) holder;
+        item.getTitle_TextView().setText(experiments.get(position).getName());
     }
 
     @Override
