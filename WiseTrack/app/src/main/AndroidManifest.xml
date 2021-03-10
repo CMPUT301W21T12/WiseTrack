@@ -14,8 +14,7 @@
         <activity android:name=".PublishExperimentActivity3" />
         <activity android:name=".PublishExperimentActivity2" />
         <activity android:name=".PublishExperimentActivity" />
-        <activity android:name=".userauth.NewUserActivity"/>
-        <activity android:name=".StartActivity"/>
+        <activity android:name=".MainMenuActivity"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
