@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
@@ -24,6 +25,7 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
     private ImageButton searchButton;
     private EditText searchEditText;
     private SearchManager searchManager;
+    private TextView resultCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +34,10 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
         searchManager = new SearchManager(this);
 
         searchResults = new ArrayList<Experiment>();
-        searchResults.add(new Experiment("w", "w", "w", 0, 2, false));
 
         experimentAdapter = new ExperimentAdapter(searchResults);
 
+        resultCount = findViewById(R.id.activity_search_count_TextView);
         searchButton = findViewById(R.id.activity_search_search_button);
         searchEditText = findViewById(R.id.activity_search_search_edit_text);
         recyclerView = findViewById(R.id.activity_search_list);
@@ -45,8 +47,10 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
     }
 
     @Override
-    public void onSearchSuccess(List results) {
+    public void onSearchSuccess(List<Experiment> results) {
+        searchResults.clear();
         searchResults.addAll(results);
+        resultCount.setText(searchResults.size() + " result(s) found");
         experimentAdapter.notifyDataSetChanged();
     }
 

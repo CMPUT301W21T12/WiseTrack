@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -23,7 +24,7 @@ public class SearchManager {
     private Searcher searcher;
 
     public interface Searcher {
-        void onSearchSuccess(List results);
+        void onSearchSuccess(List<Experiment> results);
     }
 
     public SearchManager(Searcher searcher) {
@@ -31,7 +32,7 @@ public class SearchManager {
         this.searcher = searcher;
     }
 
-    public ArrayList<Experiment> searchForQuery(String query) {
+    public void searchForQuery(String query) {
 
         CollectionReference experiments = db.collection("Experiments");
         ArrayList<Experiment> results;
@@ -43,19 +44,33 @@ public class SearchManager {
         if (queryKeywords.size() > 10) {
             queryKeywords.subList(0, 10);
         }
-        Query searchQuery = experiments.orderBy("date").whereArrayContainsAny("keywords",
-                queryKeywords);
-        searchQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    searcher.onSearchSuccess(Arrays.asList(task.getResult().getDocuments().toArray()));
-                } else {
-                    Log.w("FAILURE", task.getException().toString());
-                }
-            }
-        });
+        Log.w("SEARCH", "got this far lol");
 
-        return new ArrayList<Experiment>();
+
+        db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
+                .orderBy("date")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Experiment> searchResults = new ArrayList<Experiment>();
+                        List<DocumentSnapshot> result = task.getResult().getDocuments();
+                        for (DocumentSnapshot snapshot : result) {
+                            searchResults.add(new Experiment(snapshot.getString("name"),
+                                    snapshot.getString("description"),
+                                    snapshot.getString("region"),
+                                    snapshot.getLong("minTrials").intValue(),
+                                    snapshot.getLong("crowdSource").intValue(),
+                                    snapshot.getBoolean("geolocation"),
+                                    snapshot.getDate("date"),
+                                    snapshot.getString("ownerID")));
+                        }
+                        searcher.onSearchSuccess(searchResults);
+                    } else {
+                        Log.w("COMPLETED:FAILURE", task.getException().toString());
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("FAILURE", e.toString());
+                });
     }
 }

@@ -32,6 +32,8 @@ public class ExperimentAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ExperimentItemView item = (ExperimentItemView) holder;
         item.getTitle_TextView().setText(experiments.get(position).getName());
+        item.getOwner_TextView().setText(experiments.get(position).getOwnerID());
+        item.getDescription_TextView().setText(experiments.get(position).getDescription());
     }
 
     @Override

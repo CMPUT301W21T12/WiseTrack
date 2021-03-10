@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -33,12 +34,14 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     private int minTrials, crowdSource;
     private boolean geolocation;
     private static final String TAG = "DocSnippets";
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_experiment4);
 
+        mAuth = FirebaseAuth.getInstance();
         experiment_description = findViewById(R.id.publish4_description);
         publish = findViewById(R.id.publish4_publish_button);
         cancel = findViewById(R.id.publish4_cancel_button);
@@ -106,6 +109,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
             data.put("geolocation", geolocation);
             data.put("keywords", keywords);
             data.put("date", new Timestamp(Calendar.getInstance().getTime()));
+            data.put("ownerID", mAuth.getCurrentUser().getUid());
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();;
 

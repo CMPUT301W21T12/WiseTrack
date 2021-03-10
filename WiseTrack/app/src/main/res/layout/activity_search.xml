@@ -12,14 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <EditText
             android:id="@+id/activity_search_search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Search (by ?)"
-            android:layout_weight=".5"/>
+            android:hint="Search by keywords"
+            android:inputType="textPersonName" />
 
         <ImageButton
             android:id="@+id/activity_search_search_button"
@@ -30,10 +31,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/activity_search_count_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="@string/empty_string" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_search_list"
