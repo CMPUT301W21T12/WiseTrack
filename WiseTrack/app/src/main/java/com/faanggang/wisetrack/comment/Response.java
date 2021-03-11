@@ -1,17 +1,19 @@
 package com.faanggang.wisetrack.comment;
 
+import java.util.Date;
+
 public class Response extends Comment {
-    private Comment respondee;
-    Response(String eID, String aID, String cont, Comment respondee) {
-        super(eID, aID, cont);
-        this.respondee = respondee;
+    private Comment parent;
+    Response(String eID, String aID, String cont, Comment parent, Date dt) {
+        super(eID, aID, cont,dt);
+        this.parent = parent;
     }
 
-    public Comment getRespondee() {
-        return respondee;
+    public Comment getParent() {
+        return this.parent;
     }
 
-    public void setRespondee(Comment respondee) {
-        this.respondee = respondee;
+    public void setParent(Comment p) {
+        this.parent = p;
     }
 }
