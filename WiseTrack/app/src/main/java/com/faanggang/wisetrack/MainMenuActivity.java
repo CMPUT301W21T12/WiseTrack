@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.faanggang.wisetrack.search.SearchActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
