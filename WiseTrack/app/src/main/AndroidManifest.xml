@@ -9,6 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
+
+        <activity android:name=".PublishExperimentActivity4"/>
+        <activity android:name=".PublishExperimentActivity3" />
+        <activity android:name=".PublishExperimentActivity2" />
+        <activity android:name=".PublishExperimentActivity" />
+        <activity android:name=".search.SearchActivity" />
+        <activity android:name=".MainMenuActivity"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

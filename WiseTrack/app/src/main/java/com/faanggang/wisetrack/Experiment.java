@@ -1,18 +1,28 @@
 package com.faanggang.wisetrack;
 
-public class Experiment {
-    String name;
-    String description;
-    String region;
-    int minTrials;
-    int crowdSource;
-    float[] geolocation = new float[2];
+import java.util.Date;
 
-    public Experiment(String name, String description, String region, int minTrials) {
+public class Experiment {
+    private String name;
+    private String description;
+    private String region;
+    private int minTrials;
+    private int crowdSource;
+    private boolean geolocation;
+    private Date date;
+    private String ownerID;
+
+    public Experiment(String name, String description, String region,
+                      int minTrials, int crowdSource, boolean geolocation, Date date,
+                      String ownerID) {
         this.name = name;
         this.description = description;
         this.region = region;
         this.minTrials = minTrials;
+        this.crowdSource = crowdSource;
+        this.geolocation = geolocation;
+        this.date = date;
+        this.ownerID = ownerID;
     }
 
     public String getName() {
@@ -55,11 +65,27 @@ public class Experiment {
         this.crowdSource = crowdSource;
     }
 
-    public float[] getGeolocation() {
+    public boolean getGeolocation() {
         return geolocation;
     }
 
-    public void setGeolocation(float[] geolocation) {
+    public void setGeolocation(boolean geolocation) {
         this.geolocation = geolocation;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
     }
 }
