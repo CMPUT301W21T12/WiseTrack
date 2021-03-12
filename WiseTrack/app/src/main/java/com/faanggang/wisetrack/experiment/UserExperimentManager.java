@@ -9,7 +9,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UserExperimentManager {
@@ -17,7 +16,7 @@ public class UserExperimentManager {
     private userExpFinder finder;
 
     public interface userExpFinder {
-        void onUserExpFound(List<Experiment> exps);
+        void onUserExpFound(ArrayList<Experiment> results);
     }
     public UserExperimentManager(userExpFinder finder){
         this.db = FirebaseFirestore.getInstance();
@@ -48,6 +47,10 @@ public class UserExperimentManager {
             } else{
                 Log.w("EXPERIMENT","DID NOT FIND");
             }
-        });
+        })
+        .addOnFailureListener(e ->{
+            Log.w("EXPERIMENT", e.toString());
+        })
+        ;
     }
 }
