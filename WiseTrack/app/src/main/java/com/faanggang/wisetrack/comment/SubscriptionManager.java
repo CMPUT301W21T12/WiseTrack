@@ -1,8 +1,8 @@
 package com.faanggang.wisetrack.comment;
-import android.util.Log;
-import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * This class manages how user subscriptions are added and removed from users.
  *
@@ -17,6 +17,7 @@ public class SubscriptionManager {
      * userID is the ID of the user that you want to edit the subscription list of.
     */
     public void addSubscription(String expID, String userID){
+
         db.collection("Users").document(userID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
