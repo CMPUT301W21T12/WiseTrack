@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.faanggang.wisetrack.publish.PublishExperimentActivity;
 import com.faanggang.wisetrack.search.SearchActivity;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        experimentSearchButton = findViewById(R.id.menuSearch_button);
+        Button experimentSearchButton = findViewById(R.id.menuSearch_button);
 
         experimentSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
