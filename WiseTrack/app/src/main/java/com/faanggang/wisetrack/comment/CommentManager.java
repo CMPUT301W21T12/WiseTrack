@@ -1,9 +1,12 @@
 package com.faanggang.wisetrack.comment;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommentManager {
@@ -22,5 +25,21 @@ public class CommentManager {
         DocumentReference newCommentRef = collectionRef.document();
         newCommentRef.set(hm);
     }
+
+    public void getExperimentCommentIDs(String expID) {
+
+        db.collection("Comments").document(expID).get()
+        .addOnCompleteListener( task ->{
+            if (task.isSuccessful()) {
+                ArrayList<String> results = (ArrayList<String>) task.getResult().get("commentID");
+                Log.w("COMMENTS","gottem");
+            }
+        })
+        ;
+
+
+    }
+
+
 
 }
