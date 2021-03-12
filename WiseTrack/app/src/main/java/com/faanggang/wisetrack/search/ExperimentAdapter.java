@@ -15,6 +15,10 @@ import com.faanggang.wisetrack.R;
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
 // which is licensed under Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
+
+/**
+ * Custom RecyclerView.Adapter class
+ */
 public class ExperimentAdapter extends RecyclerView.Adapter {
     private ArrayList<Experiment> experiments;
     public ExperimentAdapter(ArrayList<Experiment> experiments) {
