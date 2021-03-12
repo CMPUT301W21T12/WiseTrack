@@ -1,4 +1,5 @@
 package com.faanggang.wisetrack.comment;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,7 +18,6 @@ public class SubscriptionManager {
      * userID is the ID of the user that you want to edit the subscription list of.
     */
     public void addSubscription(String expID, String userID){
-
         db.collection("Users").document(userID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
