@@ -11,6 +11,9 @@ import com.faanggang.wisetrack.R;
 // which is licensed under Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
 
+/**
+ * Custom RecyclerView item (i.e. RecyclerView.ViewHolder) class with basic TextView getters.
+ */
 public class ExperimentItemView extends RecyclerView.ViewHolder {
     private TextView title_TextView;
     private TextView description_TextView;

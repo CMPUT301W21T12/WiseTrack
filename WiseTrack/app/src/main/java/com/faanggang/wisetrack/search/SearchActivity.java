@@ -18,6 +18,10 @@ import com.faanggang.wisetrack.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity that provides a frontend to searching in the form of a RecyclerView and a textbox
+ * that allows users to input keyword based queries.
+ */
 public class SearchActivity extends AppCompatActivity implements SearchManager.Searcher {
     private ExperimentAdapter experimentAdapter;
     private RecyclerView recyclerView;
@@ -46,6 +50,12 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    /**
+     * This method makes the RecyclerView display passed Experiments and updates TextView
+     * showing the amount of results found
+     * @param results
+     * results are experiments to display which were successfully found on a search
+     */
     @Override
     public void onSearchSuccess(List<Experiment> results) {
         searchResults.clear();
@@ -54,6 +64,11 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
         experimentAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * This is an onClick method that starts a search query from a SearchManager object.
+     * @param view
+     * view is the view that the experiment
+     */
     public void onSearch(View view) {
         Log.w("SEARCH", "onSearch");
         searchManager.searchForQuery(searchEditText.getText().toString());
