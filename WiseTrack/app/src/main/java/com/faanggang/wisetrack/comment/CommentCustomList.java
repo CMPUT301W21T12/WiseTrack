@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import com.faanggang.wisetrack.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class CommentCustomList extends ArrayAdapter<Comment> {
     private ArrayList<Comment> comments;
@@ -29,12 +28,12 @@ public class CommentCustomList extends ArrayAdapter<Comment> {
     public View getView(int pos, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.comment_adapter, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.comment_row_item, parent, false);
         }
         Comment cmt = comments.get(pos);
-        TextView cmtUsername = view.findViewById(R.id.comment_username);
-        TextView cmtDateTime = view.findViewById(R.id.comment_datetime);
-        TextView cmtContent = view.findViewById(R.id.comment_content);
+        TextView cmtUsername = view.findViewById(R.id.comment_item_username);
+        TextView cmtDateTime = view.findViewById(R.id.comment_item_datetime);
+        TextView cmtContent = view.findViewById(R.id.comment_item_content);
         cmtUsername.setText(cmt.getAuthorID());
         cmtContent.setText(cmt.getContent());
         cmtDateTime.setText(cmt.getDatetimeString());
