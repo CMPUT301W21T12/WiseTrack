@@ -1,22 +1,22 @@
-package com.faanggang.wisetrack;
+package com.faanggang.wisetrack.user;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 
-public class UserProfile {
+public class Users {
     private String userName;
     private String firstName;
     private String lastName;
     private String email;
     private String userID;
-    private int phoneNumber;
+    private String phoneNumber;
 
-    public UserProfile() {
+    public Users(String userName, String firstName, String lastName, String email, String userID, String phoneNumber) {
         this.userName = userName;
-        this.firstName = "FirstName";
-        this.lastName = "LastName";
-        this.email = "Email";
-        this.userID = NULL;
-        this.phoneNumber = 0;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.userID = userID;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUserName() {
@@ -51,11 +51,11 @@ public class UserProfile {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }
