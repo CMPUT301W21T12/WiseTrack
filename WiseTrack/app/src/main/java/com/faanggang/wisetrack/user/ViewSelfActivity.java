@@ -1,7 +1,10 @@
 package com.faanggang.wisetrack.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +20,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
-import java.util.HashMap;
 
 public class ViewSelfActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -64,6 +66,15 @@ public class ViewSelfActivity extends AppCompatActivity {
         };
 
         manager.getUserInfo(uid, render);
+
+        Button editButton = findViewById(R.id.view_editProfile);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewSelfActivity.this, EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,15 +33,19 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    UserManager manager = new UserManager(db);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         ImageView owl = (ImageView) findViewById(R.id.imageView);
         owl.setImageResource(R.drawable.logo);
+
 
     }
 
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createNewUser(){
+        Activity activity = this;
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -81,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("SIGNIN", "success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            saveUserToDb(user);
+                            manager.addUser(user.getUid());
+                            Intent intent = new Intent(activity, MainMenuActivity.class);
+                            startActivity(intent);
                         } else {
                             Log.w("SIGNIN", "failure");
                         }
@@ -90,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void saveUserToDb(FirebaseUser user){
+/*    public void saveUserToDb(FirebaseUser user){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Activity activity = this;
         Map<String, Object> users = new HashMap<>();
@@ -117,5 +125,5 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("Fail:", "Error writing document");
                     }
                 });
-    }
+    }*/
 }
