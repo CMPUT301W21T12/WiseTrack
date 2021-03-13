@@ -16,6 +16,7 @@
         <activity android:name=".publish.PublishExperimentActivity" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".MainMenuActivity"/>
+        <activity android:name=".experiment.MyExperimentActivity"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>
