@@ -19,19 +19,39 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * This class controls searching the database.
+ */
+
 public class SearchManager {
     private FirebaseFirestore db;
     private Searcher searcher;
 
+    /**
+     * This is an interface that is implemented by Activities that forces implementing activities
+     * to implement a method to be called upon a successful search.
+     */
     public interface Searcher {
         void onSearchSuccess(List<Experiment> results);
     }
 
+    /**
+     * This is a constructor that instantiates the FireBase instance and sets the SearchManager's
+     * current searcher.
+     * @param searcher
+     * searcher is the activity that will be using this instance of SearchManager
+     */
     public SearchManager(Searcher searcher) {
         db = FirebaseFirestore.getInstance();
         this.searcher = searcher;
     }
 
+    /**
+     * This method searches the database for keywords contained in a string and calls the
+     * searcher's onSearchSuccess method with relevant experiments upon successful search.
+     * @param query
+     * query is a string that contains keywords to search for in the database.
+     */
     public void searchForQuery(String query) {
 
         CollectionReference experiments = db.collection("Experiments");

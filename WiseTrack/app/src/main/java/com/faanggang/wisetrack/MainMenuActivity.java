@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.faanggang.wisetrack.publish.PublishExperimentActivity;
 import com.faanggang.wisetrack.search.SearchActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,7 +48,12 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+
         experimentSearchButton = findViewById(R.id.menuSearch_button);
+
+        Button experimentSearchButton = findViewById(R.id.menuSearch_button);
+
+
         experimentSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
