@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack;
+package com.faanggang.wisetrack.user;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
 

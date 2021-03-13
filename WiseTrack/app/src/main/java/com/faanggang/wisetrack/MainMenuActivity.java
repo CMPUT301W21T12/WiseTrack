@@ -11,8 +11,7 @@ import android.widget.ListView;
 
 import com.faanggang.wisetrack.publish.PublishExperimentActivity;
 import com.faanggang.wisetrack.search.SearchActivity;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.faanggang.wisetrack.user.ViewSelfActivity;
 
 import java.util.ArrayList;
 
