@@ -1,6 +1,7 @@
 package com.faanggang.wisetrack.experiment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 
 public class ViewExperimentActivity extends AppCompatActivity {
-    private FirebaseFirestore db;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
     private TextView expRegionView;
@@ -27,6 +28,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         expID = getIntent().getStringExtra("EXP_ID");
+        Log.w("EXP",expID);
         setContentView(R.layout.view_experiment_detail);
         expNameView = findViewById(R.id.view_experimentName);
         expDescriptionView = findViewById(R.id.view_experimentDescription);
@@ -42,14 +44,11 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 expNameView.setText(docSnap.getString("name"));
                 expDescriptionView.setText(docSnap.getString("description"));
                 expRegionView.setText(docSnap.getString("region"));
-                expMinTrialsView.setText(docSnap.getLong("mineTrials").toString());
+                expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
                 expOwnerView.setText(docSnap.getString("ownerID"));
                 //expStatusView.setText(docSnap.getString("status"));
             }
         })
         ;
     }
-
-    @Override
-    public void onUserExpFound(ArrayList<Experiment> results) {}
 }
