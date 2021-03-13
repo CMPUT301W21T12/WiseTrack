@@ -24,7 +24,7 @@ public class EditProfileActivity extends AppCompatActivity {
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //handle updated user info
+                //handle changes to user info
             }
         });
 
