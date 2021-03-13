@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/experimentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Experiment Name:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/view_experimentName"
+        app:layout_constraintStart_toStartOf="@+id/view_experimentName" />
+
+    <TextView
+        android:id="@+id/view_experimentName"
+        android:layout_width="320dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="60dp"
+        android:hint="Experiment Name"
+        android:textSize="16sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/experimentDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Experiment Description:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/view_experimentName"
+        app:layout_constraintTop_toBottomOf="@+id/view_experimentName" />
+
+    <TextView
+        android:id="@+id/view_experimentDescription"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="48dp"
+        android:hint="Experiment Description"
+        android:textSize="16sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_experimentName" />
+
+    <TextView
+        android:id="@+id/experimentRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:text="Region:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/view_experimentRegion"
+        app:layout_constraintStart_toStartOf="@+id/min_num_trials" />
+
+    <TextView
+        android:id="@+id/view_experimentRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="6dp"
+        android:hint="Experiment Region"
+        android:textSize="16sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/min_num_trials"
+        app:layout_constraintStart_toEndOf="@+id/experimentRegion" />
+
+    <TextView
+        android:id="@+id/min_num_trials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="7dp"
+        android:text="Minimum Number of Trials:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/view_min_num_trials"
+        app:layout_constraintEnd_toStartOf="@+id/view_min_num_trials"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/view_min_num_trials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="26dp"
+        android:hint="Min#Trials"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/min_num_trials"
+        app:layout_constraintTop_toBottomOf="@+id/view_experimentDescription" />
+
+    <TextView
+        android:id="@+id/owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:text="Owner:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/min_num_trials"
+        app:layout_constraintTop_toBottomOf="@+id/min_num_trials" />
+
+    <TextView
+        android:id="@+id/view_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:hint="Owner Name"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/owner"
+        app:layout_constraintStart_toEndOf="@+id/owner" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/view_status"
+        app:layout_constraintStart_toStartOf="@+id/owner" />
+
+    <TextView
+        android:id="@+id/view_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="9dp"
+        android:hint="Open/Closed"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/status"
+        app:layout_constraintTop_toBottomOf="@+id/view_owner" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
