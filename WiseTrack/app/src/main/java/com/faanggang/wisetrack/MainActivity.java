@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    UserManager manager = new UserManager(db);
+    UserManager userManager = new UserManager(db);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView owl = (ImageView) findViewById(R.id.imageView);
         owl.setImageResource(R.drawable.logo);
-
-
     }
 
     @Override
@@ -64,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
         }
-
-
 
     }
 
@@ -87,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Log.d("SIGNIN", "success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            manager.addUser(user.getUid());
+                            userManager.addUser(user.getUid());
                             Intent intent = new Intent(activity, MainMenuActivity.class);
                             startActivity(intent);
                         } else {
@@ -98,32 +94,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-/*    public void saveUserToDb(FirebaseUser user){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Activity activity = this;
-        Map<String, Object> users = new HashMap<>();
-        users.put("firstName", "First Name");
-        users.put("lastName", "last Name");
-        users.put("email", "Email");
-        users.put("phoneNumber", "0");
-        users.put("userName", "Username");
-
-        String uid = user.getUid();
-        db.collection("Users").document(uid)
-                .set(users)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Added user", "DocumentSnapshot added with ID: " + user.getUid());
-                        Intent intent = new Intent(activity, MainMenuActivity.class);
-                        startActivity(intent);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Fail:", "Error writing document");
-                    }
-                });
-    }*/
 }

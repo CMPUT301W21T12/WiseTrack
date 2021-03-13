@@ -11,11 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
@@ -49,7 +49,7 @@ public class ViewSelfActivity extends AppCompatActivity {
 
         UserManager manager = new UserManager(db);
 
-        OnCompleteListener<DocumentSnapshot> render = new OnCompleteListener<DocumentSnapshot>() {
+        OnCompleteListener<DocumentSnapshot> renderTextView = new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -57,6 +57,7 @@ public class ViewSelfActivity extends AppCompatActivity {
                     if (userDoc.exists()) {
                         Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
                         setText(userDoc);
+                        storeCurrentUser(userDoc);
                     }
                     else {
                         Log.d("Failed: ", "No such document");
@@ -65,7 +66,7 @@ public class ViewSelfActivity extends AppCompatActivity {
             }
         };
 
-        manager.getUserInfo(uid, render);
+        manager.getUserInfo(uid, renderTextView);
 
         Button editButton = findViewById(R.id.view_editProfile);
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +87,15 @@ public class ViewSelfActivity extends AppCompatActivity {
         emailText.setText(userDoc.getString("email"));
     }
 
-
+    public void storeCurrentUser(DocumentSnapshot userDoc) {
+        Users currentUser = new Users(userDoc.getString("userName"),
+                userDoc.getString("firstName"),
+                userDoc.getString("lastName"),
+                userDoc.getString("email"),
+                userDoc.getId(),
+                userDoc.getString("phoneNumber"));
+        WiseTrackApplication.setCurrentUser(currentUser);
+        Log.d("ApplicationUser:", currentUser.getFirstName());
+    }
 
 }
