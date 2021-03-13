@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.faanggang.wisetrack.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.publish.PublishExperimentActivity;
 import com.faanggang.wisetrack.search.SearchActivity;
 
@@ -50,6 +51,15 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        Button myExperimentsButton = findViewById(R.id.menuViewExperiments_button);
+
+        myExperimentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, MyExperimentActivity.class);
+                startActivity(intent);
+            }
+    });
 
     }
 }
