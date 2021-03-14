@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+
+import com.faanggang.wisetrack.user.UserManager;
 import com.faanggang.wisetrack.experiment.UserExperimentManager;
+import com.faanggang.wisetrack.user.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,19 +30,24 @@ import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    UserManager userManager = new UserManager(db);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen);
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         ImageView owl = (ImageView) findViewById(R.id.imageView);
         owl.setImageResource(R.drawable.logo);
-
     }
 
     @Override
@@ -50,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
             createNewUser();
         }
         else {
-            Log.w("USERID", currentUser.getUid());
+            Log.w("EXISTING USERID", currentUser.getUid());
+            storeCurrentUser(currentUser.getUid());
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            startActivity(intent);
         }
-
-        Intent intent = new Intent(this, MainMenuActivity.class);
-        startActivity(intent);
 
     }
 
@@ -68,17 +79,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createNewUser(){
+        Activity activity = this;
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d("SIGNIN", "success");
+                            Log.d("NEW SIGNIN", "success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            userManager.addUser(user.getUid());
+                            storeCurrentUser(user.getUid());
+                            Intent intent = new Intent(activity, MainMenuActivity.class);
+                            startActivity(intent);
                         } else {
-                            Log.w("SIGNIN", "failure");
+                            Log.w("NEW SIGNIN", "failure");
                         }
                     }
                 });
+
     }
+
+    public void storeCurrentUser(String uid) {
+
+        OnCompleteListener<DocumentSnapshot> storeUser = new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot userDoc = task.getResult();
+                    if (userDoc.exists()) {
+                        Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
+                        Users currentUser = new Users(
+                                userDoc.getString("userName"),
+                                userDoc.getString("firstName"),
+                                userDoc.getString("lastName"),
+                                userDoc.getString("email"),
+                                userDoc.getId(),
+                                userDoc.getString("phoneNumber"));
+                        WiseTrackApplication.setCurrentUser(currentUser);
+                        Log.d("ApplicationUser:", WiseTrackApplication.getCurrentUser().getFirstName());
+                    }
+                    else {
+                        Log.d("Failed: ", "No such document");
+                    }
+                }
+            }
+        };
+
+        userManager.getUserInfo(uid, storeUser);
+    }
+
 }
