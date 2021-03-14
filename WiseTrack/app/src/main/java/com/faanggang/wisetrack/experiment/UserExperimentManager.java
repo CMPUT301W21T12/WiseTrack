@@ -32,16 +32,18 @@ public class UserExperimentManager {
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
                 for(DocumentSnapshot doc: documents){
                     Log.w("EXPERIMENT", doc.getString("name"));
-                   results.add(new Experiment(
-                           doc.getString("name"),
-                           doc.getString("description"),
-                           doc.getString("region"),
-                           doc.getLong("minTrials").intValue(),
-                           doc.getLong("crowdSource").intValue(),
-                           doc.getBoolean("geolocation"),
-                           doc.getDate("date"),
-                           doc.getString("ownerID")
-                           ));
+                    Experiment e = new Experiment(
+                            doc.getString("name"),
+                            doc.getString("description"),
+                            doc.getString("region"),
+                            doc.getLong("minTrials").intValue(),
+                            doc.getLong("crowdSource").intValue(),
+                            doc.getBoolean("geolocation"),
+                            doc.getDate("date"),
+                            doc.getString("ownerID")
+                    );
+                    e.setExpID(doc.getId());
+                   results.add(e);
                    finder.onUserExpFound(results);
                 }
             } else{

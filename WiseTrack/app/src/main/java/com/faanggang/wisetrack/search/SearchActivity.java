@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
 
         searchResults = new ArrayList<Experiment>();
 
-        experimentAdapter = new ExperimentAdapter(searchResults);
+        experimentAdapter = new ExperimentAdapter(this,searchResults);
 
         resultCount = findViewById(R.id.activity_search_count_TextView);
         searchButton = findViewById(R.id.activity_search_search_button);

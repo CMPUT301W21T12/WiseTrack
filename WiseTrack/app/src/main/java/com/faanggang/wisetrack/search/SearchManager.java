@@ -75,14 +75,16 @@ public class SearchManager {
                         List<Experiment> searchResults = new ArrayList<Experiment>();
                         List<DocumentSnapshot> result = task.getResult().getDocuments();
                         for (DocumentSnapshot snapshot : result) {
-                            searchResults.add(new Experiment(snapshot.getString("name"),
+                            Experiment exp = new Experiment(snapshot.getString("name"),
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
                                     snapshot.getLong("minTrials").intValue(),
                                     snapshot.getLong("crowdSource").intValue(),
                                     snapshot.getBoolean("geolocation"),
                                     snapshot.getDate("date"),
-                                    snapshot.getString("ownerID")));
+                                    snapshot.getString("ownerID"));
+                            exp.setExpID(snapshot.getId());
+                            searchResults.add(exp);
                         }
                         searcher.onSearchSuccess(searchResults);
                     } else {

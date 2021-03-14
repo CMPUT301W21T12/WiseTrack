@@ -29,7 +29,7 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
 
         experiments = new ArrayList<Experiment>();
 
-        expAdapter= new ExperimentAdapter(experiments);
+        expAdapter= new ExperimentAdapter(this, experiments);
 
         recyclerView = findViewById(R.id.my_experiments_recyclerview);
         recyclerView.setAdapter(expAdapter);

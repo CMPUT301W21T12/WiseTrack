@@ -11,6 +11,7 @@ public class Experiment {
     private boolean geolocation;
     private Date date;
     private String ownerID;
+    private String expID;
 
     public Experiment(String name, String description, String region,
                       int minTrials, int crowdSource, boolean geolocation, Date date,
@@ -88,4 +89,7 @@ public class Experiment {
     public void setOwnerID(String ownerID) {
         this.ownerID = ownerID;
     }
+
+    public void setExpID(String id){ this.expID = id;}
+    public String getExpID(){ return this.expID;}
 }
