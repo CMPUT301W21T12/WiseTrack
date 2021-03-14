@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.MainMenuActivity;
 import com.faanggang.wisetrack.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.faanggang.wisetrack.comment.ViewCommentActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,6 +57,14 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 })
         ;
 
+    FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
+    ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            new ExperimentActionMenuFragment().show(getSupportFragmentManager(), "experiment action menu");
+        }
+    });
+
     Button viewCommentsButton = findViewById(R.id.view_comments_button);
     viewCommentsButton.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -67,4 +76,3 @@ public class ViewExperimentActivity extends AppCompatActivity {
     });
     }
 }
-
