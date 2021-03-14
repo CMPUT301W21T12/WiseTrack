@@ -1,7 +1,6 @@
 package com.faanggang.wisetrack.search;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @NonNull
     @Override
     public ExperimentItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_row_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_experiment,
             parent, false);
         return new ExperimentItemView(view, context);
     }
