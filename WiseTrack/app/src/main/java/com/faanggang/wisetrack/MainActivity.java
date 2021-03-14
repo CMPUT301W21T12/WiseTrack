@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.user.UserManager;
 import com.faanggang.wisetrack.experiment.UserExperimentManager;
+import com.faanggang.wisetrack.user.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             Log.w("EXISTING USERID", currentUser.getUid());
+            storeCurrentUser(currentUser.getUid());
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
         }
@@ -83,17 +85,47 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Log.d("SIGNIN", "success");
+                            Log.d("NEW SIGNIN", "success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             userManager.addUser(user.getUid());
+                            storeCurrentUser(user.getUid());
                             Intent intent = new Intent(activity, MainMenuActivity.class);
                             startActivity(intent);
                         } else {
-                            Log.w("SIGNIN", "failure");
+                            Log.w("NEW SIGNIN", "failure");
                         }
                     }
                 });
 
+    }
+
+    public void storeCurrentUser(String uid) {
+
+        OnCompleteListener<DocumentSnapshot> storeUser = new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot userDoc = task.getResult();
+                    if (userDoc.exists()) {
+                        Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
+                        Users currentUser = new Users(
+                                userDoc.getString("userName"),
+                                userDoc.getString("firstName"),
+                                userDoc.getString("lastName"),
+                                userDoc.getString("email"),
+                                userDoc.getId(),
+                                userDoc.getString("phoneNumber"));
+                        WiseTrackApplication.setCurrentUser(currentUser);
+                        Log.d("ApplicationUser:", WiseTrackApplication.getCurrentUser().getFirstName());
+                    }
+                    else {
+                        Log.d("Failed: ", "No such document");
+                    }
+                }
+            }
+        };
+
+        userManager.getUserInfo(uid, storeUser);
     }
 
 }

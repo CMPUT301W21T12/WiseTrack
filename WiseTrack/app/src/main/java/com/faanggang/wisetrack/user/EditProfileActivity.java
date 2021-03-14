@@ -18,30 +18,39 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile);
 
-        populateText();
-
-        Button confirmEditButton = findViewById(R.id.confirmEditButton);
-        confirmEditButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //handle changes to user info
-            }
-        });
-
-
-
-
-
-    }
-
-    public void populateText() {
-        Users currentUser = WiseTrackApplication.getCurrentUser();
-
         EditText editFirstName = findViewById(R.id.editTextFirstName);
         EditText editLastName = findViewById(R.id.editTextLastName);
         EditText editPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         EditText editEmail = findViewById(R.id.editTextEmail);
         EditText editUserName = findViewById(R.id.editTextUserName);
+
+        populateText(editFirstName, editLastName, editPhoneNumber, editEmail, editUserName);
+
+        Button confirmEditButton = findViewById(R.id.confirmEditButton);
+        confirmEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                updateUserInfoChanges(editFirstName, editLastName, editPhoneNumber, editEmail, editUserName);
+
+            }
+        });
+
+    }
+
+    public void updateUserInfoChanges(EditText editFirstName, EditText editLastName, EditText editPhoneNumber,
+                                      EditText editEmail, EditText editUserName) {
+
+        String firstName = editFirstName.getText().toString();
+        String lastName = editLastName.getText().toString();
+        String phoneNumber = editPhoneNumber.getText().toString();
+
+    }
+
+    public void populateText(EditText editFirstName, EditText editLastName, EditText editPhoneNumber,
+                             EditText editEmail, EditText editUserName) {
+
+        Users currentUser = WiseTrackApplication.getCurrentUser();
 
         editFirstName.setText(currentUser.getFirstName());
         editLastName.setText(currentUser.getLastName());
