@@ -32,7 +32,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CommentItemView item = (CommentItemView) holder;
         Comment c = comments.get(pos);
         item.getCommentAuthor().setText(c.getAuthorID());
-        item.getCommentDatetime().setText(c.getDatetimeString());
+        item.getCommentDatetime().setText(c.getDateTimeString());
         item.getCommentContent().setText(c.getContent());
     }
 

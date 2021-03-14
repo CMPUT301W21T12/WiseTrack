@@ -22,6 +22,10 @@ public class CommentManager {
         void onExpCommentsFound(ArrayList<Comment> results);
     }
 
+    /**
+     *
+     * @param searcher
+     */
     public CommentManager(Searcher searcher){
         this.searcher = searcher;
     }
@@ -34,8 +38,6 @@ public class CommentManager {
         hm.put("eID", comment.getExperimentID());
         hm.put("content", comment.getContent());
         hm.put("datetime", comment.getDatetime());
-        hm.put("children", comment.getChildren());
-
         DocumentReference newCommentRef = collectionRef.document();
         newCommentRef.set(hm);
     }
