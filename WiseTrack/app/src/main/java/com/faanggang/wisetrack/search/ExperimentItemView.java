@@ -43,14 +43,11 @@ public class ExperimentItemView extends RecyclerView.ViewHolder implements View.
 
     @Override
     public void onClick(View v){
-        Log.w("POG","POGPOGPOG");
         Intent intent = new Intent(context, ViewExperimentActivity.class);
         intent.putExtra("EXP_ID",this.ID);
         context.startActivity(intent);
-        Log.w("POG","DONE");
-
-
     }
+
     public void setID(String id){
         this.ID = id;
     }
