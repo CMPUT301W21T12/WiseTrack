@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack.comment;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faanggang.wisetrack.R;
 import java.util.ArrayList;
 
-public class CommentAdapter extends RecyclerView.Adapter {
+public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Comment> comments;
-    public CommentAdapter(ArrayList<Comment> c) {
+    private Context context;
+    public CommentAdapter(Context context, ArrayList<Comment> c) {
+        this.context = context;
         this.comments = c;
     }
 
@@ -19,7 +22,7 @@ public class CommentAdapter extends RecyclerView.Adapter {
     public CommentItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comment_row_item,
                 parent, false);
-        return new CommentItemView(view);
+        return new CommentItemView(view, context);
     }
 
     @Override
