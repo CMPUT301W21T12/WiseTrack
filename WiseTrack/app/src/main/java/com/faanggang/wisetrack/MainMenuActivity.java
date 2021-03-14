@@ -21,6 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
 
+/**
+ * MainMenuActivity displays all available options for user(s)
+ * to navigate to
+ */
+
 public class MainMenuActivity extends AppCompatActivity {
 
     ListView experimentList;
