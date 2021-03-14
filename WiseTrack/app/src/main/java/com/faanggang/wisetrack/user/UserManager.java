@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.faanggang.wisetrack.MainMenuActivity;
+import com.faanggang.wisetrack.WiseTrackApplication;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -57,6 +58,18 @@ public class UserManager {
                         Log.d("Fail:", "Error writing document");
                     }
                 });
+    }
+
+    public void updateFireBaseUser(String uid) {
+        db.collection("Users").document(uid)
+                .update(
+                        "email", WiseTrackApplication.getCurrentUser().getEmail(),
+                        "firstName", WiseTrackApplication.getCurrentUser().getFirstName(),
+                        "lastName", WiseTrackApplication.getCurrentUser().getLastName(),
+                        "phoneNumber", WiseTrackApplication.getCurrentUser().getPhoneNumber(),
+                        "userName", WiseTrackApplication.getCurrentUser().getUserName()
+                );
+
     }
 
 }
