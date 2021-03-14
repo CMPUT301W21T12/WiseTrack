@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack.search;
+package com.faanggang.wisetrack.adapters;
 
 import android.content.Context;
 import android.content.Intent;

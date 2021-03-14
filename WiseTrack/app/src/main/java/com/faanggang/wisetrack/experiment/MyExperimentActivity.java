@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.search.ExperimentAdapter;
+import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 
 import java.util.ArrayList;
 

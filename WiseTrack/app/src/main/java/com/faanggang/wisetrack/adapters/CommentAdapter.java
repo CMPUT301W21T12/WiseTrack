@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack.comment;
+package com.faanggang.wisetrack.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.comment.Comment;
+
 import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

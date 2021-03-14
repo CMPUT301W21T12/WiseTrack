@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.adapters.CommentAdapter;
 
 import java.util.ArrayList;
 

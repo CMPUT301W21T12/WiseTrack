@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack.comment;
+package com.faanggang.wisetrack.adapters;
 
 import android.content.Context;
 import android.view.View;
