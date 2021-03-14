@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack.search;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,22 +15,27 @@ import com.faanggang.wisetrack.R;
 /**
  * Custom RecyclerView item (i.e. RecyclerView.ViewHolder) class with basic TextView getters.
  */
-public class ExperimentItemView extends RecyclerView.ViewHolder {
+public class ExperimentItemView extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView title_TextView;
     private TextView description_TextView;
     private TextView date_TextView;
     private TextView status_TextView;
     private TextView owner_TextView;
 
-
     public ExperimentItemView(@NonNull View itemView) {
         super(itemView);
-
+        itemView.setClickable(true);
+        itemView.setOnClickListener(this);
         title_TextView = itemView.findViewById(R.id.experiment_row_item_title_TextView);
         description_TextView = itemView.findViewById(R.id.experiment_row_item_desc_TextView);
         date_TextView = itemView.findViewById(R.id.experiment_row_item_date_TextView);
         status_TextView = itemView.findViewById(R.id.experiment_row_item_status_TextView);
         owner_TextView = itemView.findViewById(R.id.experiment_row_item_owner_TextView);
+    }
+
+    @Override
+    public void onClick(View v){
+        Log.w("POG","POGPOGPOG");
     }
 
     public TextView getDate_TextView() {
@@ -51,4 +57,6 @@ public class ExperimentItemView extends RecyclerView.ViewHolder {
     public TextView getOwner_TextView() {
         return owner_TextView;
     }
+
+
 }

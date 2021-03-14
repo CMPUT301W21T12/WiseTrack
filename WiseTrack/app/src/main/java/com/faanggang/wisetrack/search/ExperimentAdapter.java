@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack.search;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import com.faanggang.wisetrack.R;
 /**
  * Custom RecyclerView.Adapter class
  */
-public class ExperimentAdapter extends RecyclerView.Adapter {
+public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Experiment> experiments;
     public ExperimentAdapter(ArrayList<Experiment> experiments) {
         this.experiments = experiments;
