@@ -110,7 +110,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
             data.put("crowdSource", crowdSource);
             data.put("geolocation", geolocation);
             data.put("keywords", keywords);
-            data.put("date", new Timestamp(Calendar.getInstance().getTime()));
+            data.put("datetime", new Timestamp(Calendar.getInstance().getTime()));
             data.put("ownerID", mAuth.getCurrentUser().getUid());
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();;

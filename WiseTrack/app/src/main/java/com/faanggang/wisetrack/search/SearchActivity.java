@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
 
         searchResults = new ArrayList<Experiment>();
 
-        experimentAdapter = new ExperimentAdapter(searchResults);
+        experimentAdapter = new ExperimentAdapter(this,searchResults);
 
         resultCount = findViewById(R.id.activity_search_count_TextView);
         searchButton = findViewById(R.id.activity_search_search_button);

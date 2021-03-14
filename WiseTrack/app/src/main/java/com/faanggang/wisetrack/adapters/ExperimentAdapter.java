@@ -1,5 +1,6 @@
-package com.faanggang.wisetrack.search;
+package com.faanggang.wisetrack.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +20,25 @@ import com.faanggang.wisetrack.R;
 /**
  * Custom RecyclerView.Adapter class
  */
-public class ExperimentAdapter extends RecyclerView.Adapter {
+public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Experiment> experiments;
-    public ExperimentAdapter(ArrayList<Experiment> experiments) {
+    private Context context;
+    public ExperimentAdapter(Context context, ArrayList<Experiment> experiments) {
         this.experiments = experiments;
+        this.context = context;
     }
     @NonNull
     @Override
     public ExperimentItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.experiment_row_item,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_experiment,
             parent, false);
-        return new ExperimentItemView(view);
+        return new ExperimentItemView(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ExperimentItemView item = (ExperimentItemView) holder;
+        item.setID(experiments.get(position).getExpID());
         item.getTitle_TextView().setText(experiments.get(position).getName());
         item.getOwner_TextView().setText(experiments.get(position).getOwnerID());
         item.getDescription_TextView().setText(experiments.get(position).getDescription());

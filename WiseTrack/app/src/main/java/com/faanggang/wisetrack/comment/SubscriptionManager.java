@@ -1,11 +1,9 @@
 package com.faanggang.wisetrack.comment;
-
 import android.util.Log;
-
+import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 /**
  * This class manages how user subscriptions are added and removed from users.
  *
@@ -33,7 +31,8 @@ public class SubscriptionManager {
                         Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
                     }
                 });
-    };
+    }
+
     /**
      * This method updates the "Subscription" field of a user on the firebase.
      * @param expID

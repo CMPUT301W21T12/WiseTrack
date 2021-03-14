@@ -68,21 +68,23 @@ public class SearchManager {
 
 
         db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
-                .orderBy("date")
+                .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<Experiment> searchResults = new ArrayList<Experiment>();
                         List<DocumentSnapshot> result = task.getResult().getDocuments();
                         for (DocumentSnapshot snapshot : result) {
-                            searchResults.add(new Experiment(snapshot.getString("name"),
+                            Experiment exp = new Experiment(snapshot.getString("name"),
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
                                     snapshot.getLong("minTrials").intValue(),
                                     snapshot.getLong("crowdSource").intValue(),
                                     snapshot.getBoolean("geolocation"),
-                                    snapshot.getDate("date"),
-                                    snapshot.getString("ownerID")));
+                                    snapshot.getDate("datetime"),
+                                    snapshot.getString("uID"));
+                            exp.setExpID(snapshot.getId());
+                            searchResults.add(exp);
                         }
                         searcher.onSearchSuccess(searchResults);
                     } else {

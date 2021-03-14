@@ -4,67 +4,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <Button
         android:id="@+id/view_subscribe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="Subscribe" />
 
-    <TextView
+    <Button
         android:id="@+id/view_unpublish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="Unpublish" />
 
-    <TextView
+    <Button
         android:id="@+id/view_end_experiment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="End Current Experiment" />
 
-    <TextView
+    <Button
         android:id="@+id/view_experiment_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="View Experiment Results" />
 
-    <TextView
+    <Button
         android:id="@+id/view_geolocations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="View Geolocations" />
 
-    <TextView
+    <Button
         android:id="@+id/view_execute_trials"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="Execute Trials" />
 
-    <TextView
+    <Button
         android:id="@+id/view_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="Comment" />
 
-    <TextView
+    <Button
         android:id="@+id/view_trials"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
+        android:textSize="25dp"
+        android:gravity="left"
         android:text="View Trials" />
 </LinearLayout>

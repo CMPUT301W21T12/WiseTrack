@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,14 +15,14 @@ import androidx.fragment.app.DialogFragment;
 import com.faanggang.wisetrack.R;
 
 public class ExperimentActionMenuFragment extends DialogFragment {
-    private TextView subscribe;
-    private TextView unpublish;
-    private TextView endExperiment;
-    private TextView experimentResults;
-    private TextView geolocations;
-    private TextView executeTrials;
-    private TextView comment;
-    private TextView trials;
+    private Button subscribe;
+    private Button unpublish;
+    private Button endExperiment;
+    private Button experimentResults;
+    private Button geolocations;
+    private Button executeTrials;
+    private Button comment;
+    private Button trials;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
