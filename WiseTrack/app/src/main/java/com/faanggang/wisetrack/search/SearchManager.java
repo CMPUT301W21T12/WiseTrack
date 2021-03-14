@@ -56,7 +56,7 @@ public class SearchManager {
 
         CollectionReference experiments = db.collection("Experiments");
         ArrayList<Experiment> results;
-        Log.w("SEARCH", "searchForQuery");
+        Log.w("SEARCH", "starting search for query");
 
         ArrayList<String> queryKeywords = new ArrayList<>();
         queryKeywords.addAll(Arrays.asList(query.split(" ")));
@@ -64,9 +64,6 @@ public class SearchManager {
         if (queryKeywords.size() > 10) {
             queryKeywords.subList(0, 10);
         }
-        Log.w("SEARCH", "got this far lol");
-
-
         db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
                 .orderBy("datetime")
                 .get()
@@ -88,11 +85,11 @@ public class SearchManager {
                         }
                         searcher.onSearchSuccess(searchResults);
                     } else {
-                        Log.w("COMPLETED:FAILURE", task.getException().toString());
+                        Log.w("SEARCH", "EXCEPTION: " + task.getException().toString());
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.w("FAILURE", e.toString());
+                    Log.w("SEARCH", "FAILURE: " + e.toString());
                 });
     }
 }
