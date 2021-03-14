@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.search.ExperimentAdapter;
+import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 
 import java.util.ArrayList;
 
@@ -29,14 +29,16 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
 
         experiments = new ArrayList<Experiment>();
 
-        expAdapter= new ExperimentAdapter(experiments);
+        expAdapter= new ExperimentAdapter(this, experiments);
 
         recyclerView = findViewById(R.id.my_experiments_recyclerview);
         recyclerView.setAdapter(expAdapter);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
-        //expManager.userExpQuery("2j7WacgiS0RjjWEY5K6sgh3Dfx63");
+
+        expManager.userExpQuery("EOJow5uAXX8D32dE9kXz");
+
     }
     @Override
     public void onUserExpFound(ArrayList<Experiment> results) {

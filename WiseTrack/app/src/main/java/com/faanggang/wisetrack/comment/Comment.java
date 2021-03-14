@@ -1,7 +1,6 @@
 package com.faanggang.wisetrack.comment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Comment {
@@ -9,18 +8,13 @@ public class Comment {
     private String authorID;
     private String content;
     private Date datetime;
-
-
-
     private String firebaseID; // ID of the document in firebase
-    private ArrayList<String> children; // list of IDs to refer to comment children
 
     public Comment(String eID, String aID, String cont, Date dt) {
         this.experimentID = eID;
         this.authorID = aID;
         this.content = cont;
         this.datetime = dt;
-        this.children = new ArrayList<String>();
     }
 
     public String getExperimentID() {
@@ -55,17 +49,17 @@ public class Comment {
         this.datetime = datetime;
     }
 
-    public String getDatetimeString() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(this.datetime);
+    /**
+     * This function converts the date type private attribute to a string for display.
+     * @return Date and time that the comment was made.
+     */
+    public String getDateTimeString() {
+        return new SimpleDateFormat("yyyy-MM-dd hh:mm a").format(this.datetime);
     }
 
-    public ArrayList<String> getChildren() {
-        return children;
-    }
     public String getFirebaseID() {
         return firebaseID;
     }
-
     public void setFirebaseID(String firebaseID) {
         this.firebaseID = firebaseID;
     }
