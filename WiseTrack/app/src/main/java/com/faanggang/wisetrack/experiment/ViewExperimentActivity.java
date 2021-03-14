@@ -57,7 +57,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
         ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                new ExperimentActionMenuFragment().show(getSupportFragmentManager(), "experiment action menu");
             }
         });
     }
