@@ -45,7 +45,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 expDescriptionView.setText(docSnap.getString("description"));
                 expRegionView.setText(docSnap.getString("region"));
                 expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
-                expOwnerView.setText(docSnap.getString("ownerID"));
+                expOwnerView.setText(docSnap.getString("uID"));
                 //expStatusView.setText(docSnap.getString("status"));
             }
         })

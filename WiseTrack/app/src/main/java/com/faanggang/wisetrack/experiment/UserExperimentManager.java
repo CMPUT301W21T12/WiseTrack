@@ -25,7 +25,7 @@ public class UserExperimentManager {
 
 
     public void userExpQuery(String userID) {
-        db.collection("Experiments").whereEqualTo("ownerID", userID).get()
+        db.collection("Experiments").whereEqualTo("uID", userID).get()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 ArrayList<Experiment> results = new ArrayList<Experiment>();
@@ -39,12 +39,12 @@ public class UserExperimentManager {
                             doc.getLong("minTrials").intValue(),
                             doc.getLong("crowdSource").intValue(),
                             doc.getBoolean("geolocation"),
-                            doc.getDate("date"),
-                            doc.getString("ownerID")
+                            doc.getDate("datetime"),
+                            doc.getString("uID")
                     );
                     e.setExpID(doc.getId());
-                   results.add(e);
-                   finder.onUserExpFound(results);
+                    results.add(e);
+                    finder.onUserExpFound(results);
                 }
             } else{
                 Log.w("EXPERIMENT","DID NOT FIND");
