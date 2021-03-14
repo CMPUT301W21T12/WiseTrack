@@ -4,14 +4,28 @@ import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class CommentManager {
-
+    private Searcher searcher;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    public interface Searcher{
+        void onExpCommentsFound(ArrayList<Comment> results);
+    }
+
+    public CommentManager(Searcher searcher){
+        this.searcher = searcher;
+    }
+
     public void UploadComment(Comment comment){
         CollectionReference collectionRef = db.collection("Comments");
 
@@ -28,11 +42,19 @@ public class CommentManager {
 
     public void getExperimentCommentIDs(String expID) {
 
-        db.collection("Comments").document(expID).get()
+        db.collection("Comments").whereEqualTo("uID", expID).orderBy("datetime").get()
         .addOnCompleteListener( task ->{
             if (task.isSuccessful()) {
-                ArrayList<String> results = (ArrayList<String>) task.getResult().get("commentID");
-                Log.w("COMMENTS","gottem");
+                ArrayList<Comment> results = new ArrayList<Comment>();
+                List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
+                for (DocumentSnapshot docSnap: docSnapList ){
+                    String eID = docSnap.getString("eID");
+                    String uID = docSnap.getString("uID");
+                    String content = docSnap.getString("content");
+                    Date dt = docSnap.getDate("datetime");
+                    results.add(new Comment(eID, uID, content, dt));
+                    searcher.onExpCommentsFound(results);
+                }
             }
         })
         ;
