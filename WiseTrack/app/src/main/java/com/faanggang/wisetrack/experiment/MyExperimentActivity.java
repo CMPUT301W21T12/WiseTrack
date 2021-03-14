@@ -36,8 +36,8 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
-        expManager.userExpQuery("EOJow5uAXX8D32dE9kXz");
 
+        expManager.userExpQuery("EOJow5uAXX8D32dE9kXz");
 
     }
     @Override

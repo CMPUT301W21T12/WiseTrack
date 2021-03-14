@@ -3,6 +3,7 @@ import android.util.Log;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /**
  * This class manages how user subscriptions are added and removed from users.
  *
@@ -31,6 +32,7 @@ public class SubscriptionManager {
                     }
                 });
     }
+
     /**
      * This method updates the "Subscription" field of a user on the firebase.
      * @param expID
