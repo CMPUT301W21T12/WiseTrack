@@ -40,9 +40,10 @@ public class CommentManager {
         newCommentRef.set(hm);
     }
 
-    public void getExperimentCommentIDs(String expID) {
+    public void getExperimentComments(String expID) {
 
-        db.collection("Comments").whereEqualTo("uID", expID).orderBy("datetime").get()
+        db.collection("Comments").whereEqualTo("eID", expID).orderBy("datetime")
+        .get()
         .addOnCompleteListener( task ->{
             if (task.isSuccessful()) {
                 ArrayList<Comment> results = new ArrayList<Comment>();
@@ -53,10 +54,15 @@ public class CommentManager {
                     String content = docSnap.getString("content");
                     Date dt = docSnap.getDate("datetime");
                     results.add(new Comment(eID, uID, content, dt));
-                    searcher.onExpCommentsFound(results);
                 }
+                searcher.onExpCommentsFound(results);
+            }else {
+                Log.w("COMPLETED:FAILURE", task.getException().toString());
             }
         })
+        .addOnFailureListener(e -> {
+            Log.w("FAILURE", e.toString());
+        });
         ;
 
 
