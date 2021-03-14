@@ -22,6 +22,6 @@ jobs:
         with:
           java-version: 1.8
       - name: insert google-services.json from secrets
-        run: echo GOOGLE_SERVICES_SECRET > ./app
+        run: echo GOOGLE_SERVICES_SECRET > ./WiseTrack/app
       - name: run unit tests
         run: ./gradlew testDebugUnitTest
