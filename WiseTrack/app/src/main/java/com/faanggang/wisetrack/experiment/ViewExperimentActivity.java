@@ -2,12 +2,14 @@ package com.faanggang.wisetrack.experiment;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -50,5 +52,13 @@ public class ViewExperimentActivity extends AppCompatActivity {
             }
         })
         ;
+
+        FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
+        ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
 }
