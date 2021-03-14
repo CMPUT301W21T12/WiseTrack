@@ -68,7 +68,7 @@ public class SearchManager {
 
 
         db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
-                .orderBy("date")
+                .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
