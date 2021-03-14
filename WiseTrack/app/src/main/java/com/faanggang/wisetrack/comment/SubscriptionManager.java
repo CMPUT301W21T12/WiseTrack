@@ -1,0 +1,59 @@
+package com.faanggang.wisetrack.comment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+/**
+ * This class manages how user subscriptions are added and removed from users.
+ *
+ * */
+public class SubscriptionManager {
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    /**
+    * This method updates the "Subscription" field of a user on the firebase.
+    * @param expID
+     * expID is the ID of the experiment that you are adding to.
+    * @param userID
+     * userID is the ID of the user that you want to edit the subscription list of.
+    */
+    public void addSubscription(String expID, String userID){
+        db.collection("Users").document(userID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscriptions");
+                        HashMap<String, Object> map = new HashMap<String,Object>();
+                        subs.add(expID);
+                        map.put("Subscriptions",subs);
+                        db.collection("Users").document(userID).update(map);
+                        Log.w("SUBSCRIPTION","added new twitch prime sub :)");
+                    }else {
+                        Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
+                    }
+                });
+    };
+    /**
+     * This method updates the "Subscription" field of a user on the firebase.
+     * @param expID
+     * expID is the ID of the experiment that you are removing.
+     * @param userID
+     * userID is the ID of the user that you want to edit the subscription list of.
+     */
+    public void removeSubscription(String expID, String userID){
+        db.collection("Users").document(userID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscriptions");
+                        HashMap<String, Object> map = new HashMap<String,Object>();
+                        if (subs.contains(expID)){
+                            subs.remove(expID);
+                        } else {Log.w("SUBSCRIPTION", "Trying to remove sub that doesn't exist");}
+                        map.put("Subscriptions",subs);
+                        db.collection("Users").document(userID).update(map);
+                        Log.w("SUBSCRIPTION","added new twitch prime sub :)");
+                    }else {
+                        Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
+                    }
+                });
+    }
+}
