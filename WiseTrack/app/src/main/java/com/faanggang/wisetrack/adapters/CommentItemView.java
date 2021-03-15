@@ -23,15 +23,15 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
         this.context = context;
     }
 
-    public TextView getCommentAuthor() {
+    public TextView getAuthorView() {
         return comment_author;
     }
 
-    public TextView getCommentDatetime() {
+    public TextView getDatetimeView() {
         return comment_datetime;
     }
 
-    public TextView getCommentContent() {
+    public TextView getContentView() {
         return comment_content;
     }
 
