@@ -3,10 +3,14 @@ package com.faanggang.wisetrack.experiment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.Experiment;
@@ -54,25 +58,68 @@ public class ViewExperimentActivity extends AppCompatActivity {
                         expOwnerView.setText(docSnap.getString("uID"));
                         //expStatusView.setText(docSnap.getString("status"));
                     }
-                })
-        ;
+                });
 
-    FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
-    ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            new ExperimentActionMenuFragment().show(getSupportFragmentManager(), "experiment action menu");
-        }
-    });
+        FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
 
-    Button viewCommentsButton = findViewById(R.id.view_comments_button);
-    viewCommentsButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(ViewExperimentActivity.this, ViewCommentActivity.class);
-            intent.putExtra("EXP_ID", expID);
-            startActivity(intent);
+        // link floating action button to experiment action menu xml
+        registerForContextMenu(ExperimentActionMenu);
+
+        ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new ExperimentActionMenuFragment().show(getSupportFragmentManager(), "experiment action menu");
+                v.showContextMenu();
+            }
+        });
+
+        /*Button viewCommentsButton = findViewById(R.id.view_comments_button);
+        viewCommentsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewExperimentActivity.this, ViewCommentActivity.class);
+                intent.putExtra("EXP_ID", expID);
+                startActivity(intent);
+            }
+        });*/
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.experiment_action_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        // check which item was clicked
+        switch (item.getItemId()) {
+            case R.id.subscribe_option:
+                Toast.makeText(this, "Subscribe option selected", Toast.LENGTH_SHORT).show();
+                return true;  // item clicked return true
+            case R.id.unpublish_option:
+                Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.end_experiment_option:
+                Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.results_option:
+                Toast.makeText(this, "View experiment results selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.geolocations_option:
+                Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.execute_trials_option:
+                Toast.makeText(this, "Execute trials option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.comment_option:
+                Toast.makeText(this, "Comment option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.view_trials_option:
+                Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
-    });
     }
 }

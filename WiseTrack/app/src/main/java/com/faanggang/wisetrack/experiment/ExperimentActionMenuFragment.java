@@ -3,6 +3,7 @@ package com.faanggang.wisetrack.experiment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.comment.ViewCommentActivity;
 
 public class ExperimentActionMenuFragment extends DialogFragment {
     private Button subscribeButton;
@@ -37,7 +39,8 @@ public class ExperimentActionMenuFragment extends DialogFragment {
         viewGeolocationsButton = view.findViewById(R.id.geolocations_button);
         executeTrialsButton = view.findViewById(R.id.execute_trials_button);
         commentButton = view.findViewById(R.id.comment_button);
-        viewTrialsButton = view.findViewById(R.id.trials_button);
+        viewTrialsButton = view.findViewById(R.id.view_trials_button);
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
