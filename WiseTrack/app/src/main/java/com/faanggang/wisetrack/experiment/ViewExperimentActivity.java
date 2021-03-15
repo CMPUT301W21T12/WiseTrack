@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.MainMenuActivity;
@@ -51,7 +52,11 @@ public class ViewExperimentActivity extends AppCompatActivity {
                         expRegionView.setText(docSnap.getString("region"));
                         expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
                         expOwnerView.setText(docSnap.getString("uID"));
-                        //expStatusView.setText(docSnap.getString("status"));
+                        if (docSnap.getBoolean("open")) {
+                            expStatusView.setText("Open");
+                        } else {
+                            expStatusView.setText("Closed");
+                        }
                     }
                 })
         ;

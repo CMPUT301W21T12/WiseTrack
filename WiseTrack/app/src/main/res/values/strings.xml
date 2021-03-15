@@ -11,4 +11,8 @@
     <string name="main_menu_SearchUserProfile">Search For User Profiles</string>
     <string name="main_menu_ScanQRCode">Scan QR Code</string>
     <string name="main_menu_ScanBarCode">Scan Bar Code</string>
+    <string name="search_item_Date">date</string>
+    <string name="search_item_Owner">owner</string>
+    <string name="search_item_Open">open</string>
+    <string name="search_item_Closed">closed</string>
 </resources>

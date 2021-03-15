@@ -60,7 +60,10 @@ public class SearchManager {
 
         ArrayList<String> queryKeywords = new ArrayList<>();
         queryKeywords.addAll(Arrays.asList(query.split(" ")));
-
+        // make all of the capital
+        for (int i = 0; i < queryKeywords.size(); i++) {
+            queryKeywords.set(i, queryKeywords.get(i).toUpperCase());
+        }
         if (queryKeywords.size() > 10) {
             queryKeywords.subList(0, 10);
         }
@@ -82,6 +85,7 @@ public class SearchManager {
                                     snapshot.getString("uID"));
                             exp.setExpID(snapshot.getId());
                             searchResults.add(exp);
+                            exp.setOpen(snapshot.getBoolean("open"));
                         }
                         searcher.onSearchSuccess(searchResults);
                     } else {
