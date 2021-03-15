@@ -10,6 +10,10 @@ import android.widget.EditText;
 
 import com.faanggang.wisetrack.R;
 
+/**
+ * PublishExperiment1_Initialization Activity:
+ * Gets user input for experiment name, description, region, and minimum # of trials
+ */
 public class PublishExperiment1_Initialization extends AppCompatActivity {
 
     private EditText inputName;

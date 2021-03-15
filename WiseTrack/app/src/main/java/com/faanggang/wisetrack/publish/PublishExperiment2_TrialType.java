@@ -11,6 +11,12 @@ import com.faanggang.wisetrack.R;
 
 import java.util.EmptyStackException;
 
+/**
+ * PublishExperiment2_TrialType Activity:
+ * 4 buttons are displayed. User chooses what the experiment's trial type is (ie, counts,
+ * binomial, non-negative integer, or measurements trial.
+ * Click one of the 4 buttons to go to next page.
+ */
 public class PublishExperiment2_TrialType extends AppCompatActivity
     implements View.OnClickListener{
 

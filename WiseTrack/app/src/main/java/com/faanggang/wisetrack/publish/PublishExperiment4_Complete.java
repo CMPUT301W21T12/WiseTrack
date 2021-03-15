@@ -27,6 +27,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * PublishExperiment4_Complete Activity:
+ * Display the summary about the experiment, based on what the user has entered.
+ * User must click "Publish" to confirm and add experiment to FireBase.
+ * Return back to MainActivity.
+ */
 public class PublishExperiment4_Complete extends AppCompatActivity
     implements View.OnClickListener{
 
@@ -35,7 +41,7 @@ public class PublishExperiment4_Complete extends AppCompatActivity
     private Button cancel;
     private ArrayList<String> keywords;
     private String name, description, region;
-    private int minTrials, crowdSource;
+    private int minTrials, trialType;
     private boolean geolocation;
     private static final String TAG = "DocSnippets";
     private FirebaseAuth mAuth;
@@ -59,30 +65,30 @@ public class PublishExperiment4_Complete extends AppCompatActivity
         description = extras.getString("EXTRA_DESCRIPTION");
         region = extras.getString("EXTRA_REGION");
         minTrials = extras.getInt("EXTRA_MIN_TRIALS");
-        crowdSource = extras.getInt("EXTRA_TRIAL_TYPE");
+        trialType = extras.getInt("EXTRA_TRIAL_TYPE");
         geolocation = extras.getBoolean("EXTRA_GEOLOCATION");
-        currentExperiment = new Experiment(name, description, region, minTrials, crowdSource,
+        currentExperiment = new Experiment(name, description, region, minTrials, trialType,
                 geolocation, new Date(), mAuth.getUid());
 
         String minTrials_str = String.valueOf(minTrials);
-        String crowdSource_str;
+        String trialType_str;
         String geolocation_str = String.valueOf(geolocation);
 
-        switch(crowdSource) {
+        switch(trialType) {
             case 0:
-                crowdSource_str = "Count";
+                trialType_str = "Count";
                 break;
             case 1:
-                crowdSource_str = "Binomial trials";
+                trialType_str = "Binomial trials";
                 break;
             case 2:
-                crowdSource_str = "Non-negative integer counts";
+                trialType_str = "Non-negative integer counts";
                 break;
             case 3:
-                crowdSource_str = "Measurement trials";
+                trialType_str = "Measurement trials";
                 break;
             default:
-                crowdSource_str = "";
+                trialType_str = "";
         }
 
         String text_description =
@@ -90,7 +96,7 @@ public class PublishExperiment4_Complete extends AppCompatActivity
                 "Description: " + description + "\n\n" +
                 "Region: " + region + "\n" +
                 "Minimum trials: " + minTrials_str + "\n" +
-                "Trial type: " + crowdSource_str + "\n" +
+                "Trial type: " + trialType_str + "\n" +
                 "Geolocation required: " + geolocation_str;
 
         experiment_description.setText(text_description);

@@ -11,6 +11,13 @@ import com.faanggang.wisetrack.R;
 
 import java.util.EmptyStackException;
 
+/**
+ * PublishExperiment3_Geolocation Activity:
+ * Ask user if geolocation is required.
+ * If button click `yes` => set geolocation as TRUE.
+ * If button click `no` => set geolocation as FALSE.
+ */
+
 public class PublishExperiment3_Geolocation extends AppCompatActivity
     implements View.OnClickListener{
 
