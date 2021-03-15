@@ -42,6 +42,7 @@ public class UserExperimentManager {
                             doc.getDate("datetime"),
                             doc.getString("uID")
                     );
+                    e.setOpen(doc.getBoolean("open"));
                     e.setExpID(doc.getId());
                     results.add(e);
                     finder.onUserExpFound(results);

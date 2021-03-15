@@ -29,7 +29,7 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.main_menu);
 
 
-        Button viewProfileButton = findViewById(R.id.menuProfile_Button);
+        final Button viewProfileButton = findViewById(R.id.menuProfile_Button);
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,7 +39,7 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
 
-        Button publishButton = findViewById(R.id.menuPublish_button);
+        final Button publishButton = findViewById(R.id.menuPublish_button);
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +52,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         experimentSearchButton = findViewById(R.id.menuSearch_button);
 
-        Button experimentSearchButton = findViewById(R.id.menuSearch_button);
+        final Button experimentSearchButton = findViewById(R.id.menuSearch_button);
 
 
         experimentSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        Button myExperimentsButton = findViewById(R.id.menuViewExperiments_button);
+        final Button myExperimentsButton = findViewById(R.id.menuViewExperiments_button);
 
         myExperimentsButton.setOnClickListener(new View.OnClickListener() {
             @Override

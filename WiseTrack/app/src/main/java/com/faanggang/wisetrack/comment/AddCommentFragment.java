@@ -20,16 +20,15 @@ import com.faanggang.wisetrack.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class AddCommentFragment extends DialogFragment {
-    //private EditText descriptionView;
-    //private EditText dateView;
     private EditText cmtContentView;
     private OnFragmentInteractionListener listener;
-
+    private String expID;
     public interface OnFragmentInteractionListener {
-        //void onOkPressed(Experiment newExperiment);
+        void addCommentOkPressed(Comment comment);
     }
 
     @Override
@@ -37,6 +36,10 @@ public class AddCommentFragment extends DialogFragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener){
             listener = (OnFragmentInteractionListener) context;
+            Bundle bundle = this.getArguments();
+            if (bundle != null){
+                this.expID = bundle.getString("EXP_ID");
+            }
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -51,12 +54,20 @@ public class AddCommentFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Experiment")
+                .setTitle("Add Comment")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String content = cmtContentView.getText().toString();
+                        Date dt = new Date();
+                        listener.addCommentOkPressed(new Comment(
+                                expID,
+                                "D4Un8U9ebUZXXfEei21HpHn95SZ2",
+                                "Shaolongbaotwo",
+                                content,
+                                dt
+                        ));
                     }}).create();
     }
 }

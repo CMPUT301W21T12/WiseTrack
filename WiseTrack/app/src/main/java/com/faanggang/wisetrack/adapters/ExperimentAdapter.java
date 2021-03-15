@@ -42,6 +42,13 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         item.getTitle_TextView().setText(experiments.get(position).getName());
         item.getOwner_TextView().setText(experiments.get(position).getOwnerID());
         item.getDescription_TextView().setText(experiments.get(position).getDescription());
+        if (experiments.get(position).isOpen()) {
+            item.getStatus_TextView().setText(R.string.search_item_Open);
+            item.setStatusColor(true);
+        } else {
+            item.getStatus_TextView().setText(R.string.search_item_Closed);
+            item.setStatusColor(false);
+        }
     }
 
     @Override

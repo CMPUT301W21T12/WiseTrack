@@ -8,7 +8,7 @@
         android:id="@+id/subscribe_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="Subscribe" />
 
@@ -16,7 +16,7 @@
         android:id="@+id/unpublish_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="Unpublish" />
 
@@ -24,7 +24,7 @@
         android:id="@+id/end_experiment_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="End Current Experiment" />
 
@@ -32,7 +32,7 @@
         android:id="@+id/results_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="View Experiment Results" />
 
@@ -40,7 +40,7 @@
         android:id="@+id/geolocations_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="View Geolocations" />
 
@@ -48,7 +48,7 @@
         android:id="@+id/execute_trials_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="Execute Trials" />
 
@@ -56,15 +56,15 @@
         android:id="@+id/comment_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="Comment" />
 
     <Button
-        android:id="@+id/trials_button"
+        android:id="@+id/view_trials_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:gravity="left"
         android:text="View Trials" />
 </LinearLayout>
