@@ -6,13 +6,15 @@ import java.util.Date;
 public class Comment {
     private String experimentID;
     private String authorID;
+    private String username;
     private String content;
     private Date datetime;
     private String firebaseID; // ID of the document in firebase
 
-    public Comment(String eID, String aID, String cont, Date dt) {
+    public Comment(String eID, String aID, String username, String cont, Date dt) {
         this.experimentID = eID;
         this.authorID = aID;
+        this.username = username;
         this.content = cont;
         this.datetime = dt;
     }
@@ -31,6 +33,14 @@ public class Comment {
 
     public void setAuthorID(String authorID) {
         this.authorID = authorID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getContent() {
