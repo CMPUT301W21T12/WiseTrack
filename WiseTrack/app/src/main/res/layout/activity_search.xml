@@ -34,7 +34,8 @@
         android:id="@+id/activity_search_count_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/empty_string" />
+        android:text="@string/empty_string"
+        android:layout_marginLeft="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_search_list"
