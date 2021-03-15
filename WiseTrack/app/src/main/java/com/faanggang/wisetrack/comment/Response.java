@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Response extends Comment {
     private Comment parent;
-    Response(String eID, String aID, String cont, Comment parent, Date dt) {
-        super(eID, aID, cont,dt);
+    Response(String eID, String aID, String username, String cont, Comment parent, Date dt) {
+        super(eID, username, aID, cont,dt);
         this.parent = parent;
     }
 
