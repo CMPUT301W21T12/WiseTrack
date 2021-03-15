@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PublishExperimentActivity4 extends AppCompatActivity
+public class PublishExperiment4_Complete extends AppCompatActivity
     implements View.OnClickListener{
 
     private TextView experiment_description;
@@ -41,7 +41,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_experiment4);
+        setContentView(R.layout.publish_experiment_complete);
 
         mAuth = FirebaseAuth.getInstance();
         experiment_description = findViewById(R.id.publish4_description);
@@ -132,7 +132,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         }
 
         // GO back to main
-        Intent intent = new Intent(PublishExperimentActivity4.this, MainActivity.class);
+        Intent intent = new Intent(PublishExperiment4_Complete.this, MainActivity.class);
         startActivity(intent);
 
     }

@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
 
-        <activity android:name=".publish.PublishExperimentActivity4"/>
-        <activity android:name=".publish.PublishExperimentActivity3" />
-        <activity android:name=".publish.PublishExperimentActivity2" />
-        <activity android:name=".publish.PublishExperimentActivity" />
+        <activity android:name=".publish.PublishExperiment4_Complete"/>
+        <activity android:name=".publish.PublishExperiment3_Finalize" />
+        <activity android:name=".publish.PublishExperiment2_Validation" />
+        <activity android:name=".publish.PublishExperiment1_Initialization" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".MainMenuActivity"/>
         <activity android:name=".user.ViewSelfActivity"

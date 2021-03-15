@@ -11,7 +11,7 @@ import com.faanggang.wisetrack.R;
 
 import java.util.EmptyStackException;
 
-public class PublishExperimentActivity3 extends AppCompatActivity
+public class PublishExperiment3_Finalize extends AppCompatActivity
     implements View.OnClickListener{
 
     private Button yes;
@@ -20,7 +20,7 @@ public class PublishExperimentActivity3 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_experiment3);
+        setContentView(R.layout.publish_experiment_finalize);
 
         yes = findViewById(R.id.publish3_yes_button);
         no = findViewById(R.id.publish3_no_button);
@@ -32,7 +32,7 @@ public class PublishExperimentActivity3 extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
+        Intent intent = new Intent(PublishExperiment3_Finalize.this, PublishExperiment4_Complete.class);
         Bundle extras = getIntent().getExtras();
 
         // put in previous extras/variables to the next intent so that the next activity

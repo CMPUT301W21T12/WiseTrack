@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import com.faanggang.wisetrack.R;
 
-public class PublishExperimentActivity extends AppCompatActivity {
+public class PublishExperiment1_Initialization extends AppCompatActivity {
 
     private EditText inputName;
     private EditText inputDescription;
@@ -21,7 +21,7 @@ public class PublishExperimentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_experiment);
+        setContentView(R.layout.publish_experiment_initialization);
 
         inputName = findViewById(R.id.name_input);
         inputDescription = findViewById(R.id.description_input);
@@ -41,7 +41,7 @@ public class PublishExperimentActivity extends AppCompatActivity {
                 String region = inputRegion.getText().toString();
                 int minTrials = Integer.parseInt(inputMinTrials.getText().toString());
 
-                Intent intent = new Intent(PublishExperimentActivity.this, PublishExperimentActivity2.class);
+                Intent intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_Validation.class);
 
                 intent.putExtra("EXTRA_NAME", name);
                 intent.putExtra("EXTRA_DESCRIPTION", description);
