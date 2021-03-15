@@ -22,6 +22,7 @@
             android:parentActivityName=".user.ViewSelfActivity"/>
         <activity android:name=".experiment.MyExperimentActivity"/>
         <activity android:name=".experiment.ViewExperimentActivity"/>
+        <activity android:name=".comment.ViewCommentActivity"/>
 
         <activity android:name=".MainActivity">
             <intent-filter>

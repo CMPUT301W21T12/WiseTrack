@@ -9,20 +9,22 @@ public class Experiment {
     private int minTrials;
     private int crowdSource;
     private boolean geolocation;
-    private Date date;
-    private String ownerID;
+    private Date datetime;
+    private String uID;
+    private String expID;
+    private boolean open;
 
     public Experiment(String name, String description, String region,
                       int minTrials, int crowdSource, boolean geolocation, Date date,
-                      String ownerID) {
+                      String uID) {
         this.name = name;
         this.description = description;
         this.region = region;
         this.minTrials = minTrials;
         this.crowdSource = crowdSource;
         this.geolocation = geolocation;
-        this.date = date;
-        this.ownerID = ownerID;
+        this.datetime = date;
+        this.uID = uID;
     }
 
     public String getName() {
@@ -74,18 +76,29 @@ public class Experiment {
     }
 
     public Date getDate() {
-        return date;
+        return datetime;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.datetime = date;
     }
 
     public String getOwnerID() {
-        return ownerID;
+        return uID;
     }
 
     public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
+        this.uID = uID;
+    }
+
+    public void setExpID(String id){ this.expID = id;}
+    public String getExpID(){ return this.expID;}
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 }

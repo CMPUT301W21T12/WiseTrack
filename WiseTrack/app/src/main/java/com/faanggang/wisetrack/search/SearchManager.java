@@ -56,41 +56,44 @@ public class SearchManager {
 
         CollectionReference experiments = db.collection("Experiments");
         ArrayList<Experiment> results;
-        Log.w("SEARCH", "searchForQuery");
+        Log.w("SEARCH", "starting search for query");
 
         ArrayList<String> queryKeywords = new ArrayList<>();
         queryKeywords.addAll(Arrays.asList(query.split(" ")));
-
+        // make all of the capital
+        for (int i = 0; i < queryKeywords.size(); i++) {
+            queryKeywords.set(i, queryKeywords.get(i).toUpperCase());
+        }
         if (queryKeywords.size() > 10) {
             queryKeywords.subList(0, 10);
         }
-        Log.w("SEARCH", "got this far lol");
-
-
         db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
-                .orderBy("date")
+                .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<Experiment> searchResults = new ArrayList<Experiment>();
                         List<DocumentSnapshot> result = task.getResult().getDocuments();
                         for (DocumentSnapshot snapshot : result) {
-                            searchResults.add(new Experiment(snapshot.getString("name"),
+                            Experiment exp = new Experiment(snapshot.getString("name"),
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
                                     snapshot.getLong("minTrials").intValue(),
                                     snapshot.getLong("crowdSource").intValue(),
                                     snapshot.getBoolean("geolocation"),
-                                    snapshot.getDate("date"),
-                                    snapshot.getString("ownerID")));
+                                    snapshot.getDate("datetime"),
+                                    snapshot.getString("uID"));
+                            exp.setExpID(snapshot.getId());
+                            searchResults.add(exp);
+                            exp.setOpen(snapshot.getBoolean("open"));
                         }
                         searcher.onSearchSuccess(searchResults);
                     } else {
-                        Log.w("COMPLETED:FAILURE", task.getException().toString());
+                        Log.w("SEARCH", "EXCEPTION: " + task.getException().toString());
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.w("FAILURE", e.toString());
+                    Log.w("SEARCH", "FAILURE: " + e.toString());
                 });
     }
 }

@@ -58,6 +58,9 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         geolocation = extras.getBoolean("EXTRA_GEOLOCATION");
         keywords.addAll(Arrays.asList(name.split(" ")));
         // keywords.addAll(Arrays.asList(description.split(" "))); perhaps?
+        for (int i = 0; i < keywords.size(); i++) {
+            keywords.set(i, keywords.get(i).toUpperCase());
+        }
 
         String minTrials_str = String.valueOf(minTrials);
         String crowdSource_str;
@@ -110,8 +113,10 @@ public class PublishExperimentActivity4 extends AppCompatActivity
             data.put("crowdSource", crowdSource);
             data.put("geolocation", geolocation);
             data.put("keywords", keywords);
-            data.put("date", new Timestamp(Calendar.getInstance().getTime()));
-            data.put("ownerID", mAuth.getCurrentUser().getUid());
+            data.put("datetime", new Timestamp(Calendar.getInstance().getTime()));
+            data.put("uID", mAuth.getCurrentUser().getUid());
+            data.put("trialType", 1);
+            data.put("open", true);
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();;
 

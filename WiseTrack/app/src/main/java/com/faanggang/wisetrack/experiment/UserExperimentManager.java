@@ -25,24 +25,27 @@ public class UserExperimentManager {
 
 
     public void userExpQuery(String userID) {
-        db.collection("Experiments").whereEqualTo("ownerID", userID).get()
+        db.collection("Experiments").whereEqualTo("uID", userID).get()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 ArrayList<Experiment> results = new ArrayList<Experiment>();
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
                 for(DocumentSnapshot doc: documents){
                     Log.w("EXPERIMENT", doc.getString("name"));
-                   results.add(new Experiment(
-                           doc.getString("name"),
-                           doc.getString("description"),
-                           doc.getString("region"),
-                           doc.getLong("minTrials").intValue(),
-                           doc.getLong("crowdSource").intValue(),
-                           doc.getBoolean("geolocation"),
-                           doc.getDate("date"),
-                           doc.getString("ownerID")
-                           ));
-                   finder.onUserExpFound(results);
+                    Experiment e = new Experiment(
+                            doc.getString("name"),
+                            doc.getString("description"),
+                            doc.getString("region"),
+                            doc.getLong("minTrials").intValue(),
+                            doc.getLong("crowdSource").intValue(),
+                            doc.getBoolean("geolocation"),
+                            doc.getDate("datetime"),
+                            doc.getString("uID")
+                    );
+                    e.setOpen(doc.getBoolean("open"));
+                    e.setExpID(doc.getId());
+                    results.add(e);
+                    finder.onUserExpFound(results);
                 }
             } else{
                 Log.w("EXPERIMENT","DID NOT FIND");
