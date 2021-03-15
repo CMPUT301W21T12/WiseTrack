@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.faanggang.wisetrack.ErrorMessageActivity;
 import com.faanggang.wisetrack.R;
 
 public class PublishExperiment1_Initialization extends AppCompatActivity {
@@ -36,32 +35,21 @@ public class PublishExperiment1_Initialization extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                String name = null, description = null, region = null;
-                int minTrials = -1;
 
-                name = inputName.getText().toString();
-                description = inputDescription.getText().toString();
-                region = inputRegion.getText().toString();
-                minTrials = Integer.parseInt(inputMinTrials.getText().toString());
+                String name = inputName.getText().toString();
+                String description = inputDescription.getText().toString();
+                String region = inputRegion.getText().toString();
+                int minTrials = Integer.parseInt(inputMinTrials.getText().toString());
 
                 Intent intent;
 
-                if (name == null || description == null || region == null || minTrials == -1){
-                    // if no input
-                    intent = new Intent(PublishExperiment1_Initialization.this, ErrorMessageActivity.class);
+                intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_TrialType.class);
 
-                    intent.putExtra("EXTRA_ERROR", "You cannot leave any fields blank!");
+                intent.putExtra("EXTRA_NAME", name);
+                intent.putExtra("EXTRA_DESCRIPTION", description);
+                intent.putExtra("EXTRA_REGION", region);
+                intent.putExtra("EXTRA_MIN_TRIALS", minTrials);
 
-                }
-                else{
-                    intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_TrialType.class);
-
-                    intent.putExtra("EXTRA_NAME", name);
-                    intent.putExtra("EXTRA_DESCRIPTION", description);
-                    intent.putExtra("EXTRA_REGION", region);
-                    intent.putExtra("EXTRA_MIN_TRIALS", minTrials);
-
-                }
                 startActivity(intent);
 
             }

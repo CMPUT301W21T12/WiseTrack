@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-        <activity android:name=".ErrorMessageActivity"></activity>
         <activity android:name=".publish.PublishExperiment4_Complete" />
         <activity android:name=".publish.PublishExperiment3_Geolocation" />
         <activity android:name=".publish.PublishExperiment2_TrialType" />
