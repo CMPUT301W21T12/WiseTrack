@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +39,8 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     private boolean geolocation;
     private static final String TAG = "DocSnippets";
     private FirebaseAuth mAuth;
+    private PublishingController publishingController;
+    private Experiment currentExperiment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         setContentView(R.layout.activity_publish_experiment4);
 
         mAuth = FirebaseAuth.getInstance();
+        publishingController = new PublishingController();
         experiment_description = findViewById(R.id.publish4_description);
         publish = findViewById(R.id.publish4_publish_button);
         cancel = findViewById(R.id.publish4_cancel_button);
@@ -56,11 +61,8 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         minTrials = extras.getInt("EXTRA_MIN_TRIALS");
         crowdSource = extras.getInt("EXTRA_TRIAL_TYPE");
         geolocation = extras.getBoolean("EXTRA_GEOLOCATION");
-        keywords.addAll(Arrays.asList(name.split(" ")));
-        // keywords.addAll(Arrays.asList(description.split(" "))); perhaps?
-        for (int i = 0; i < keywords.size(); i++) {
-            keywords.set(i, keywords.get(i).toUpperCase());
-        }
+        currentExperiment = new Experiment(name, description, region, minTrials, crowdSource,
+                geolocation, new Date(), mAuth.getUid());
 
         String minTrials_str = String.valueOf(minTrials);
         String crowdSource_str;
@@ -101,44 +103,22 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.publish4_publish_button) {
+        if (v.getId() == R.id.publish4_publish_button) {
 
             // Firebase:
             // Add experiment document data to "Experiments" collection with auto-generated id
-            Map<String, Object> data = new HashMap<>();
-            data.put("name", name);
-            data.put("description", description);
-            data.put("region", region);
-            data.put("minTrials", minTrials);
-            data.put("crowdSource", crowdSource);
-            data.put("geolocation", geolocation);
-            data.put("keywords", keywords);
-            data.put("datetime", new Timestamp(Calendar.getInstance().getTime()));
-            data.put("uID", mAuth.getCurrentUser().getUid());
-            data.put("trialType", 1);
-            data.put("open", true);
+            Map<String, Object> experimentHashMap = publishingController
+                    .createExperimentHashMap(currentExperiment);
+            try {
+                publishingController.publishExperiment(experimentHashMap);
+            } catch (Exception e) {
+                Log.e(TAG, "Error trying to publish experiment: " + e.getMessage());
+            }
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();;
+            // GO back to main
+            Intent intent = new Intent(PublishExperimentActivity4.this, MainActivity.class);
+            startActivity(intent);
 
-            db.collection("Experiments")
-                    .add(data)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error adding document", e);
-                        }
-                    });
         }
-
-        // GO back to main
-        Intent intent = new Intent(PublishExperimentActivity4.this, MainActivity.class);
-        startActivity(intent);
-
     }
 }
