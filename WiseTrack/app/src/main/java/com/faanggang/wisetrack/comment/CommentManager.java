@@ -22,10 +22,6 @@ public class CommentManager {
         void onExpCommentsFound(ArrayList<Comment> results);
     }
 
-    /**
-     *
-     * @param searcher
-     */
     public CommentManager(Searcher searcher){
         this.searcher = searcher;
     }
@@ -38,12 +34,12 @@ public class CommentManager {
         hm.put("eID", comment.getExperimentID());
         hm.put("content", comment.getContent());
         hm.put("datetime", comment.getDatetime());
+        hm.put("userName", comment.getUsername());
         DocumentReference newCommentRef = collectionRef.document();
         newCommentRef.set(hm);
     }
 
     public void getExperimentComments(String expID) {
-
         db.collection("Comments").whereEqualTo("eID", expID).orderBy("datetime")
         .get()
         .addOnCompleteListener( task ->{
@@ -53,9 +49,10 @@ public class CommentManager {
                 for (DocumentSnapshot docSnap: docSnapList ){
                     String eID = docSnap.getString("eID");
                     String uID = docSnap.getString("uID");
+                    String username = docSnap.getString("userName");
                     String content = docSnap.getString("content");
                     Date dt = docSnap.getDate("datetime");
-                    results.add(new Comment(eID, uID, content, dt));
+                    results.add(new Comment(eID, uID,username, content, dt));
                 }
                 searcher.onExpCommentsFound(results);
             }else {
