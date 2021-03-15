@@ -54,7 +54,7 @@ public class PublishExperiment1_Initialization extends AppCompatActivity {
 
                 }
                 else{
-                    intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_Validation.class);
+                    intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_TrialType.class);
 
                     intent.putExtra("EXTRA_NAME", name);
                     intent.putExtra("EXTRA_DESCRIPTION", description);

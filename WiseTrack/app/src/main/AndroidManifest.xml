@@ -11,8 +11,8 @@
         android:theme="@style/Theme.WiseTrack">
         <activity android:name=".ErrorMessageActivity"></activity>
         <activity android:name=".publish.PublishExperiment4_Complete" />
-        <activity android:name=".publish.PublishExperiment3_Finalize" />
-        <activity android:name=".publish.PublishExperiment2_Validation" />
+        <activity android:name=".publish.PublishExperiment3_Geolocation" />
+        <activity android:name=".publish.PublishExperiment2_TrialType" />
         <activity android:name=".publish.PublishExperiment1_Initialization" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".MainMenuActivity" />

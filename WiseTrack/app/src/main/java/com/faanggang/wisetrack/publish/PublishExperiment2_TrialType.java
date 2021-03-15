@@ -11,7 +11,7 @@ import com.faanggang.wisetrack.R;
 
 import java.util.EmptyStackException;
 
-public class PublishExperiment2_Validation extends AppCompatActivity
+public class PublishExperiment2_TrialType extends AppCompatActivity
     implements View.OnClickListener{
 
     private Button counts;
@@ -22,7 +22,7 @@ public class PublishExperiment2_Validation extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.publish_experiment_validation);
+        setContentView(R.layout.publish_experiment_trial_type);
 
         counts = findViewById(R.id.counts_button);
         binomial = findViewById(R.id.binomial_button);
@@ -38,7 +38,7 @@ public class PublishExperiment2_Validation extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(PublishExperiment2_Validation.this, PublishExperiment3_Finalize.class);
+        Intent intent = new Intent(PublishExperiment2_TrialType.this, PublishExperiment3_Geolocation.class);
 
         Bundle extras = getIntent().getExtras();
 
