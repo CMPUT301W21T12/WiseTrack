@@ -2,11 +2,15 @@ package com.faanggang.wisetrack.comment;
 
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.util.ArrayList;
@@ -41,32 +45,21 @@ public class CommentManager {
 
     public void getExperimentComments(String expID) {
         db.collection("Comments").whereEqualTo("eID", expID).orderBy("datetime")
-        .get()
-        .addOnCompleteListener( task ->{
-            if (task.isSuccessful()) {
+        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
                 ArrayList<Comment> results = new ArrayList<Comment>();
-                List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
-                for (DocumentSnapshot docSnap: docSnapList ){
+                List<DocumentSnapshot> docSnapList = value.getDocuments();
+                for (DocumentSnapshot docSnap : docSnapList) {
                     String eID = docSnap.getString("eID");
                     String uID = docSnap.getString("uID");
                     String username = docSnap.getString("userName");
                     String content = docSnap.getString("content");
                     Date dt = docSnap.getDate("datetime");
-                    results.add(new Comment(eID, uID,username, content, dt));
+                    results.add(new Comment(eID, uID, username, content, dt));
                 }
                 searcher.onExpCommentsFound(results);
-            }else {
-                Log.w("COMPLETED:FAILURE", task.getException().toString());
             }
-        })
-        .addOnFailureListener(e -> {
-            Log.w("FAILURE", e.toString());
         });
-        ;
-
-
     }
-
-
-
 }
