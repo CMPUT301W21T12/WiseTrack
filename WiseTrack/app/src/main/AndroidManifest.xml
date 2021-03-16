@@ -9,21 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-
-        <activity android:name=".publish.PublishExperimentActivity4"/>
-        <activity android:name=".publish.PublishExperimentActivity3" />
-        <activity android:name=".publish.PublishExperimentActivity2" />
-        <activity android:name=".publish.PublishExperimentActivity" />
+        <activity android:name=".publish.PublishExperiment4_Complete" />
+        <activity android:name=".publish.PublishExperiment3_Geolocation" />
+        <activity android:name=".publish.PublishExperiment2_TrialType" />
+        <activity android:name=".publish.PublishExperiment1_Initialization" />
         <activity android:name=".search.SearchActivity" />
-        <activity android:name=".MainMenuActivity"/>
-        <activity android:name=".user.ViewSelfActivity"
-            android:parentActivityName=".MainMenuActivity"/>
-        <activity android:name=".user.EditProfileActivity"
-            android:parentActivityName=".user.ViewSelfActivity"/>
-        <activity android:name=".experiment.MyExperimentActivity"/>
-        <activity android:name=".experiment.ViewExperimentActivity"/>
-        <activity android:name=".comment.ViewCommentActivity"/>
-
+        <activity android:name=".MainMenuActivity" />
+        <activity
+            android:name=".user.ViewSelfActivity"
+            android:parentActivityName=".MainMenuActivity" />
+        <activity
+            android:name=".user.EditProfileActivity"
+            android:parentActivityName=".user.ViewSelfActivity" />
+        <activity android:name=".experiment.MyExperimentActivity" />
+        <activity android:name=".experiment.ViewExperimentActivity" />
+        <activity android:name=".comment.ViewCommentActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
