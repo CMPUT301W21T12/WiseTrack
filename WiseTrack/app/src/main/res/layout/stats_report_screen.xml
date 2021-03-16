@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/trial_name"
+        android:layout_width="360dp"
+        android:layout_height="146dp"
+        android:text="@string/app_name" />
+
+    <TextView
+        android:id="@+id/stats_mean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MEAN: " />
+
+    <TextView
+        android:id="@+id/stats_median"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MEDIAN: " />
+
+    <TextView
+        android:id="@+id/stats_stdev"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Standard Deviation: " />
+
+
+</LinearLayout>
