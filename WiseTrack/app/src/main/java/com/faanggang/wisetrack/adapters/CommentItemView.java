@@ -23,10 +23,12 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
 
     public CommentItemView(@NonNull View view, Context context){
         super(view);
+        view.setClickable(true);
+        view.setOnClickListener(this);
+        this.context = context;
         this.comment_author = view.findViewById(R.id.comment_item_username);
         this.comment_datetime = view.findViewById(R.id.comment_item_datetime);
         this.comment_content = view.findViewById(R.id.comment_item_content);
-        this.context = context;
     }
 
     public TextView getAuthorView() {
@@ -45,7 +47,7 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void onClick(View v) {
-        Log.w("","COMMENT CLICKED");
+        Log.w("HI","COMMENT CLICKED");
         Intent intent = new Intent(context, ViewAllResponseActivity.class);
         intent.putExtra("CMT_ID", comment.getFirebaseID());
         intent.putExtra("PARENT_CONTENT", comment.getContent());

@@ -34,5 +34,5 @@ public class ResponseItemView extends RecyclerView.ViewHolder{
     public TextView getContentView() {
         return response_content;
     }
-    
+
 }

@@ -62,16 +62,6 @@ public class ViewAllCommentActivity extends AppCompatActivity implements Comment
 
     @Override
     public void addCommentOkPressed(Comment comment){
-
         cmtManager.UploadComment(comment);
-        cmtManager.UploadResponse("5VPzEPWYudGg6IHrJK5A", new Response(
-                "test",
-                "test",
-                "test_username",
-                "contenttest",
-                comment,
-                new Date()
-        ));
-        Log.w("COMMENT","HAI");
     };
 }

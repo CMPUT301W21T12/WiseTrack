@@ -75,25 +75,25 @@ public class CommentManager {
     }
 
     public void getCommentResponses(String commentID){
-        db.collection("Comments").document(commentID).collection("Responses")
-        .get()
-        .addOnCompleteListener(task->{
-            if (task.isSuccessful()) {
-                if (task.getResult().size() != 0){
-                    ArrayList<Response> results = new ArrayList<Response>();
-                    List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
-                    for (DocumentSnapshot docSnap : docSnapList) {
-                        String eID = docSnap.getString("eID");
-                        String uID = docSnap.getString("uID");
-                        String username = docSnap.getString("userName");
-                        String content = docSnap.getString("content");
-                        Date dt = docSnap.getDate("datetime");
-                        results.add(new Response(eID, uID, username, content,dt));
-                    }
-                    responseSearcher.onResponsesFound(results);
-                }
-            }
-        });
+        //db.collection("Comments").document(commentID).collection("Responses")
+        //.get()
+        //.addOnCompleteListener(task->{
+        //    if (task.isSuccessful()) {
+        //        if (task.getResult().size() != 0){
+        //            ArrayList<Response> results = new ArrayList<Response>();
+        //            List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
+        //            for (DocumentSnapshot docSnap : docSnapList) {
+        //                String eID = docSnap.getString("eID");
+        //                String uID = docSnap.getString("uID");
+        //                String username = docSnap.getString("userName");
+        //                String content = docSnap.getString("content");
+        //                Date dt = docSnap.getDate("datetime");
+        //                results.add(new Response(eID, uID, username, content,dt));
+        //            }
+        //            responseSearcher.onResponsesFound(results);
+        //        }
+        //    }
+        //});
     }
 }
 
