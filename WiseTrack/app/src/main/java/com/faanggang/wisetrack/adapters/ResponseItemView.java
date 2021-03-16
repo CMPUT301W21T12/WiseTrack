@@ -19,7 +19,7 @@ public class ResponseItemView extends RecyclerView.ViewHolder{
         super(view);
         this.response_author = view.findViewById(R.id.response_item_username);
         this.response_datetime = view.findViewById(R.id.response_item_datetime);
-        this.response_content = view.findViewById(R.id.response_item_username);
+        this.response_content = view.findViewById(R.id.response_item_content);
         this.context = context;
     }
 

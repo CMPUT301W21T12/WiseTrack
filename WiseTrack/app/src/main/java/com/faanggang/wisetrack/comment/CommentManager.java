@@ -1,9 +1,13 @@
 package com.faanggang.wisetrack.comment;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 
 import java.util.ArrayList;
@@ -53,9 +57,9 @@ public class CommentManager {
     }
 
     public void getExperimentComments(String expID) {
-        db.collection("Comments").whereEqualTo("eID", expID).orderBy("datetime")
-        .get()
-        .addOnCompleteListener(task->{
+        db.collection("Comments").whereEqualTo("eID", expID)
+        .orderBy("datetime",Query.Direction.DESCENDING)
+        .get().addOnCompleteListener(task->{
             if (task.isSuccessful()){
             ArrayList<Comment> results = new ArrayList<Comment>();
             List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
@@ -66,7 +70,7 @@ public class CommentManager {
                 String content = docSnap.getString("content");
                 Date dt = docSnap.getDate("datetime");
                 Comment comment = new Comment(eID, uID, username, content, dt);
-                comment.setAuthorID(docSnap.getId());
+                comment.setFirebaseID(docSnap.getId());
                 results.add(comment);
             }
             commentSearcher.onExpCommentsFound(results);
@@ -75,25 +79,25 @@ public class CommentManager {
     }
 
     public void getCommentResponses(String commentID){
-        //db.collection("Comments").document(commentID).collection("Responses")
-        //.get()
-        //.addOnCompleteListener(task->{
-        //    if (task.isSuccessful()) {
-        //        if (task.getResult().size() != 0){
-        //            ArrayList<Response> results = new ArrayList<Response>();
-        //            List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
-        //            for (DocumentSnapshot docSnap : docSnapList) {
-        //                String eID = docSnap.getString("eID");
-        //                String uID = docSnap.getString("uID");
-        //                String username = docSnap.getString("userName");
-        //                String content = docSnap.getString("content");
-        //                Date dt = docSnap.getDate("datetime");
-        //                results.add(new Response(eID, uID, username, content,dt));
-        //            }
-        //            responseSearcher.onResponsesFound(results);
-        //        }
-        //    }
-        //});
+        db.collection("Comments").document(commentID).collection("Responses")
+        .orderBy("datetime", Query.Direction.DESCENDING).get().addOnCompleteListener(task->{
+            if (task.isSuccessful()) {
+                Log.e("", String.valueOf(task.getResult().size()));
+                if (task.getResult().size() != 0){
+                    ArrayList<Response> results = new ArrayList<Response>();
+                    List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
+                    for (DocumentSnapshot docSnap : docSnapList) {
+                        String eID = docSnap.getString("eID");
+                        String uID = docSnap.getString("uID");
+                        String username = docSnap.getString("userName");
+                        String content = docSnap.getString("content");
+                        Date dt = docSnap.getDate("datetime");
+                        results.add(new Response(eID, uID, username, content,dt));
+                    }
+                    responseSearcher.onResponsesFound(results);
+                }
+            }
+        });
     }
 }
 

@@ -47,7 +47,6 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void onClick(View v) {
-        Log.w("HI","COMMENT CLICKED");
         Intent intent = new Intent(context, ViewAllResponseActivity.class);
         intent.putExtra("CMT_ID", comment.getFirebaseID());
         intent.putExtra("PARENT_CONTENT", comment.getContent());

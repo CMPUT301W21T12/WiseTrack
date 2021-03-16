@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,7 +19,7 @@ import com.google.api.Distribution;
 import java.util.ArrayList;
 
 
-public class ViewAllResponseActivity extends AppCompatActivity implements CommentManager.responseSearcher{
+public class ViewAllResponseActivity extends AppCompatActivity implements CommentManager.responseSearcher,AddResponseFragment.OnFragmentInteractionListener{
     private CommentManager cmtManager;
     private ArrayList<Response> responses;
     private ResponseAdapter rspAdapter;
@@ -26,6 +28,7 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
     private TextView parent_username_view;
     private TextView parent_content_view;
     private TextView parent_datetime_view;
+    private String parentID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +43,17 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
-        cmtManager.getCommentResponses(intent.getStringExtra("CMT_ID"));
+        parentID = intent.getStringExtra("CMT_ID");
+        cmtManager.getCommentResponses(parentID);
 
+        final Button addResponseButton = findViewById(R.id.add_response_button);
+        addResponseButton.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                AddResponseFragment frag = new AddResponseFragment();
+                frag.show(getSupportFragmentManager(), "");
+            }
+        });
     }
 
     private void setParent(){
@@ -59,4 +71,8 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
         responses.addAll(results);
         rspAdapter.notifyDataSetChanged();
     }
+    @Override
+    public void addResponseOkPressed(Response response){
+        cmtManager.UploadResponse(parentID, response);
+    };
 }
