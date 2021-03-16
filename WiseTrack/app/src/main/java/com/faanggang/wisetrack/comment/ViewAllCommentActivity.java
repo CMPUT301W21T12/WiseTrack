@@ -1,6 +1,5 @@
 package com.faanggang.wisetrack.comment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.MainMenuActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.adapters.CommentAdapter;
-import com.faanggang.wisetrack.experiment.MyExperimentActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
-public class ViewCommentActivity extends AppCompatActivity implements CommentManager.Searcher, AddCommentFragment.OnFragmentInteractionListener{
+public class ViewAllCommentActivity extends AppCompatActivity implements CommentManager.commentSearcher, AddCommentFragment.OnFragmentInteractionListener{
     private CommentManager cmtManager;
     private ArrayList<Comment> comments;
     private CommentAdapter cmtAdapter;
@@ -27,7 +25,7 @@ public class ViewCommentActivity extends AppCompatActivity implements CommentMan
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_experiment_comments);
+        setContentView(R.layout.activity_view_all_comment);
         cmtManager = new CommentManager(this);
         comments = new ArrayList<Comment>();
         cmtAdapter = new CommentAdapter(this, comments);
@@ -60,11 +58,12 @@ public class ViewCommentActivity extends AppCompatActivity implements CommentMan
         comments.clear();
         comments.addAll(results);
         cmtAdapter.notifyDataSetChanged();
-        Log.w("COMMENT","WE GOT HERE");
     }
 
     @Override
     public void addCommentOkPressed(Comment comment){
         cmtManager.UploadComment(comment);
+        comments.add(0,comment);
+        cmtAdapter.notifyDataSetChanged();
     };
 }
