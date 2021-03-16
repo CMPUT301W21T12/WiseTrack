@@ -4,9 +4,13 @@ import java.util.Date;
 
 public class Response extends Comment {
     private Comment parent;
-    Response(String eID, String aID, String username, String cont, Comment parent, Date dt) {
-        super(eID, username, aID, cont,dt);
+    Response(String eID, String uID, String username, String cont, Comment parent, Date dt) {
+        super(eID, uID, username, cont,dt);
         this.parent = parent;
+    }
+
+    public Response(String eID, String uID, String username, String cont, Date dt) {
+        super(eID, uID, username, cont ,dt);
     }
 
     public Comment getParent() {
