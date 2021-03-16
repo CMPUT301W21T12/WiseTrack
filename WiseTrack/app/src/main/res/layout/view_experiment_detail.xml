@@ -25,7 +25,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginBottom="451dp"
         android:hint="Experiment Name"
-        android:textSize="16sp"
+        android:textSize="16dp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/experiment_action_menu"
         app:layout_constraintStart_toStartOf="parent"
