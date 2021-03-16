@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.user.Users;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -62,10 +64,11 @@ public class AddCommentFragment extends DialogFragment {
                         String content = cmtContentView.getText().toString();
                         if (content.trim().length()>0) {
                             Date dt = new Date();
+                            Users user = WiseTrackApplication.getCurrentUser();
                             listener.addCommentOkPressed(new Comment(
                                     expID,
-                                    "D4Un8U9ebUZXXfEei21HpHn95SZ2",
-                                    "Shaolongbaotwo",
+                                    user.getUserID(),
+                                    user.getUserName(),
                                     content,
                                     dt
                             ));

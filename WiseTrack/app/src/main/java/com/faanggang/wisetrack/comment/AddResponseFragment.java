@@ -14,6 +14,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.user.Users;
 
 import java.util.Date;
 
@@ -53,10 +55,11 @@ public class AddResponseFragment extends DialogFragment {
                         String content = rspContentView.getText().toString();
                         if (content.trim().length()>0) {
                             Date dt = new Date();
+                            Users user = WiseTrackApplication.getCurrentUser();
                             listener.addResponseOkPressed(new Response(
                                     "",
-                                    "D4Un8U9ebUZXXfEei21HpHn95SZ2",
-                                    "Shaolongbaotwo",
+                                    user.getUserID(),
+                                    user.getUserName(),
                                     content,
                                     dt
                             ));

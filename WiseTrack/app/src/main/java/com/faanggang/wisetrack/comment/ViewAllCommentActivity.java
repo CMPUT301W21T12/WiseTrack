@@ -63,5 +63,7 @@ public class ViewAllCommentActivity extends AppCompatActivity implements Comment
     @Override
     public void addCommentOkPressed(Comment comment){
         cmtManager.UploadComment(comment);
+        comments.add(0,comment);
+        cmtAdapter.notifyDataSetChanged();
     };
 }

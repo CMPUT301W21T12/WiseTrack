@@ -74,5 +74,7 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
     @Override
     public void addResponseOkPressed(Response response){
         cmtManager.UploadResponse(parentID, response);
+        responses.add(0,response);
+        rspAdapter.notifyDataSetChanged();
     };
 }
