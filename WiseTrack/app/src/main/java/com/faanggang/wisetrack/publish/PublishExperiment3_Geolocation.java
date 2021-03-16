@@ -11,7 +11,14 @@ import com.faanggang.wisetrack.R;
 
 import java.util.EmptyStackException;
 
-public class PublishExperimentActivity3 extends AppCompatActivity
+/**
+ * PublishExperiment3_Geolocation Activity:
+ * Ask user if geolocation is required.
+ * If button click `yes` => set geolocation as TRUE.
+ * If button click `no` => set geolocation as FALSE.
+ */
+
+public class PublishExperiment3_Geolocation extends AppCompatActivity
     implements View.OnClickListener{
 
     private Button yes;
@@ -20,7 +27,7 @@ public class PublishExperimentActivity3 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_experiment3);
+        setContentView(R.layout.publish_experiment_geolocation);
 
         yes = findViewById(R.id.publish3_yes_button);
         no = findViewById(R.id.publish3_no_button);
@@ -32,7 +39,7 @@ public class PublishExperimentActivity3 extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(PublishExperimentActivity3.this, PublishExperimentActivity4.class);
+        Intent intent = new Intent(PublishExperiment3_Geolocation.this, PublishExperiment4_Complete.class);
         Bundle extras = getIntent().getExtras();
 
         // put in previous extras/variables to the next intent so that the next activity

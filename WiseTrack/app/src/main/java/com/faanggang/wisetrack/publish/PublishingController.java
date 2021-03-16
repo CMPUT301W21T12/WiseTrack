@@ -51,7 +51,7 @@ public class PublishingController {
         data.put("description", experiment.getDescription());
         data.put("region", experiment.getRegion());
         data.put("minTrials", experiment.getMinTrials());
-        data.put("crowdSource", experiment.getCrowdSource());
+        data.put("trialType", experiment.getTrialType());
         data.put("geolocation", experiment.getGeolocation());
         data.put("datetime", new Timestamp(experiment.getDate()));
         data.put("uID", experiment.getOwnerID());
