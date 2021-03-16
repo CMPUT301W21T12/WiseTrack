@@ -58,7 +58,6 @@ public class ViewAllCommentActivity extends AppCompatActivity implements Comment
         comments.clear();
         comments.addAll(results);
         cmtAdapter.notifyDataSetChanged();
-        Log.w("COMMENT","WE GOT HERE");
     }
 
     @Override

@@ -65,14 +65,16 @@ public class CommentManager {
                 String username = docSnap.getString("userName");
                 String content = docSnap.getString("content");
                 Date dt = docSnap.getDate("datetime");
-                results.add(new Comment(eID, uID, username, content, dt));
+                Comment comment = new Comment(eID, uID, username, content, dt);
+                comment.setAuthorID(docSnap.getId());
+                results.add(comment);
             }
             commentSearcher.onExpCommentsFound(results);
             }
         });
     }
 
-    public void getCommentResponses(String commentID, Comment parent){
+    public void getCommentResponses(String commentID){
         db.collection("Comments").document(commentID).collection("Responses")
         .get()
         .addOnCompleteListener(task->{
@@ -86,9 +88,9 @@ public class CommentManager {
                         String username = docSnap.getString("userName");
                         String content = docSnap.getString("content");
                         Date dt = docSnap.getDate("datetime");
-                        results.add(new Response(eID, uID, username, content, parent ,dt));
+                        results.add(new Response(eID, uID, username, content,dt));
                     }
-
+                    responseSearcher.onResponsesFound(results);
                 }
             }
         });

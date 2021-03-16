@@ -1,6 +1,8 @@
 package com.faanggang.wisetrack.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,12 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.comment.Comment;
+import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.comment.ViewAllResponseActivity;
 
 public class CommentItemView extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView comment_author;
     private TextView comment_datetime;
     private TextView comment_content;
     private Context context;
+    private Comment comment;
 
     public CommentItemView(@NonNull View view, Context context){
         super(view);
@@ -35,8 +41,16 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
         return comment_content;
     }
 
+    public void setComment(Comment c){this.comment=c;}
+
     @Override
     public void onClick(View v) {
-
+        Log.w("","COMMENT CLICKED");
+        Intent intent = new Intent(context, ViewAllResponseActivity.class);
+        intent.putExtra("CMT_ID", comment.getFirebaseID());
+        intent.putExtra("PARENT_CONTENT", comment.getContent());
+        intent.putExtra("PARENT_DATE", comment.getDateTimeString());
+        intent.putExtra("PARENT_USERNAME", comment.getUsername());
+        context.startActivity(intent);
     }
 }
