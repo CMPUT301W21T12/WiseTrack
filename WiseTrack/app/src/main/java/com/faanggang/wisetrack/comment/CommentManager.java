@@ -45,21 +45,20 @@ public class CommentManager {
 
     public void getExperimentComments(String expID) {
         db.collection("Comments").whereEqualTo("eID", expID).orderBy("datetime")
-        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException e) {
-                ArrayList<Comment> results = new ArrayList<Comment>();
-                List<DocumentSnapshot> docSnapList = value.getDocuments();
-                for (DocumentSnapshot docSnap : docSnapList) {
-                    String eID = docSnap.getString("eID");
-                    String uID = docSnap.getString("uID");
-                    String username = docSnap.getString("userName");
-                    String content = docSnap.getString("content");
-                    Date dt = docSnap.getDate("datetime");
-                    results.add(new Comment(eID, uID, username, content, dt));
-                }
-                searcher.onExpCommentsFound(results);
+        .get()
+        .addOnCompleteListener(task->{
+            ArrayList<Comment> results = new ArrayList<Comment>();
+            List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
+            for (DocumentSnapshot docSnap : docSnapList) {
+                String eID = docSnap.getString("eID");
+                String uID = docSnap.getString("uID");
+                String username = docSnap.getString("userName");
+                String content = docSnap.getString("content");
+                Date dt = docSnap.getDate("datetime");
+                results.add(new Comment(eID, uID, username, content, dt));
             }
+            searcher.onExpCommentsFound(results);
         });
     }
 }
+

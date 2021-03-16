@@ -60,14 +60,17 @@ public class AddCommentFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String content = cmtContentView.getText().toString();
-                        Date dt = new Date();
-                        listener.addCommentOkPressed(new Comment(
-                                expID,
-                                "D4Un8U9ebUZXXfEei21HpHn95SZ2",
-                                "Shaolongbaotwo",
-                                content,
-                                dt
-                        ));
+                        if (content.trim().length()>0) {
+                            Date dt = new Date();
+                            listener.addCommentOkPressed(new Comment(
+                                    expID,
+                                    "D4Un8U9ebUZXXfEei21HpHn95SZ2",
+                                    "Shaolongbaotwo",
+                                    content,
+                                    dt
+                            ));
+                        }
+
                     }}).create();
     }
 }

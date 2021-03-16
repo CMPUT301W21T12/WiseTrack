@@ -76,16 +76,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 v.showContextMenu();  // Note: default is long clicking to open action menu
             }
         });
-
-        /*Button viewCommentsButton = findViewById(R.id.view_comments_button);
-        viewCommentsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ViewExperimentActivity.this, ViewCommentActivity.class);
-                intent.putExtra("EXP_ID", expID);
-                startActivity(intent);
-            }
-        });*/
     }
 
     @Override
@@ -117,7 +107,9 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 Toast.makeText(this, "Execute trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.comment_option:
-                Toast.makeText(this, "Comment option selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ViewExperimentActivity.this, ViewCommentActivity.class);
+                intent.putExtra("EXP_ID", expID);
+                startActivity(intent);
                 return true;
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
