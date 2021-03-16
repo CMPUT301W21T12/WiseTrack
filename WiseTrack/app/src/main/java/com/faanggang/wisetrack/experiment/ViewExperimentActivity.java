@@ -6,24 +6,17 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
-import com.faanggang.wisetrack.Experiment;
-import com.faanggang.wisetrack.MainMenuActivity;
 import com.faanggang.wisetrack.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.faanggang.wisetrack.comment.ViewCommentActivity;
+import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-
-import java.util.ArrayList;
 
 public class ViewExperimentActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -107,7 +100,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 Toast.makeText(this, "Execute trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.comment_option:
-                Intent intent = new Intent(ViewExperimentActivity.this, ViewCommentActivity.class);
+                Intent intent = new Intent(ViewExperimentActivity.this, ViewAllCommentActivity.class);
                 intent.putExtra("EXP_ID", expID);
                 startActivity(intent);
                 return true;
