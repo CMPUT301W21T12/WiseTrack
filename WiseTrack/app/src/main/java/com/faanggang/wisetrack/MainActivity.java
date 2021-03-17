@@ -33,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
