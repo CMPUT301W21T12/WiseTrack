@@ -40,7 +40,6 @@ public class ExecuteTrialActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         Intent intent;
 
-
         if (v.getId() == R.id.button_save) {
             String data = trialData.getText().toString();
             String geolocation = trialGeolocation.getText().toString();
