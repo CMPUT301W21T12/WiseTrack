@@ -25,11 +25,12 @@ public class StatManager {
         float[] trialData = new float[]{42,3,4,7,18,21,26,44,69,10}; // Test array
 
         // grab trial data from trial as a float array
-        float mean = currentTrialReport.calculateMean(trialData);
-        float median = currentTrialReport.calculateMedian(trialData);
-        double stdev = currentTrialReport.calculateStdev(trialData);
-        float[] quartiles = currentTrialReport.calculateQuartiles(trialData);
-        float iqRange = currentTrialReport.calculateInterquartileRange(trialData);
+        currentTrialReport.setMean(currentTrialReport.calculateMean(trialData));
+        currentTrialReport.setMedian(currentTrialReport.calculateMedian(trialData));
+        currentTrialReport.setStdev(currentTrialReport.calculateStdev(trialData));
+        currentTrialReport.setQuartiles(currentTrialReport.calculateQuartiles(trialData));
+        currentTrialReport.setInterquartileRange(currentTrialReport.calculateInterquartileRange(trialData));
+
 
 
     }
