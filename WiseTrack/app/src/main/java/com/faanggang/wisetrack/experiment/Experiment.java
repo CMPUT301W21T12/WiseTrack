@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack;
+package com.faanggang.wisetrack.experiment;
 
 import java.util.Date;
 
