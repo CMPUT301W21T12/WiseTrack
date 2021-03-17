@@ -10,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.MainMenuActivity;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.experiment.ViewExperimentActivity;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
@@ -32,6 +30,7 @@ public class ExperimentItemView extends RecyclerView.ViewHolder implements View.
     private Context context;
     private int secondaryColor;
     private int primaryColor;
+
 
     public ExperimentItemView(@NonNull View itemView, Context context) {
         super(itemView);

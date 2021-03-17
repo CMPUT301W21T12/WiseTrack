@@ -11,9 +11,9 @@ public class ExperimentManager {
         this.db = FirebaseFirestore.getInstance();
     }
 
-    public void getUsername(String uID, OnCompleteListener<DocumentSnapshot> callback){
-        db.collection("Users").document(uID)
-                .get()
-                .addOnCompleteListener(callback);
+    public void getExperimentInfo(String expID, OnCompleteListener<DocumentSnapshot> callback){
+        db.collection("Experiments").document(expID)
+            .get().addOnCompleteListener(callback);
     }
 }
+

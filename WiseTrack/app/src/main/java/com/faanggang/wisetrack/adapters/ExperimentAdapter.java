@@ -13,6 +13,8 @@ import com.faanggang.wisetrack.experiment.Experiment;
 import java.util.ArrayList;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.experiment.ExperimentManager;
+import com.faanggang.wisetrack.user.UserManager;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
 // which is licensed under Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -24,12 +26,12 @@ import com.faanggang.wisetrack.experiment.ExperimentManager;
 public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private ArrayList<Experiment> experiments;
     private Context context;
-    private ExperimentManager expManager;
+    private UserManager userManager;
 
     public ExperimentAdapter(Context context, ArrayList<Experiment> experiments) {
         this.experiments = experiments;
         this.context = context;
-        this.expManager = new ExperimentManager();
+        this.userManager = new UserManager(FirebaseFirestore.getInstance());
     }
     @NonNull
     @Override
@@ -44,7 +46,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ExperimentItemView item = (ExperimentItemView) holder;
         item.setID(experiments.get(position).getExpID());
         item.getTitle_TextView().setText(experiments.get(position).getName());
-        expManager.getUsername(experiments.get(position).getOwnerID(), task->{
+        userManager.getUserInfo(experiments.get(position).getOwnerID(), task->{
             item.getOwner_TextView().setText(task.getResult().getString("userName"));
         });
 
