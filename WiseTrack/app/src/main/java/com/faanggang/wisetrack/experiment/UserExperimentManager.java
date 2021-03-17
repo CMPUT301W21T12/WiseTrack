@@ -37,7 +37,7 @@ public class UserExperimentManager {
                             doc.getString("description"),
                             doc.getString("region"),
                             doc.getLong("minTrials").intValue(),
-                            doc.getLong("crowdSource").intValue(),
+                            doc.getLong("trialType").intValue(),
                             doc.getBoolean("geolocation"),
                             doc.getDate("datetime"),
                             doc.getString("uID")
