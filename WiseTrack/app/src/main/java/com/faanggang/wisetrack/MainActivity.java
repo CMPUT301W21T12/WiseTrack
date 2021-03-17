@@ -34,6 +34,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
+/**
+ * MainActivity is the landing page for to authenticate
+ * before they are able to access the applications main features
+ *
+ * @author Shao-Zhang
+ */
+
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -42,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start_screen);
         mAuth = FirebaseAuth.getInstance();
@@ -54,14 +63,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        // gets current user from Firebase Authentication
         currentUser = mAuth.getCurrentUser();
     }
 
+    // method for menu button click
     public void menuClick(View view) {
         if(currentUser == null) {
+            // creates new user if user does not exist
             createNewUser();
         }
         else {
+            // user is a existing user
             Log.w("EXISTING USERID", currentUser.getUid());
             storeCurrentUser(currentUser.getUid());
             Intent intent = new Intent(this, MainMenuActivity.class);
@@ -79,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This is a method which signs a new user in using Firebase Authentication
+     * and calls UserManager class to store default user information into cloud database
+     */
     public void createNewUser(){
         Activity activity = this;
         mAuth.signInAnonymously()
@@ -100,8 +117,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This method retrieves current user info from database using UserManager
+     * and stores it into a WiseTrackApplication singleton class
+     * @param uid
+     */
     public void storeCurrentUser(String uid) {
 
+        // creates a OnCompleteListner object that is passed into UserManager
         OnCompleteListener<DocumentSnapshot> storeUser = new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -109,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     DocumentSnapshot userDoc = task.getResult();
                     if (userDoc.exists()) {
                         Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
+                        // creates currentUser object with user info data from database
                         Users currentUser = new Users(
                                 userDoc.getString("userName"),
                                 userDoc.getString("firstName"),

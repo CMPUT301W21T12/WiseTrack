@@ -31,6 +31,8 @@ public class StatReport {
                mean += trialTests[index];
           }
           mean = mean/trialTests.length;
+
+
           return mean;
      }
 
@@ -45,7 +47,6 @@ public class StatReport {
       * @return Median from an array of data
       */
      public float calculateMedian(float[] trialTests) {
-          //sort array using method made in the stat report.
           Arrays.sort(trialTests);
           int medianIndicator = trialTests.length%2;
           int middle = trialTests.length/2;
@@ -54,6 +55,7 @@ public class StatReport {
           } else if (medianIndicator == 1) { // odd length
                median = trialTests[middle]; // make this round down
           }
+
           return median;
      }
 
@@ -72,6 +74,8 @@ public class StatReport {
                sum += Math.pow((trialTests[index] - mean),2);
           }
           stdev = Math.sqrt(sum/(trialTests.length-1));
+
+
           return stdev;
      }
 
@@ -106,6 +110,8 @@ public class StatReport {
 
 
           float [] quartiles = new float[]{ quartileOne, quartileTwo, quartileThree};
+
+
           return quartiles;
      }
 
@@ -119,8 +125,55 @@ public class StatReport {
 
           quartiles = calculateQuartiles(trialTests);
           interquartileRange = quartiles[3] - quartiles[0];
+
           return interquartileRange;
      }
 
+     public float getMean() {
+          return mean;
+     }
 
+     public void setMean(float mean) {
+          this.mean = mean;
+     }
+
+     public float getMedian() {
+          return median;
+     }
+
+     public void setMedian(float median) {
+          this.median = median;
+     }
+
+     public double getStdev() {
+          return stdev;
+     }
+
+     public void setStdev(double stdev) {
+          this.stdev = stdev;
+     }
+
+     public float[] getQuartiles() {
+          return quartiles;
+     }
+
+     public void setQuartiles(float[] quartiles) {
+          this.quartiles = quartiles;
+     }
+
+     public float getInterquartileRange() {
+          return interquartileRange;
+     }
+
+     public void setInterquartileRange(float interquartileRange) {
+          this.interquartileRange = interquartileRange;
+     }
+
+     public float getMode() {
+          return mode;
+     }
+
+     public void setMode(float mode) {
+          this.mode = mode;
+     }
 }
