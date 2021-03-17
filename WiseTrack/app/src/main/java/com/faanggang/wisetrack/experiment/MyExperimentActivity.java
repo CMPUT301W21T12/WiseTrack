@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.adapters.ExperimentAdapter;

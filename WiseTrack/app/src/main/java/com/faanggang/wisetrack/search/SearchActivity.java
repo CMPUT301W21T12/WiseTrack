@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.faanggang.wisetrack.Experiment;
+import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 import com.google.firebase.firestore.FirebaseFirestore;

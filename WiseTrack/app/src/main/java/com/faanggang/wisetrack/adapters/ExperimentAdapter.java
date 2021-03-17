@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.Experiment;
+import com.faanggang.wisetrack.experiment.Experiment;
 
 import java.util.ArrayList;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.experiment.ExperimentManager;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
 // which is licensed under Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -20,12 +21,15 @@ import com.faanggang.wisetrack.R;
 /**
  * Custom RecyclerView.Adapter class
  */
-public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private ArrayList<Experiment> experiments;
     private Context context;
+    private ExperimentManager expManager;
+
     public ExperimentAdapter(Context context, ArrayList<Experiment> experiments) {
         this.experiments = experiments;
         this.context = context;
+        this.expManager = new ExperimentManager();
     }
     @NonNull
     @Override
@@ -40,7 +44,10 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         ExperimentItemView item = (ExperimentItemView) holder;
         item.setID(experiments.get(position).getExpID());
         item.getTitle_TextView().setText(experiments.get(position).getName());
-        item.getOwner_TextView().setText(experiments.get(position).getOwnerID());
+        expManager.getUsername(experiments.get(position).getOwnerID(), task->{
+            item.getOwner_TextView().setText(task.getResult().getString("userName"));
+        });
+
         item.getDescription_TextView().setText(experiments.get(position).getDescription());
         if (experiments.get(position).isOpen()) {
             item.getStatus_TextView().setText(R.string.search_item_Open);
@@ -55,4 +62,6 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public int getItemCount() {
         return experiments.size();
     }
+
+
 }
