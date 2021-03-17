@@ -73,7 +73,7 @@ public class SearchManager {
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
                                     snapshot.getLong("minTrials").intValue(),
-                                    snapshot.getLong("crowdSource").intValue(),
+                                    snapshot.getLong("trialType").intValue(),
                                     snapshot.getBoolean("geolocation"),
                                     snapshot.getDate("datetime"),
                                     snapshot.getString("uID"));
