@@ -40,12 +40,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
         expID = getIntent().getStringExtra("EXP_ID");
         Log.w("EXP", expID);
         setContentView(R.layout.view_experiment_detail);
-        expNameView = findViewById(R.id.view_experimentName);
-        expDescriptionView = findViewById(R.id.view_experimentDescription);
-        expRegionView = findViewById(R.id.view_experimentRegion);
-        expMinTrialsView = findViewById(R.id.view_min_num_trials);
-        expOwnerView = findViewById(R.id.view_owner);
-        expStatusView = findViewById(R.id.view_status);
         experimentManager.getExperimentInfo(expID, task->{
             DocumentSnapshot docSnap = task.getResult();
             expNameView.setText(docSnap.getString("name"));
@@ -54,13 +48,19 @@ public class ViewExperimentActivity extends AppCompatActivity {
             expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
             userManager.getUserInfo(docSnap.getString("uID"), task2->{
                 expOwnerView.setText(task2.getResult().getString("userName"));
-            if (docSnap.getBoolean("open")) {
-                expStatusView.setText("Open");
-            } else {
-                expStatusView.setText("Closed");
-            }
+                if (docSnap.getBoolean("open")) {
+                    expStatusView.setText("Open");
+                } else {
+                    expStatusView.setText("Closed");
+                }
+            });
         });
-        });
+        expNameView = findViewById(R.id.view_experimentName);
+        expDescriptionView = findViewById(R.id.view_experimentDescription);
+        expRegionView = findViewById(R.id.view_experimentRegion);
+        expMinTrialsView = findViewById(R.id.view_min_num_trials);
+        expOwnerView = findViewById(R.id.view_owner);
+        expStatusView = findViewById(R.id.view_status);
 
 
         FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
