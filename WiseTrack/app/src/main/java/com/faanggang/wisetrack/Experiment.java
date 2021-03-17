@@ -75,8 +75,8 @@ public class Experiment {
         return trialType;
     }
 
-    public void setTrialType(int crowdSource) {
-        this.trialType = crowdSource;
+    public void setTrialType(int trialType) {
+        this.trialType = trialType;
     }
 
     public boolean getGeolocation() {
