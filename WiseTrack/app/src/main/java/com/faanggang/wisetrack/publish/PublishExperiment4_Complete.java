@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.faanggang.wisetrack.Experiment;
+import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,7 +19,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 
-public class PublishExperimentActivity4 extends AppCompatActivity
+/**
+ * PublishExperiment4_Complete Activity:
+ * Display the summary about the experiment, based on what the user has entered.
+ * User must click "Publish" to confirm and add experiment to FireBase.
+ * Return back to MainActivity.
+ */
+public class PublishExperiment4_Complete extends AppCompatActivity
     implements View.OnClickListener{
 
     private TextView experiment_description;
@@ -27,7 +33,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     private Button cancel;
     private ArrayList<String> keywords;
     private String name, description, region;
-    private int minTrials, crowdSource;
+    private int minTrials, trialType;
     private boolean geolocation;
     private static final String TAG = "DocSnippets";
     private FirebaseAuth mAuth;
@@ -37,7 +43,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_experiment4);
+        setContentView(R.layout.publish_experiment_complete);
 
         mAuth = FirebaseAuth.getInstance();
         publishingController = new PublishingController(FirebaseFirestore.getInstance());
@@ -51,30 +57,30 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         description = extras.getString("EXTRA_DESCRIPTION");
         region = extras.getString("EXTRA_REGION");
         minTrials = extras.getInt("EXTRA_MIN_TRIALS");
-        crowdSource = extras.getInt("EXTRA_TRIAL_TYPE");
+        trialType = extras.getInt("EXTRA_TRIAL_TYPE");
         geolocation = extras.getBoolean("EXTRA_GEOLOCATION");
-        currentExperiment = new Experiment(name, description, region, minTrials, crowdSource,
+        currentExperiment = new Experiment(name, description, region, minTrials, trialType,
                 geolocation, new Date(), mAuth.getUid());
 
         String minTrials_str = String.valueOf(minTrials);
-        String crowdSource_str;
+        String trialType_str;
         String geolocation_str = String.valueOf(geolocation);
 
-        switch(crowdSource) {
+        switch(trialType) {
             case 0:
-                crowdSource_str = "Count";
+                trialType_str = "Count";
                 break;
             case 1:
-                crowdSource_str = "Binomial trials";
+                trialType_str = "Binomial trials";
                 break;
             case 2:
-                crowdSource_str = "Non-negative integer counts";
+                trialType_str = "Non-negative integer counts";
                 break;
             case 3:
-                crowdSource_str = "Measurement trials";
+                trialType_str = "Measurement trials";
                 break;
             default:
-                crowdSource_str = "";
+                trialType_str = "";
         }
 
         String text_description =
@@ -82,7 +88,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
                 "Description: " + description + "\n\n" +
                 "Region: " + region + "\n" +
                 "Minimum trials: " + minTrials_str + "\n" +
-                "Trial type: " + crowdSource_str + "\n" +
+                "Trial type: " + trialType_str + "\n" +
                 "Geolocation required: " + geolocation_str;
 
         experiment_description.setText(text_description);
@@ -107,9 +113,9 @@ public class PublishExperimentActivity4 extends AppCompatActivity
                 Log.e(TAG, "Error trying to publish experiment: " + e.getMessage());
             }
 
-            // GO back to main
-            Intent intent = new Intent(PublishExperimentActivity4.this, MainActivity.class);
-            startActivity(intent);
+        // GO back to main
+        Intent intent = new Intent(PublishExperiment4_Complete.this, MainActivity.class);
+        startActivity(intent);
 
         }
     }

@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack;
+package com.faanggang.wisetrack.experiment;
 
 import java.util.Date;
 
@@ -7,21 +7,33 @@ public class Experiment {
     private String description;
     private String region;
     private int minTrials;
-    private int crowdSource;
+    private int trialType;
     private boolean geolocation;
     private Date datetime;
     private String uID;
     private String expID;
     private boolean open;
 
+    /**
+     * @param name
+     * @param description
+     * @param region
+     * @param minTrials: Minimum # of Trials. Must be greater than 1
+     * @param trialType: 0 = Counts, 1 = Binomial, 2 = Non-negative integer counts,
+     *                 3 = measurement trials
+     * @param geolocation: true = geolocation required, false = geolocation optional
+     * @param date
+     * @param uID: userID of the owner (the user publishing the experiment)
+     */
+
     public Experiment(String name, String description, String region,
-                      int minTrials, int crowdSource, boolean geolocation, Date date,
+                      int minTrials, int trialType, boolean geolocation, Date date,
                       String uID) {
         this.name = name;
         this.description = description;
         this.region = region;
         this.minTrials = minTrials;
-        this.crowdSource = crowdSource;
+        this.trialType = trialType;
         this.geolocation = geolocation;
         this.datetime = date;
         this.uID = uID;
@@ -59,12 +71,12 @@ public class Experiment {
         this.minTrials = minTrials;
     }
 
-    public int getCrowdSource() {
-        return crowdSource;
+    public int getTrialType() {
+        return trialType;
     }
 
-    public void setCrowdSource(int crowdSource) {
-        this.crowdSource = crowdSource;
+    public void setTrialType(int trialType) {
+        this.trialType = trialType;
     }
 
     public boolean getGeolocation() {

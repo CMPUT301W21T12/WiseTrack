@@ -11,9 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.faanggang.wisetrack.Experiment;
+import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.adapters.ExperimentAdapter;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        searchManager = new SearchManager(this);
+        searchManager = new SearchManager(this, FirebaseFirestore.getInstance());
 
         searchResults = new ArrayList<Experiment>();
 

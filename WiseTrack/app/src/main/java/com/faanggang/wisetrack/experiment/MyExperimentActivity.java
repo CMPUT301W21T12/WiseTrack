@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
 
-        expManager.userExpQuery("EOJow5uAXX8D32dE9kXz");
+        expManager.userExpQuery(WiseTrackApplication.getCurrentUser().getUserID());
 
     }
     @Override

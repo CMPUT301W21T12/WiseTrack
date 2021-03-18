@@ -1,25 +1,26 @@
 package com.faanggang.wisetrack;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.experiment.MyExperimentActivity;
-import com.faanggang.wisetrack.publish.PublishExperimentActivity;
+import com.faanggang.wisetrack.publish.PublishExperiment1_Initialization;
 import com.faanggang.wisetrack.search.SearchActivity;
 import com.faanggang.wisetrack.user.ViewSelfActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+
+/**
+ * MainMenuActivity displays all available options for user(s)
+ * to navigate to
+ */
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -34,7 +35,7 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.main_menu);
 
 
-        Button viewProfileButton = findViewById(R.id.menuProfile_Button);
+        final Button viewProfileButton = findViewById(R.id.menuProfile_Button);
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,12 +45,12 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
 
-        Button publishButton = findViewById(R.id.menuPublish_button);
+        final Button publishButton = findViewById(R.id.menuPublish_button);
         publishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainMenuActivity.this, PublishExperimentActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, PublishExperiment1_Initialization.class);
                 startActivity(intent);
             }
         });
@@ -57,7 +58,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         experimentSearchButton = findViewById(R.id.menuSearch_button);
 
-        Button experimentSearchButton = findViewById(R.id.menuSearch_button);
+        final Button experimentSearchButton = findViewById(R.id.menuSearch_button);
 
 
         experimentSearchButton.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +69,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        Button myExperimentsButton = findViewById(R.id.menuViewExperiments_button);
+        final Button myExperimentsButton = findViewById(R.id.menuViewExperiments_button);
 
         myExperimentsButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,7 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.faanggang.wisetrack.Experiment;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.experiment.Experiment;
+import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -14,7 +16,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class PublishingController {
      * @param experimentData
      * experimentData is a map of values to be published to the database as an experiment.
      */
-    public void publishExperiment(Map<String, Object> experimentData) {
+    public void publishExperiment(Map<String, Object> experimentData) throws Exception {
         experimentCollectionReference
                 .add(experimentData)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -48,6 +49,9 @@ public class PublishingController {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("PublishController", "DocumentSnapshot written with ID:"
                                 + documentReference.getId());
+                        UserManager uM = new UserManager(db);
+                        uM.addExperimentReference(WiseTrackApplication.getCurrentUser().getUserID(),
+                                documentReference);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -72,7 +76,7 @@ public class PublishingController {
         data.put("description", experiment.getDescription());
         data.put("region", experiment.getRegion());
         data.put("minTrials", experiment.getMinTrials());
-        data.put("crowdSource", experiment.getCrowdSource());
+        data.put("trialType", experiment.getTrialType());
         data.put("geolocation", experiment.getGeolocation());
         data.put("datetime", new Timestamp(experiment.getDate()));
         data.put("uID", experiment.getOwnerID());

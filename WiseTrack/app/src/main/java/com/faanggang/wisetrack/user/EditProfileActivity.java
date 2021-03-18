@@ -13,6 +13,7 @@ import com.faanggang.wisetrack.WiseTrackApplication;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
+
 public class EditProfileActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
