@@ -3,16 +3,6 @@ package com.faanggang.wisetrack.experiment;
 import java.util.Date;
 
 public class Experiment {
-    private String name;
-    private String description;
-    private String region;
-    private int minTrials;
-    private int trialType;
-    private boolean geolocation;
-    private Date datetime;
-    private String uID;
-    private String expID;
-    private boolean open;
 
     /**
      * @param name
@@ -24,7 +14,21 @@ public class Experiment {
      * @param geolocation: true = geolocation required, false = geolocation optional
      * @param date
      * @param uID: userID of the owner (the user publishing the experiment)
+     * @param expID: the firebase ID
+     * @param open: is the experiment open or closed/unpublished? Set TRUE upon creation of
+     *            experiment
      */
+
+    private String name;
+    private String description;
+    private String region;
+    private int minTrials;
+    private int trialType;
+    private boolean geolocation;
+    private Date datetime;
+    private String uID;
+    private String expID;
+    private boolean open;
 
     public Experiment(String name, String description, String region,
                       int minTrials, int trialType, boolean geolocation, Date date,
@@ -37,6 +41,7 @@ public class Experiment {
         this.geolocation = geolocation;
         this.datetime = date;
         this.uID = uID;
+        this.open = true;
     }
 
     public String getName() {
