@@ -77,6 +77,12 @@ public class ExperimentItemView extends RecyclerView.ViewHolder implements View.
         return owner_TextView;
     }
 
+    /**
+     * This method sets the color of the experiment title based on whether the experiment is
+     * open or closed.
+     * @param open
+     * open is a boolean representing whether the experiment is open or not
+     */
     public void setStatusColor(boolean open) {
         if (open) {
             title_TextView.setTextColor(primaryColor);
