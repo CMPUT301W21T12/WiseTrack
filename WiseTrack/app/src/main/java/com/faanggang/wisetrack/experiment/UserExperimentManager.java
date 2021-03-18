@@ -1,10 +1,7 @@
 package com.faanggang.wisetrack.experiment;
 
-import android.provider.DocumentsContract;
 import android.util.Log;
 
-import com.faanggang.wisetrack.Experiment;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -37,7 +34,7 @@ public class UserExperimentManager {
                             doc.getString("description"),
                             doc.getString("region"),
                             doc.getLong("minTrials").intValue(),
-                            doc.getLong("crowdSource").intValue(),
+                            doc.getLong("trialType").intValue(),
                             doc.getBoolean("geolocation"),
                             doc.getDate("datetime"),
                             doc.getString("uID")

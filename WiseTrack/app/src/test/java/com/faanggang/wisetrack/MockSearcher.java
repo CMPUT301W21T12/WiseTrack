@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack;
 
+import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.search.SearchManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 

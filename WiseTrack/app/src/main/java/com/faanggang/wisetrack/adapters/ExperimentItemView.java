@@ -10,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.MainMenuActivity;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.experiment.ViewExperimentActivity;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
@@ -32,6 +30,7 @@ public class ExperimentItemView extends RecyclerView.ViewHolder implements View.
     private Context context;
     private int secondaryColor;
     private int primaryColor;
+
 
     public ExperimentItemView(@NonNull View itemView, Context context) {
         super(itemView);
@@ -78,6 +77,12 @@ public class ExperimentItemView extends RecyclerView.ViewHolder implements View.
         return owner_TextView;
     }
 
+    /**
+     * This method sets the color of the experiment title based on whether the experiment is
+     * open or closed.
+     * @param open
+     * open is a boolean representing whether the experiment is open or not
+     */
     public void setStatusColor(boolean open) {
         if (open) {
             title_TextView.setTextColor(primaryColor);

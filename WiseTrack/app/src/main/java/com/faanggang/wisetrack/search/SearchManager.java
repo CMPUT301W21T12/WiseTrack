@@ -1,20 +1,10 @@
 package com.faanggang.wisetrack.search;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.faanggang.wisetrack.Experiment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.faanggang.wisetrack.experiment.Experiment;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,7 +63,7 @@ public class SearchManager {
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
                                     snapshot.getLong("minTrials").intValue(),
-                                    snapshot.getLong("crowdSource").intValue(),
+                                    snapshot.getLong("trialType").intValue(),
                                     snapshot.getBoolean("geolocation"),
                                     snapshot.getDate("datetime"),
                                     snapshot.getString("uID"));
