@@ -7,24 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PublishExperimentActivity4 extends AppCompatActivity
@@ -48,7 +40,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
         setContentView(R.layout.activity_publish_experiment4);
 
         mAuth = FirebaseAuth.getInstance();
-        publishingController = new PublishingController();
+        publishingController = new PublishingController(FirebaseFirestore.getInstance());
         experiment_description = findViewById(R.id.publish4_description);
         publish = findViewById(R.id.publish4_publish_button);
         cancel = findViewById(R.id.publish4_cancel_button);
@@ -108,7 +100,7 @@ public class PublishExperimentActivity4 extends AppCompatActivity
             // Firebase:
             // Add experiment document data to "Experiments" collection with auto-generated id
             Map<String, Object> experimentHashMap = publishingController
-                    .createExperimentHashMap(currentExperiment);
+                    .createExperimentMap(currentExperiment);
             try {
                 publishingController.publishExperiment(experimentHashMap);
             } catch (Exception e) {
