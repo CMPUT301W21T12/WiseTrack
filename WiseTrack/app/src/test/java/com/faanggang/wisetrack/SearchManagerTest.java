@@ -63,7 +63,7 @@ public class SearchManagerTest {
     }
 
     @Test
-    public void testSearchByKeyword() {
+    public void testSearchByKeywordOnMockDB() {
         mockSearcher = new MockSearcher(mockDb);
         mockSearcher.makeSearchRequest("Test Experiments");
 

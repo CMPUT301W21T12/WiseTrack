@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
@@ -106,7 +107,8 @@ public class PublishExperiment4_Complete extends AppCompatActivity
             // Firebase:
             // Add experiment document data to "Experiments" collection with auto-generated id
             Map<String, Object> experimentHashMap = publishingManager
-                    .createExperimentMap(currentExperiment);
+                    .createExperimentMap(currentExperiment, WiseTrackApplication.getCurrentUser()
+                            .getUserName());
             try {
                 publishingManager.publishExperiment(experimentHashMap);
             } catch (Exception e) {

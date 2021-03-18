@@ -71,7 +71,7 @@ public class PublishingManager {
      * @return
      * a Map that has all necessary key-value pairs is returned.
      */
-    public Map createExperimentMap(Experiment experiment) {
+    public Map createExperimentMap(Experiment experiment, String userName) {
         Map<String, Object> data = new HashMap<>();
         data.put("name", experiment.getName());
         data.put("description", experiment.getDescription());
@@ -87,7 +87,7 @@ public class PublishingManager {
         keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));
         keywords.addAll(Arrays.asList(experiment.getName().split(" ")));
         keywords.add("open");
-        keywords.add(WiseTrackApplication.getCurrentUser().getUserName());
+        keywords.add(userName);
 
         for (int i = 0; i < keywords.size(); i++) {
             keywords.set(i, keywords.get(i).toUpperCase());
