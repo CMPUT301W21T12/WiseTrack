@@ -49,9 +49,9 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
     public void onClick(View v) {
         Intent intent = new Intent(context, ViewAllResponseActivity.class);
         intent.putExtra("CMT_ID", comment.getFirebaseID());
-        intent.putExtra("PARENT_CONTENT", comment.getContent());
-        intent.putExtra("PARENT_DATE", comment.getDateTimeString());
-        intent.putExtra("PARENT_USERNAME", comment.getUsername());
+        intent.putExtra("PARENT_CONTENT", comment_content.getText());
+        intent.putExtra("PARENT_DATE", comment_datetime.getText());
+        intent.putExtra("PARENT_USERNAME", comment_author.getText());
         context.startActivity(intent);
     }
 }

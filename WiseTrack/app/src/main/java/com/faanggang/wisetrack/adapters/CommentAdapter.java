@@ -8,15 +8,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.comment.Comment;
+import com.faanggang.wisetrack.user.UserManager;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Comment> comments;
     private Context context;
+    private UserManager userManager;
     public CommentAdapter(Context context, ArrayList<Comment> c) {
         this.context = context;
         this.comments = c;
+        this.userManager = new UserManager(FirebaseFirestore.getInstance());
     }
 
     @NonNull
@@ -32,7 +36,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CommentItemView item = (CommentItemView) holder;
         Comment c = comments.get(pos);
         item.setComment(c);
-        item.getAuthorView().setText(c.getUsername());
+        userManager.getUserInfo(c.getAuthorID(), task -> {
+            item.getAuthorView().setText(task.getResult().getString("userName"));
+        });
         item.getDatetimeView().setText(c.getDateTimeString());
         item.getContentView().setText(c.getContent());
     }

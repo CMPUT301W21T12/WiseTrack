@@ -41,7 +41,6 @@ public class CommentManager {
         hm.put("eID", comment.getExperimentID());
         hm.put("content", comment.getContent());
         hm.put("datetime", comment.getDatetime());
-        hm.put("userName", comment.getUsername());
         collectionRef.add(hm);
     }
 
@@ -50,7 +49,6 @@ public class CommentManager {
         HashMap<String, Object> hm = new HashMap<String, Object>();
         hm.put("datetime", response.getDatetime());
         hm.put("content", response.getContent());
-        hm.put("userName", response.getUsername());
         hm.put("uID", response.getAuthorID());
         docRef.collection("Responses").add(hm);
 
@@ -69,7 +67,7 @@ public class CommentManager {
                 String username = docSnap.getString("userName");
                 String content = docSnap.getString("content");
                 Date dt = docSnap.getDate("datetime");
-                Comment comment = new Comment(eID, uID, username, content, dt);
+                Comment comment = new Comment(eID, uID, content, dt);
                 comment.setFirebaseID(docSnap.getId());
                 results.add(comment);
             }
@@ -92,7 +90,7 @@ public class CommentManager {
                         String username = docSnap.getString("userName");
                         String content = docSnap.getString("content");
                         Date dt = docSnap.getDate("datetime");
-                        results.add(new Response(eID, uID, username, content,dt));
+                        results.add(new Response(eID, uID, username, dt));
                     }
                     responseSearcher.onResponsesFound(results);
                 }
