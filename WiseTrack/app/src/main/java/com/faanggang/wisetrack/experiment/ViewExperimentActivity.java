@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.experiment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,13 +29,32 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private TextView expOwnerView;
     private TextView expStatusView;
     private String expID;
+    private ExperimentManager experimentManager;
+    private UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        experimentManager = new ExperimentManager();
+        userManager = new UserManager(FirebaseFirestore.getInstance());
         expID = getIntent().getStringExtra("EXP_ID");
         Log.w("EXP", expID);
         setContentView(R.layout.view_experiment_detail);
+        experimentManager.getExperimentInfo(expID, task->{
+            DocumentSnapshot docSnap = task.getResult();
+            expNameView.setText(docSnap.getString("name"));
+            expDescriptionView.setText(docSnap.getString("description"));
+            expRegionView.setText(docSnap.getString("region"));
+            expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
+            userManager.getUserInfo(docSnap.getString("uID"), task2->{
+                expOwnerView.setText(task2.getResult().getString("userName"));
+                if (docSnap.getBoolean("open")) {
+                    expStatusView.setText("Open");
+                } else {
+                    expStatusView.setText("Closed");
+                }
+            });
+        });
         expNameView = findViewById(R.id.view_experimentName);
         expDescriptionView = findViewById(R.id.view_experimentDescription);
         expRegionView = findViewById(R.id.view_experimentRegion);
@@ -41,22 +62,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
         expOwnerView = findViewById(R.id.view_owner);
         expStatusView = findViewById(R.id.view_status);
 
-        db.collection("Experiments").document(expID).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot docSnap = task.getResult();
-                        expNameView.setText(docSnap.getString("name"));
-                        expDescriptionView.setText(docSnap.getString("description"));
-                        expRegionView.setText(docSnap.getString("region"));
-                        expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
-                        expOwnerView.setText(docSnap.getString("uID"));
-                        if (docSnap.getBoolean("open")) {
-                            expStatusView.setText("Open");
-                        } else {
-                            expStatusView.setText("Closed");
-                        }
-                    }
-                });
 
         FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
 
