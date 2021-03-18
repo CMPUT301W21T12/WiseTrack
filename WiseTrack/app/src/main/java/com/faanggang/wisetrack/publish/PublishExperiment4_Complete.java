@@ -37,7 +37,7 @@ public class PublishExperiment4_Complete extends AppCompatActivity
     private boolean geolocation;
     private static final String TAG = "DocSnippets";
     private FirebaseAuth mAuth;
-    private PublishingController publishingController;
+    private PublishingManager publishingManager;
     private Experiment currentExperiment;
 
     @Override
@@ -46,7 +46,7 @@ public class PublishExperiment4_Complete extends AppCompatActivity
         setContentView(R.layout.publish_experiment_complete);
 
         mAuth = FirebaseAuth.getInstance();
-        publishingController = new PublishingController(FirebaseFirestore.getInstance());
+        publishingManager = new PublishingManager(FirebaseFirestore.getInstance());
         experiment_description = findViewById(R.id.publish4_description);
         publish = findViewById(R.id.publish4_publish_button);
         cancel = findViewById(R.id.publish4_cancel_button);
@@ -105,10 +105,10 @@ public class PublishExperiment4_Complete extends AppCompatActivity
 
             // Firebase:
             // Add experiment document data to "Experiments" collection with auto-generated id
-            Map<String, Object> experimentHashMap = publishingController
+            Map<String, Object> experimentHashMap = publishingManager
                     .createExperimentMap(currentExperiment);
             try {
-                publishingController.publishExperiment(experimentHashMap);
+                publishingManager.publishExperiment(experimentHashMap);
             } catch (Exception e) {
                 Log.e(TAG, "Error trying to publish experiment: " + e.getMessage());
             }

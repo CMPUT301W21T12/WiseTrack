@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * This class controls publishing an experiment to our Firestore database.
  */
-public class PublishingController {
+public class PublishingManager {
     private CollectionReference experimentCollectionReference;
     private FirebaseFirestore db;
 
@@ -32,7 +32,7 @@ public class PublishingController {
      * @param db
      * db is the FirebaseFirestore to be used as the database for this instance.
      */
-    public PublishingController(FirebaseFirestore db) {
+    public PublishingManager(FirebaseFirestore db) {
         this.db = db;
         experimentCollectionReference = db.collection("Experiments");
     }

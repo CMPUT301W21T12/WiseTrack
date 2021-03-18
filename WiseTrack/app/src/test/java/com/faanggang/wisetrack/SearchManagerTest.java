@@ -1,26 +1,16 @@
 package com.faanggang.wisetrack;
 
-import com.faanggang.wisetrack.publish.PublishingController;
-import com.faanggang.wisetrack.search.SearchManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Null;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
