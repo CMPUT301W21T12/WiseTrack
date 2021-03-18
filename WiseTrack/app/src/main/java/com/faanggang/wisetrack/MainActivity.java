@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.user.UserManager;
 import com.faanggang.wisetrack.experiment.UserExperimentManager;
+import com.faanggang.wisetrack.user.UserNameCreationActivity;
 import com.faanggang.wisetrack.user.Users;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -70,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
     // method for menu button click
     public void menuClick(View view) {
         if(currentUser == null) {
-            // creates new user if user does not exist
-            createNewUser();
+            Intent intent = new Intent(this, UserNameCreationActivity.class);
+            startActivity(intent);
         }
         else {
             // user is a existing user
