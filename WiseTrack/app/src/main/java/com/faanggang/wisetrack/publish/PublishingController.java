@@ -1,10 +1,13 @@
 package com.faanggang.wisetrack.publish;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.experiment.Experiment;
+import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -34,6 +37,9 @@ public class PublishingController {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("PublishController", "DocumentSnapshot written with ID:"
                                 + documentReference.getId());
+                        UserManager uM = new UserManager(db);
+                        uM.addExperimentReference(WiseTrackApplication.getCurrentUser().getUserID(),
+                                documentReference);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -56,9 +62,12 @@ public class PublishingController {
         data.put("uID", experiment.getOwnerID());
         data.put("trialType", 1); // default trial type
         data.put("open", true); // open by default
-        // keywords.addAll(Arrays.asList(description.split(" "))); perhaps?
         ArrayList<String> keywords = new ArrayList<>();
+        keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));
         keywords.addAll(Arrays.asList(experiment.getName().split(" ")));
+        keywords.add("open");
+        keywords.add(WiseTrackApplication.getCurrentUser().getUserName());
+
         for (int i = 0; i < keywords.size(); i++) {
             keywords.set(i, keywords.get(i).toUpperCase());
         }
