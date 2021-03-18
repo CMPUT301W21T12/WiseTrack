@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack.publish;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -82,9 +83,12 @@ public class PublishingController {
         data.put("uID", experiment.getOwnerID());
         data.put("trialType", 1); // default trial type
         data.put("open", true); // open by default
-        // keywords.addAll(Arrays.asList(description.split(" "))); perhaps?
         ArrayList<String> keywords = new ArrayList<>();
+        keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));
         keywords.addAll(Arrays.asList(experiment.getName().split(" ")));
+        keywords.add("open");
+        keywords.add(WiseTrackApplication.getCurrentUser().getUserName());
+
         for (int i = 0; i < keywords.size(); i++) {
             keywords.set(i, keywords.get(i).toUpperCase());
         }
