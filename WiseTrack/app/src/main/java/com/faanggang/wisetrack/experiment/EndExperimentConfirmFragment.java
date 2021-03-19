@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack.unpublish;
+package com.faanggang.wisetrack.experiment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,13 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 
-public class UnpublishConfirmFragment extends DialogFragment {
+public class EndExperimentConfirmFragment extends DialogFragment {
 
 
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onUnpublishPressed();
+        void onEndExperimentOk();
     }
 
     @Override
@@ -40,13 +40,13 @@ public class UnpublishConfirmFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
         return builder
-                .setTitle("Are you sure you want to unpublish this experiment?")
+                .setTitle("Are you sure you want to end this experiment?")
                 .setNegativeButton("CANCEL", null)
-                .setPositiveButton("UNPUBLISH", new DialogInterface.OnClickListener() {
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.onUnpublishPressed();
+                        listener.onEndExperimentOk();
 
                     }}).create();
 
