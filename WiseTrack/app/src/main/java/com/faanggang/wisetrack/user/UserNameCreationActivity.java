@@ -25,9 +25,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-
+/**
+ * Activity that handles username creation for all new users
+ */
 public class UserNameCreationActivity extends AppCompatActivity {
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     UserManager userManager = new UserManager(db);
 
@@ -47,6 +48,7 @@ public class UserNameCreationActivity extends AppCompatActivity {
                 String username = editUserName.getText().toString();
                 CollectionReference usersRef = db.collection("Users");
                 Log.d("Test", "it got here");
+                // query for all user document with the username input by the new user
                 usersRef.whereEqualTo("userName", username)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -54,6 +56,7 @@ public class UserNameCreationActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if(task.isSuccessful()){
                                     Log.d("test2", "task is successful");
+                                    // username entered by user is unique and does not exists
                                     if (task.getResult().size() == 0) {
                                         userManager.createNewUser(userManager, username);
                                         Log.d("Username creation", "Username created");
@@ -73,7 +76,6 @@ public class UserNameCreationActivity extends AppCompatActivity {
                                 }
                             }
                         });
-
             }
         });
     }
