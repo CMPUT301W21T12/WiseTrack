@@ -21,7 +21,7 @@ public class StatReportActivity extends AppCompatActivity {
         setContentView(R.layout.stats_report_screen);
         statManager.generateStatReport();
 
-        TextView trialName = (TextView) findViewById(R.id.trial_name); // where do I grab this.
+        TextView trialName = (TextView) findViewById(R.id.trial_name); // Extraced from experiment.name from firebase
         TextView statMean = (TextView) findViewById(R.id.stats_mean2);
         TextView statMedian = (TextView) findViewById(R.id.stats_median2);
         TextView statStdev = (TextView) findViewById(R.id.stats_stdev2);
