@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 /**
  * This class manages how user subscriptions are added and removed from users.
+ * Full functionality for subscriptions has not yet been implemented.
  *
  * */
 public class SubscriptionManager {

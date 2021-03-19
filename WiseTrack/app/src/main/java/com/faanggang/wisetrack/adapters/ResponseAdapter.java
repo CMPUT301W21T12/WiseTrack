@@ -10,15 +10,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.comment.Response;
+import com.faanggang.wisetrack.user.UserManager;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class ResponseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<Response> responses;
     private Context context;
+    private UserManager userManager;
     public ResponseAdapter(Context context, ArrayList<Response> c) {
         this.context = context;
         this.responses = c;
+        this.userManager = new UserManager(FirebaseFirestore.getInstance());
     }
 
     @NonNull
@@ -33,7 +37,9 @@ public class ResponseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int pos) {
         ResponseItemView item = (ResponseItemView) holder;
         Response rsp = responses.get(pos);
-        item.getAuthorView().setText(rsp.getUsername());
+        userManager.getUserInfo(rsp.getAuthorID(), task -> {
+            item.getAuthorView().setText(task.getResult().getString("userName"));
+        });
         item.getDatetimeView().setText(rsp.getDateTimeString());
         item.getContentView().setText(rsp.getContent());
     }
