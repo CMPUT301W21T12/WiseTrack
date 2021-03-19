@@ -54,21 +54,17 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v) {
         Intent intent;
-        int success, failure;
+        int success = 0, failure = 0;  // default set to 0 number of success count
 
         // null value handling
         if (v.getId() == R.id.button_save) {
             if (successCount.getText() != null) {
                 // successCount field filled
                 success = Integer.parseInt(successCount.getText().toString());
-            } else {
-                success = 0;  // default set to 0 number of success count
             }
             if (failureCount.getText() != null) {
                 // failureCount field filled
                 failure = Integer.parseInt(failureCount.getText().toString());
-            } else {
-                failure = 0;  // default set to 0 number of failure count
             }
 
             String geolocation = trialGeolocation.getText().toString();

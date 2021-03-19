@@ -125,10 +125,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.execute_trials_option:
-                //Toast.makeText(this, "Execute trials option selected", Toast.LENGTH_SHORT).show();
                 if (trialType == 0 || trialType == 2) {  // handle both count and non-negative integer count trial
                     Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
                     executeIntent.putExtra("EXP_ID", expID);
+                    executeIntent.putExtra("trialType", trialType);
                     startActivity(executeIntent);
                     return true;
                 } else if (trialType == 1) {  // handle binomial trial

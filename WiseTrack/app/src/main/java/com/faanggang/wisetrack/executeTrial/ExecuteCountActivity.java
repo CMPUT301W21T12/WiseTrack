@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +14,12 @@ import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.experiment.ViewExperimentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ExecuteCountActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "Snippets";
     private EditText trialData;
     private EditText trialGeolocation;
     private EditText trialDescription;
@@ -33,7 +36,9 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_count);
 
-        executeTrialController = new ExecuteTrialController();
+        Bundle extras = getIntent().getExtras();
+
+        executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
 
         trialData = findViewById(R.id.trial_data_input);
@@ -51,21 +56,35 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         Intent intent;
-        int count;
+        int count = 0;
 
         if (v.getId() == R.id.button_save) {
-            String data = trialData.getText().toString();
+            if (trialData.getText() != null) {
+                // successCount field filled
+                count = Integer.parseInt(trialData.getText().toString());
+            }
+
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
 
-            currentTrial
+            Bundle extras = getIntent().getExtras();
+            int trialType = extras.getInt("trialType");
+            CountTrial currentTrial = new CountTrial(count, trialType, geolocation, description, mAuth.getUid(), new Date());
 
-            Map<String, Object> currentTrial = new HashMap<>();
-            Toast.makeText(this, "Trial data saved to experiment", Toast.LENGTH_SHORT).show();
+            // create and store current trial into firebase
+            Map<String, Object> TrialHashMap = executeTrialController.CreateTrialDocument(currentTrial);
+            try {
+                executeTrialController.executeTrial(TrialHashMap);
+            } catch (Exception e) {
+                Log.e(TAG, "Error trying to execute binomial trial: " + e.getMessage());
+            }
+
+            Toast.makeText(this, "Trial result experiment", Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == R.id.button_cancel) {
             // return to experiment detail screen
             intent = new Intent(ExecuteCountActivity.this, ViewExperimentActivity.class);
+            startActivity(intent);
         }
         intent = new Intent(ExecuteCountActivity.this, ViewExperimentActivity.class);
         startActivity(intent);
