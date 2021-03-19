@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.adapters.ExperimentAdapter;
+import com.faanggang.wisetrack.experiment.Searcher;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
  * Activity that provides a frontend to searching in the form of a RecyclerView and a textbox
  * that allows users to input keyword based queries.
  */
-public class SearchActivity extends AppCompatActivity implements SearchManager.Searcher {
+public class SearchActivity extends AppCompatActivity implements Searcher {
     private ExperimentAdapter experimentAdapter;
     private RecyclerView recyclerView;
     private ArrayList<Experiment> searchResults;
@@ -58,7 +59,7 @@ public class SearchActivity extends AppCompatActivity implements SearchManager.S
      * results are experiments to display which were successfully found on a search
      */
     @Override
-    public void onSearchSuccess(List<Experiment> results) {
+    public void onSearchSuccess(ArrayList<Experiment> results) {
         searchResults.clear();
         searchResults.addAll(results);
         resultCount.setText(searchResults.size() + " result(s) found");

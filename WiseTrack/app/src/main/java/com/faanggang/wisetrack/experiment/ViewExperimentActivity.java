@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.WiseTrackApplication;
-import com.faanggang.wisetrack.comment.SubscriptionManager;
 import com.faanggang.wisetrack.unpublish.UnpublishConfirmFragment;
 import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.gms.tasks.OnFailureListener;

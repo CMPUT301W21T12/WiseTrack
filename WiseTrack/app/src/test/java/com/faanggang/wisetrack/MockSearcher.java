@@ -7,7 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockSearcher implements SearchManager.Searcher {
+public class MockSearcher implements Searcher {
     public List<Experiment> resultingExperiments;
     private SearchManager searchManager;
 

@@ -13,7 +13,7 @@ import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 
 import java.util.ArrayList;
 
-public class MyExperimentActivity extends AppCompatActivity implements UserExperimentManager.userExpFinder {
+public class MyExperimentActivity extends AppCompatActivity implements Searcher {
     private ExperimentAdapter expAdapter;
     private RecyclerView recyclerView;
     private UserExperimentManager expManager;
@@ -41,7 +41,7 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
 
     }
     @Override
-    public void onUserExpFound(ArrayList<Experiment> results) {
+    public void onSearchSuccess(ArrayList<Experiment> results) {
         experiments.clear();
         experiments.addAll(results);
         expAdapter.notifyDataSetChanged();

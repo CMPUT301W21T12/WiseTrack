@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.adapters.ExperimentAdapter;
-import com.faanggang.wisetrack.comment.SubscriptionManager;
 
 import java.util.ArrayList;
 
-public class MySubscriptionActivity extends AppCompatActivity implements SubscriptionManager.subSearcher {
+public class MySubscriptionActivity extends AppCompatActivity implements Searcher {
     private ExperimentAdapter expAdapter;
     private RecyclerView recyclerView;
     private SubscriptionManager subManager;
@@ -40,7 +39,7 @@ public class MySubscriptionActivity extends AppCompatActivity implements Subscri
 
     }
     @Override
-    public void onSubscriptionsFound(ArrayList<Experiment> results) {
+    public void onSearchSuccess(ArrayList<Experiment> results) {
         experiments.clear();
         experiments.addAll(results);
         expAdapter.notifyDataSetChanged();

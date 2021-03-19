@@ -1,4 +1,4 @@
-package com.faanggang.wisetrack.comment;
+package com.faanggang.wisetrack.experiment;
 import android.util.Log;
 
 import com.faanggang.wisetrack.experiment.Experiment;
@@ -15,20 +15,18 @@ import java.util.List;
  * */
 public class SubscriptionManager {
     private FirebaseFirestore db;
-    private subSearcher finder;
+    private Searcher finder;
 
     public SubscriptionManager(){
         this.db = FirebaseFirestore.getInstance();
         this.finder = finder;
     }
-    public SubscriptionManager(subSearcher finder){
+    public SubscriptionManager(Searcher finder){
         this.db = FirebaseFirestore.getInstance();
         this.finder = finder;
     }
 
-    public interface subSearcher{
-        void onSubscriptionsFound(ArrayList<Experiment> results);
-    }
+
 
 
     /**
@@ -90,7 +88,13 @@ public class SubscriptionManager {
                 });
     }
 
-
+    /**
+     * This method queries the Cloud Firestore to find experiments that have been subscribed to by a specific user.
+     * Does not return any value, and results must be passed to a callback function implemented by the subSearcher interface.
+     * @param userID
+     * userID is the Firestore documentID of the user.
+     *
+     */
     public void getSubscriptions(String userID){
         db.collection("Experiments").whereArrayContains("subscribers", userID).get()
         .addOnCompleteListener(task -> {
@@ -112,10 +116,8 @@ public class SubscriptionManager {
                     e.setOpen(doc.getBoolean("open"));
                     e.setExpID(doc.getId());
                     results.add(e);
-                    finder.onSubscriptionsFound(results);
+                    finder.onSearchSuccess(results);
                 }
-            } else{
-                Log.w("EXPERIMENT","DID NOT FIND");
             }
         });
     }

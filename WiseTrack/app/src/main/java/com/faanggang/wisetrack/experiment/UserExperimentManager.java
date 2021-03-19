@@ -14,12 +14,10 @@ import java.util.List;
 
 public class UserExperimentManager {
     private FirebaseFirestore db;
-    private userExpFinder finder;
+    private Searcher finder;
 
-    public interface userExpFinder {
-        void onUserExpFound(ArrayList<Experiment> results);
-    }
-    public UserExperimentManager(userExpFinder finder){
+
+    public UserExperimentManager(Searcher finder){
         this.db = FirebaseFirestore.getInstance();
         this.finder = finder;
     }
@@ -51,7 +49,7 @@ public class UserExperimentManager {
                     e.setOpen(doc.getBoolean("open"));
                     e.setExpID(doc.getId());
                     results.add(e);
-                    finder.onUserExpFound(results);
+                    finder.onSearchSuccess(results);
                 }
             } else{
                 Log.w("EXPERIMENT","DID NOT FIND");
