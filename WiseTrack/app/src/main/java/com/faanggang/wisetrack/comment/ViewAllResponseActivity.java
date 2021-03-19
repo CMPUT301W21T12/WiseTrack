@@ -16,7 +16,7 @@ import com.faanggang.wisetrack.adapters.ResponseAdapter;
 import java.util.ArrayList;
 
 
-public class ViewAllResponseActivity extends AppCompatActivity implements CommentManager.responseSearcher,AddResponseFragment.OnFragmentInteractionListener{
+public class ViewAllResponseActivity extends AppCompatActivity implements CommentManager.ResponseSearcher,AddResponseFragment.OnFragmentInteractionListener{
     private CommentManager cmtManager;
     private ArrayList<Response> responses;
     private ResponseAdapter rspAdapter;

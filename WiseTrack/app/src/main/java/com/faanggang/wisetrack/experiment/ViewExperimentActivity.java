@@ -64,44 +64,6 @@ public class ViewExperimentActivity extends AppCompatActivity
         userManager = new UserManager(FirebaseFirestore.getInstance());
         expID = getIntent().getStringExtra("EXP_ID");
         setContentView(R.layout.view_experiment_detail);
-        experimentManager.getExperimentInfo(expID, task->{
-            DocumentSnapshot docSnap = task.getResult();
-            expNameView.setText(docSnap.getString("name"));
-            expDescriptionView.setText(docSnap.getString("description"));
-            expRegionView.setText(docSnap.getString("region"));
-            expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
-
-            trialType = docSnap.getLong("trialType");
-            String trialType_str;
-            if (trialType == 0) {
-                trialType_str = "Count";
-                anotherTrialType = 0;
-            } else if (trialType == 1) {
-                trialType_str = "Binomial trials";
-                anotherTrialType = 1;
-            } else if (trialType == 2) {
-                trialType_str = "Non-negative integer counts";
-                anotherTrialType = 2;
-            } else if (trialType == 3) {
-                trialType_str = "Measurement trials";
-                anotherTrialType = 3;
-            } else {
-                trialType_str = "Unknown Unicorn";
-                anotherTrialType = -1;  // invalid
-            }
-            expTrialTypeView.setText(trialType_str);
-
-            userManager.getUserInfo(docSnap.getString("uID"), task2->{
-                expOwnerView.setText(task2.getResult().getString("userName"));
-                if (docSnap.getBoolean("open")) {
-                    expStatusView.setText("Open");
-                } else {
-                    expStatusView.setText("Closed");
-                }
-            });
-        });
-
-
         expNameView = findViewById(R.id.view_experimentName);
         expDescriptionView = findViewById(R.id.view_experimentDescription);
         expRegionView = findViewById(R.id.view_experimentRegion);
@@ -109,7 +71,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         expOwnerView = findViewById(R.id.view_owner);
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
-
+        setText();
 
         FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
         // link floating action button to experiment action menu xml
@@ -130,15 +92,44 @@ public class ViewExperimentActivity extends AppCompatActivity
             expDescriptionView.setText(docSnap.getString("description"));
             expRegionView.setText(docSnap.getString("region"));
             expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
+            if (docSnap.getBoolean("open")) {
+                expStatusView.setText("Open");
+                if (docSnap.getBoolean("geolocation")){
+                    warnGeolocation();
+                }
+            } else {
+                expStatusView.setText("Closed");
+            }
+            trialType = docSnap.getLong("trialType");
+            String trialType_str;
+            if (trialType == 0) {
+                trialType_str = "Count";
+                anotherTrialType = 0;
+            } else if (trialType == 1) {
+                trialType_str = "Binomial trials";
+                anotherTrialType = 1;
+            } else if (trialType == 2) {
+                trialType_str = "Non-negative integer counts";
+                anotherTrialType = 2;
+            } else if (trialType == 3) {
+                trialType_str = "Measurement trials";
+                anotherTrialType = 3;
+            } else {
+                trialType_str = "Unknown Unicorn";
+                anotherTrialType = -1;  // invalid
+            }
+            expTrialTypeView.setText(trialType_str);
             userManager.getUserInfo(docSnap.getString("uID"), task2->{
                 expOwnerView.setText(task2.getResult().getString("userName"));
-                if (docSnap.getBoolean("open")) {
-                    expStatusView.setText("Open");
-                } else {
-                    expStatusView.setText("Closed");
-                }
+
             });
+
         });
+
+    }
+
+    private void warnGeolocation(){
+        Toast.makeText(this, "Warning: This experiment requires geolocation!",Toast.LENGTH_LONG).show();
     }
 
     @Override
