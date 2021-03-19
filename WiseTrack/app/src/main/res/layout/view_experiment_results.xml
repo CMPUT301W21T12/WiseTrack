@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/view_statistics_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="90dp"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="View Statistics" />
+
+    <Button
+        android:id="@+id/view_histogram_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="View Histogram" />
+
+    <Button
+        android:id="@+id/view_plots_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="2dp"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="View Plots Over Time" />
+
+</LinearLayout>
