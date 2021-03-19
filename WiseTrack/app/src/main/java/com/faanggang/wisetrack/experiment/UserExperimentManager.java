@@ -8,6 +8,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * UserExperimentManager deals with connecting a user with what experiments they have published.
+ */
+
 public class UserExperimentManager {
     private FirebaseFirestore db;
     private userExpFinder finder;
@@ -20,7 +24,12 @@ public class UserExperimentManager {
         this.finder = finder;
     }
 
-
+    /**
+     * This method queries the Cloud Firestore to find experiments that have been published by a specific user.
+     * Does not return any value, and results must be passed to a callback function implemented by the userExpFinder interface.
+     * @param userID
+     * userID is the Firestore documentID of the user.
+     */
     public void userExpQuery(String userID) {
         db.collection("Experiments").whereEqualTo("uID", userID).get()
         .addOnCompleteListener(task -> {
@@ -53,4 +62,5 @@ public class UserExperimentManager {
         })
         ;
     }
+
 }
