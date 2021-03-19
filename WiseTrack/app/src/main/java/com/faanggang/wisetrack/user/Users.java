@@ -1,7 +1,8 @@
 package com.faanggang.wisetrack.user;
 
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
-
+/**
+ * This is a representation of a user
+ */
 public class Users {
     private String userName;
     private String firstName;

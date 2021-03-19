@@ -22,8 +22,6 @@ import com.google.firebase.firestore.auth.User;
 
 /**
  * Activity that displays user's own personal information
- *
- * @author Shao-Zhang
  */
 public class ViewSelfActivity extends AppCompatActivity {
     private TextView userNameText;
