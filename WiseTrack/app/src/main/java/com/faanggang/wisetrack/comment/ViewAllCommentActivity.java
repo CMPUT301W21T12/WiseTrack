@@ -13,7 +13,7 @@ import com.faanggang.wisetrack.adapters.CommentAdapter;
 
 import java.util.ArrayList;
 
-public class ViewAllCommentActivity extends AppCompatActivity implements CommentManager.commentSearcher, AddCommentFragment.OnFragmentInteractionListener{
+public class ViewAllCommentActivity extends AppCompatActivity implements CommentManager.CommentSearcher, AddCommentFragment.OnFragmentInteractionListener{
     private CommentManager cmtManager;
     private ArrayList<Comment> comments;
     private CommentAdapter cmtAdapter;

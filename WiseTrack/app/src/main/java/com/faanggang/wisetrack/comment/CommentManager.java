@@ -19,21 +19,21 @@ import java.util.List;
  *  comment/response data from the Cloud Firestore.
  */
 public class CommentManager {
-    private commentSearcher commentSearcher;
-    private responseSearcher responseSearcher;
+    private CommentSearcher commentSearcher;
+    private ResponseSearcher responseSearcher;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    public interface commentSearcher {
+    public interface CommentSearcher {
         void onExpCommentsFound(ArrayList<Comment> results);
     }
-    public interface responseSearcher {
+    public interface ResponseSearcher {
         void onResponsesFound(ArrayList<Response> results);
     }
 
-    public CommentManager(commentSearcher searcher){
+    public CommentManager(CommentSearcher searcher){
         this.commentSearcher = searcher;
     }
-    public CommentManager(responseSearcher searcher){
+    public CommentManager(ResponseSearcher searcher){
         this.responseSearcher = searcher;
     }
 
