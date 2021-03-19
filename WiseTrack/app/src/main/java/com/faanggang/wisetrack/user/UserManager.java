@@ -45,7 +45,7 @@ public class UserManager {
         users.put("email", "Email");
         users.put("phoneNumber", "0");
         users.put("userName", "Username");
-
+        users.put("subscriptions", new ArrayList<String>());
         db.collection("Users").document(uid)
                 .set(users)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

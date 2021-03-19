@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.experiment.MyExperimentActivity;
+import com.faanggang.wisetrack.experiment.MySubscriptionActivity;
 import com.faanggang.wisetrack.publish.PublishExperiment1_Initialization;
 import com.faanggang.wisetrack.search.SearchActivity;
 import com.faanggang.wisetrack.user.ViewSelfActivity;
@@ -34,7 +35,6 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-
         final Button viewProfileButton = findViewById(R.id.menuProfile_Button);
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +43,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         final Button publishButton = findViewById(R.id.menuPublish_button);
         publishButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +53,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
 
         experimentSearchButton = findViewById(R.id.menuSearch_button);
 
@@ -77,7 +75,16 @@ public class MainMenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainMenuActivity.this, MyExperimentActivity.class);
                 startActivity(intent);
             }
-    });
+        });
+
+        final Button mySubscriptionsButton = findViewById(R.id.menuViewSubscriptions_button);
+        mySubscriptionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, MySubscriptionActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }

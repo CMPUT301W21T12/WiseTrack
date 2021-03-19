@@ -82,6 +82,7 @@ public class PublishingManager {
         data.put("uID", experiment.getOwnerID());
         data.put("trialType", 1); // default trial type
         data.put("open", true); // open by default
+        data.put("subscribers", new ArrayList<String>());
         ArrayList<String> keywords = new ArrayList<>();
         keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));
         keywords.addAll(Arrays.asList(experiment.getName().split(" ")));

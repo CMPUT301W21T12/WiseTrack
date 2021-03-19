@@ -28,6 +28,7 @@
         <activity android:name=".experiment.ViewExperimentActivity" />
 
         <activity android:name=".comment.ViewAllCommentActivity" />
+        <activity android:name=".experiment.MySubscriptionActivity" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
