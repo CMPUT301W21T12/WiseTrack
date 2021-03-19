@@ -15,6 +15,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ *  CommentManager is a controller class that is primarily focused on retrieving and uploading
+ *  comment/response data from the Cloud Firestore.
+ */
 public class CommentManager {
     private commentSearcher commentSearcher;
     private responseSearcher responseSearcher;
@@ -34,6 +38,13 @@ public class CommentManager {
         this.responseSearcher = searcher;
     }
 
+    /**
+     * Uploads a Comment object to the Cloud Firestore. The Comment Object must have the following
+     * attributes populated with information: uID, eID, content, datetime in order for a successful
+     * upload. This method is asynchronous but does not return anything.
+     * @param comment
+     * This is the Comment Object that you wish to upload to the Firestore.
+     */
     public void UploadComment(Comment comment){
         CollectionReference collectionRef = db.collection("Comments");
         HashMap<String, Object> hm = new HashMap<String,Object>();
@@ -43,7 +54,16 @@ public class CommentManager {
         hm.put("datetime", comment.getDatetime());
         collectionRef.add(hm);
     }
-
+    /**
+     * Uploads a Response object to the Cloud Firestore. The Response Object must have the following
+     * attributes populated with information: uID, content, datetime in order for a successful
+     * upload. This method is asynchronous but does not return anything.
+     * @param commentID
+     * This is the ID of the parent of the Response Object. The response will be uploaded to the
+     * parent's collection of responses.
+     * @param response
+     * This is the Response Object that will be uploaded to the Firestore.
+     */
     public void UploadResponse(String commentID, Response response){
         DocumentReference docRef = db.collection("Comments").document(commentID);
         HashMap<String, Object> hm = new HashMap<String, Object>();
@@ -54,6 +74,13 @@ public class CommentManager {
 
     }
 
+    /**
+     * Queries the Cloud Firestore for Comments belonging to a certain experiment.
+     * This method does not return anything. It instead calls on an interface method implemented
+     * by the Object that is receiving the data.
+     * @param expID
+     * The document ID of the experiment that the comments are being queried for.
+     */
     public void getExperimentComments(String expID) {
         db.collection("Comments").whereEqualTo("eID", expID)
         .orderBy("datetime",Query.Direction.DESCENDING)
@@ -75,7 +102,13 @@ public class CommentManager {
             }
         });
     }
-
+    /**
+     * Queries the Cloud Firestore for Responses belonging to a certain comment parent.
+     * This method does not return anything. It instead calls on an interface method implemented
+     * by the Object that is receiving the data.
+     * @param commentID
+     * The document ID of the comment that the responses are being queried for.
+     */
     public void getCommentResponses(String commentID){
         db.collection("Comments").document(commentID).collection("Responses")
         .orderBy("datetime", Query.Direction.DESCENDING).get().addOnCompleteListener(task->{
