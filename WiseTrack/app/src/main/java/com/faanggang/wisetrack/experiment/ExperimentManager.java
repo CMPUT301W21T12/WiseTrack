@@ -19,6 +19,10 @@ public class ExperimentManager {
     public ExperimentManager(){
         this.db = FirebaseFirestore.getInstance();
     }
+    public ExperimentManager(Searcher searcher, FirebaseFirestore db){
+        this.db = db;
+        this.searcher = searcher;
+    }
     public ExperimentManager(Searcher searcher){
         this.db = FirebaseFirestore.getInstance();
         this.searcher = searcher;
