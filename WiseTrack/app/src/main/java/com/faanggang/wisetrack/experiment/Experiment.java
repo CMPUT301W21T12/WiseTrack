@@ -1,8 +1,22 @@
 package com.faanggang.wisetrack.experiment;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Experiment {
+
+    private String name;
+    private String description;
+    private String region;
+    private int minTrials;
+    private int trialType;
+    private boolean geolocation;
+    private Date datetime;
+    private String uID;
+    private String expID;
+    private boolean open;
+    private ArrayList<String> subscribers;
+
 
     /**
      * @param name

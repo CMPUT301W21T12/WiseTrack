@@ -19,18 +19,29 @@ public class SubscriptionManager {
     */
     public void addSubscription(String expID, String userID){
         db.collection("Users").document(userID).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscriptions");
-                        HashMap<String, Object> map = new HashMap<String,Object>();
-                        subs.add(expID);
-                        map.put("Subscriptions",subs);
-                        db.collection("Users").document(userID).update(map);
-                        Log.w("SUBSCRIPTION","added new twitch prime sub :)");
-                    }else {
-                        Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
-                    }
-                });
+        .addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscriptions");
+                if (!subs.contains(expID)){
+                    HashMap<String, Object> map = new HashMap<String,Object>();
+                    subs.add(expID);
+                    map.put("subscriptions",subs);
+                    db.collection("Users").document(userID).update(map);
+                }
+            }
+        });
+        db.collection("Experiments").document(expID).get()
+        .addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscribers");
+                if (!subs.contains(userID)){
+                    HashMap<String, Object> map = new HashMap<String,Object>();
+                    subs.add(userID);
+                    map.put("subscribers",subs);
+                    db.collection("Experiments").document(expID).update(map);
+                }
+            }
+        });
     }
 
     /**

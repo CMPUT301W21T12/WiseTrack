@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.comment.SubscriptionManager;
 import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
@@ -31,11 +33,13 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private String expID;
     private ExperimentManager experimentManager;
     private UserManager userManager;
+    private SubscriptionManager subManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         experimentManager = new ExperimentManager();
+        subManager = new SubscriptionManager();
         userManager = new UserManager(FirebaseFirestore.getInstance());
         expID = getIntent().getStringExtra("EXP_ID");
         Log.w("EXP", expID);
@@ -87,7 +91,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
         // check which item was clicked
         switch (item.getItemId()) {
             case R.id.subscribe_option:
-                Toast.makeText(this, "Subscribe option selected", Toast.LENGTH_SHORT).show();
+                subManager.addSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
