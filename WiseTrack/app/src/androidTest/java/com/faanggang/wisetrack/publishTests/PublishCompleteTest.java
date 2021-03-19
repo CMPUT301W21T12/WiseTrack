@@ -6,9 +6,9 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.faanggang.wisetrack.MainActivity;
+import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.publish.PublishExperiment4_Complete;
+import com.faanggang.wisetrack.view.publish.PublishExperiment4_Complete;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
