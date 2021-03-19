@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.executeTrial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -79,7 +78,7 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
             }
 
             Toast.makeText(this, "Trial result saved", Toast.LENGTH_SHORT).show();
-
+            finish();  // return to previous activity
         } else if (v.getId() == R.id.button_cancel) {
             // return to experiment detail screen
             finish();

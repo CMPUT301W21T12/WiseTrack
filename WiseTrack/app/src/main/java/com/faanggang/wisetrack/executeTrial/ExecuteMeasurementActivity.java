@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.executeTrial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.faanggang.wisetrack.experiment.ViewExperimentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ExecuteMeasurementActivity extends AppCompatActivity implements View.OnClickListener {
@@ -34,7 +32,7 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
 
         Bundle extras = getIntent().getExtras();
 
-        ExecuteTrialController executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
+        executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
 
         trialData = findViewById(R.id.trial_data_input);
@@ -57,7 +55,7 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
         if (v.getId() == R.id.button_save) {
             if (trialData.getText() != null) {
                 // measurement field not empty
-                data = Integer.parseInt(trialData.getText().toString());
+                data = Float.parseFloat(trialData.getText().toString());
             }
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
@@ -73,7 +71,7 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
             }
 
             Toast.makeText(this, "Trial result saved", Toast.LENGTH_SHORT).show();
-
+            finish();  // return to previous activity
         } else if (v.getId() == R.id.button_cancel) {
             finish();
         }

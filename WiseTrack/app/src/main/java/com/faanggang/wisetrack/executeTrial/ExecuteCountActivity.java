@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.executeTrial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.faanggang.wisetrack.experiment.ViewExperimentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ExecuteCountActivity extends AppCompatActivity implements View.OnClickListener {
@@ -74,7 +72,7 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
             }
 
             Toast.makeText(this, "Trial result saved", Toast.LENGTH_SHORT).show();
-
+            finish();  // return to previous activity
         } else if (v.getId() == R.id.button_cancel) {
             // return to experiment detail screen
             finish();
