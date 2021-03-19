@@ -25,13 +25,12 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
 
-    private final Bundle extras = getIntent().getExtras();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_count);
 
+        Bundle extras = getIntent().getExtras();
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
 
@@ -60,7 +59,8 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
 
-            //int trialType = extras.getInt("trialType");
+            Bundle extras = getIntent().getExtras();
+            int trialType = extras.getInt("trialType");
             CountTrial currentTrial = new CountTrial(count, geolocation, description, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase

@@ -37,6 +37,16 @@ public class ViewExperimentActivity extends AppCompatActivity {
     private ExperimentManager experimentManager;
     private UserManager userManager;
 
+    private int anotherTrialType;
+
+    public int getAnotherTrialType() {
+        return anotherTrialType;
+    }
+
+    public void setAnotherTrialType(int anotherTrialType) {
+        this.anotherTrialType = anotherTrialType;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,14 +66,19 @@ public class ViewExperimentActivity extends AppCompatActivity {
             String trialType_str;
             if (trialType == 0) {
                 trialType_str = "Count";
+                anotherTrialType = 0;
             } else if (trialType == 1) {
                 trialType_str = "Binomial trials";
+                anotherTrialType = 1;
             } else if (trialType == 2) {
                 trialType_str = "Non-negative integer counts";
+                anotherTrialType = 2;
             } else if (trialType == 3) {
                 trialType_str = "Measurement trials";
+                anotherTrialType = 3;
             } else {
                 trialType_str = "Unknown Unicorn";
+                anotherTrialType = -1;  // invalid
             }
             expTrialTypeView.setText(trialType_str);
 
@@ -84,7 +99,6 @@ public class ViewExperimentActivity extends AppCompatActivity {
         expOwnerView = findViewById(R.id.view_owner);
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
-
 
         FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
 
@@ -125,18 +139,18 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.execute_trials_option:
-                if (trialType == 0 || trialType == 2) {  // handle both count and non-negative integer count trial
+                if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
                     Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
                     executeIntent.putExtra("EXP_ID", expID);
-                    //executeIntent.putExtra("trialType", trialType);
+                    executeIntent.putExtra("trialType", anotherTrialType);
                     startActivity(executeIntent);
                     return true;
-                } else if (trialType == 1) {  // handle binomial trial
+                } else if (anotherTrialType == 1) {  // handle binomial trial
                     Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
                     executeIntent.putExtra("EXP_ID", expID);
                     startActivity(executeIntent);
                     return true;
-                } else if (trialType == 3) {  // handle measurement trial
+                } else if (anotherTrialType == 3) {  // handle measurement trial
                     Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
                     executeIntent.putExtra("EXP_ID", expID);
                     startActivity(executeIntent);
