@@ -1,9 +1,9 @@
 package com.faanggang.wisetrack;
 
-import com.faanggang.wisetrack.experiment.Experiment;
-import com.faanggang.wisetrack.experiment.ExperimentManager;
-import com.faanggang.wisetrack.experiment.Searcher;
-import com.faanggang.wisetrack.search.SearchManager;
+import com.faanggang.wisetrack.model.experiment.Experiment;
+import com.faanggang.wisetrack.controllers.ExperimentManager;
+import com.faanggang.wisetrack.model.experiment.Searcher;
+import com.faanggang.wisetrack.controllers.SearchManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;

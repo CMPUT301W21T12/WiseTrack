@@ -1,7 +1,7 @@
 package com.faanggang.wisetrack;
 
-import com.faanggang.wisetrack.experiment.Experiment;
-import com.faanggang.wisetrack.publish.PublishingManager;
+import com.faanggang.wisetrack.model.experiment.Experiment;
+import com.faanggang.wisetrack.controllers.PublishingManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;

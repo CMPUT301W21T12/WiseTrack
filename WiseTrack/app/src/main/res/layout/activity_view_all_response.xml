@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".comment.ViewAllResponseActivity">
+    tools:context=".view.comment.ViewAllResponseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

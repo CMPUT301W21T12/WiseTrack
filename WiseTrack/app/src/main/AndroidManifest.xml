@@ -9,32 +9,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-        <activity android:name=".executeTrial.ExecuteMeasurementActivity"></activity>
-        <activity android:name=".executeTrial.ExecuteBinomialActivity" />
-        <activity android:name=".executeTrial.ExecuteCountActivity" />
-        <activity android:name=".comment.ViewAllResponseActivity" />
-        <activity android:name=".publish.PublishExperiment4_Complete" />
-        <activity android:name=".publish.PublishExperiment3_Geolocation" />
-        <activity android:name=".publish.PublishExperiment2_TrialType" />
-        <activity android:name=".publish.PublishExperiment1_Initialization" />
-        <activity android:name=".search.SearchActivity" />
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".statsManager.ViewExperimentResultsActivity"/>
-        <activity android:name=".statsManager.StatReportActivity"/>
+        <activity android:name=".view.trial.ExecuteMeasurementActivity"></activity>
+        <activity android:name=".view.trial.ExecuteBinomialActivity" />
+        <activity android:name=".view.trial.ExecuteCountActivity" />
+        <activity android:name=".view.comment.ViewAllResponseActivity" />
+        <activity android:name=".view.publish.PublishExperiment4_Complete" />
+        <activity android:name=".view.publish.PublishExperiment3_Geolocation" />
+        <activity android:name=".view.publish.PublishExperiment2_TrialType" />
+        <activity android:name=".view.publish.PublishExperiment1_Initialization" />
+        <activity android:name=".view.search.SearchActivity" />
+        <activity android:name=".view.MainMenuActivity" />
+        <activity android:name=".view.stats.ViewExperimentResultsActivity"/>
+        <activity android:name=".view.stats.StatReportActivity"/>
 
         <activity
-            android:name=".user.ViewSelfActivity"
-            android:parentActivityName=".MainMenuActivity" />
+            android:name=".view.user.ViewSelfActivity"
+            android:parentActivityName=".view.MainMenuActivity" />
         <activity
-            android:name=".user.EditProfileActivity"
-            android:parentActivityName=".user.ViewSelfActivity" />
-        <activity android:name=".user.UserNameCreationActivity" />
-        <activity android:name=".experiment.MyExperimentActivity" />
-        <activity android:name=".experiment.ViewExperimentActivity" />
-        <activity android:name=".comment.ViewAllCommentActivity" />
-        <activity android:name=".experiment.MySubscriptionActivity" />
+            android:name=".view.user.EditProfileActivity"
+            android:parentActivityName=".view.user.ViewSelfActivity" />
+        <activity android:name=".view.user.UserNameCreationActivity" />
+        <activity android:name=".view.experiment.MyExperimentActivity" />
+        <activity android:name=".view.experiment.ViewExperimentActivity" />
+        <activity android:name=".view.comment.ViewAllCommentActivity" />
+        <activity android:name=".view.experiment.MySubscriptionActivity" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,6 +1,6 @@
 package com.faanggang.wisetrack;
 
-import com.faanggang.wisetrack.experiment.Experiment;
+import com.faanggang.wisetrack.model.experiment.Experiment;
 
 import org.junit.Before;
 import org.junit.Test;

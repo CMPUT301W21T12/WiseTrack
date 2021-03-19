@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".publish.PublishExperiment1_Initialization">
+    tools:context=".view.publish.PublishExperiment1_Initialization">
 
     <EditText
         android:id="@+id/name_input"

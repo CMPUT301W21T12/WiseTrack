@@ -8,10 +8,10 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.publish.PublishExperiment1_Initialization;
-import com.faanggang.wisetrack.publish.PublishExperiment2_TrialType;
-import com.faanggang.wisetrack.publish.PublishExperiment3_Geolocation;
-import com.faanggang.wisetrack.publish.PublishExperiment4_Complete;
+import com.faanggang.wisetrack.view.publish.PublishExperiment1_Initialization;
+import com.faanggang.wisetrack.view.publish.PublishExperiment2_TrialType;
+import com.faanggang.wisetrack.view.publish.PublishExperiment3_Geolocation;
+import com.faanggang.wisetrack.view.publish.PublishExperiment4_Complete;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
