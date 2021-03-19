@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,13 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.comment.Comment;
-import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
 import com.faanggang.wisetrack.comment.ViewAllResponseActivity;
 
 public class CommentItemView extends RecyclerView.ViewHolder implements View.OnClickListener{
-    private TextView comment_author;
-    private TextView comment_datetime;
-    private TextView comment_content;
+    private TextView commentAuthorView;
+    private TextView commentDatetimeView;
+    private TextView commentContentView;
     private Context context;
     private Comment comment;
 
@@ -26,21 +24,21 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
         view.setClickable(true);
         view.setOnClickListener(this);
         this.context = context;
-        this.comment_author = view.findViewById(R.id.comment_item_username);
-        this.comment_datetime = view.findViewById(R.id.comment_item_datetime);
-        this.comment_content = view.findViewById(R.id.comment_item_content);
+        this.commentAuthorView = view.findViewById(R.id.comment_item_username);
+        this.commentDatetimeView = view.findViewById(R.id.comment_item_datetime);
+        this.commentContentView = view.findViewById(R.id.comment_item_content);
     }
 
     public TextView getAuthorView() {
-        return comment_author;
+        return commentAuthorView;
     }
 
     public TextView getDatetimeView() {
-        return comment_datetime;
+        return commentDatetimeView;
     }
 
     public TextView getContentView() {
-        return comment_content;
+        return commentContentView;
     }
 
     public void setComment(Comment c){this.comment=c;}
@@ -49,9 +47,9 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
     public void onClick(View v) {
         Intent intent = new Intent(context, ViewAllResponseActivity.class);
         intent.putExtra("CMT_ID", comment.getFirebaseID());
-        intent.putExtra("PARENT_CONTENT", comment_content.getText());
-        intent.putExtra("PARENT_DATE", comment_datetime.getText());
-        intent.putExtra("PARENT_USERNAME", comment_author.getText());
+        intent.putExtra("PARENT_CONTENT", commentContentView.getText());
+        intent.putExtra("PARENT_DATE", commentDatetimeView.getText());
+        intent.putExtra("PARENT_USERNAME", commentAuthorView.getText());
         context.startActivity(intent);
     }
 }

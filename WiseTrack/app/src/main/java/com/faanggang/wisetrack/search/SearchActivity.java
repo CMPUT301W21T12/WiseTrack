@@ -18,7 +18,6 @@ import com.faanggang.wisetrack.experiment.Searcher;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Activity that provides a frontend to searching in the form of a RecyclerView and a textbox

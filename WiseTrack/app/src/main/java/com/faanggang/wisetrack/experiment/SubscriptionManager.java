@@ -1,9 +1,10 @@
 package com.faanggang.wisetrack.experiment;
+
 import android.util.Log;
 
-import com.faanggang.wisetrack.experiment.Experiment;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,15 +16,15 @@ import java.util.List;
  * */
 public class SubscriptionManager {
     private FirebaseFirestore db;
-    private Searcher finder;
+    private Searcher searcher;
 
     public SubscriptionManager(){
         this.db = FirebaseFirestore.getInstance();
-        this.finder = finder;
+        this.searcher = searcher;
     }
-    public SubscriptionManager(Searcher finder){
+    public SubscriptionManager(Searcher searcher){
         this.db = FirebaseFirestore.getInstance();
-        this.finder = finder;
+        this.searcher = searcher;
     }
 
 
@@ -116,7 +117,7 @@ public class SubscriptionManager {
                     e.setOpen(doc.getBoolean("open"));
                     e.setExpID(doc.getId());
                     results.add(e);
-                    finder.onSearchSuccess(results);
+                    searcher.onSearchSuccess(results);
                 }
             }
         });

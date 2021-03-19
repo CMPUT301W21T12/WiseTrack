@@ -1,12 +1,9 @@
 package com.faanggang.wisetrack.user;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.faanggang.wisetrack.MainMenuActivity;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 /**
  * UserManager accesses cloud firebase to retrieve or store new/updated user info data

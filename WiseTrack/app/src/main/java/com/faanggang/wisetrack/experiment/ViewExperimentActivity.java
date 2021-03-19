@@ -1,31 +1,31 @@
 package com.faanggang.wisetrack.experiment;
 
+
+
+import com.faanggang.wisetrack.MainActivity;
+import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.unpublish.UnpublishConfirmFragment;
+import com.faanggang.wisetrack.user.UserManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.faanggang.wisetrack.MainActivity;
-import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.WiseTrackApplication;
-import com.faanggang.wisetrack.unpublish.UnpublishConfirmFragment;
-import com.faanggang.wisetrack.user.UserManager;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ViewExperimentActivity extends AppCompatActivity
     implements UnpublishConfirmFragment.OnFragmentInteractionListener{
@@ -48,8 +48,27 @@ public class ViewExperimentActivity extends AppCompatActivity
         subManager = new SubscriptionManager();
         userManager = new UserManager(FirebaseFirestore.getInstance());
         expID = getIntent().getStringExtra("EXP_ID");
-        Log.w("EXP", expID);
         setContentView(R.layout.view_experiment_detail);
+        expNameView = findViewById(R.id.view_experimentName);
+        expDescriptionView = findViewById(R.id.view_experimentDescription);
+        expRegionView = findViewById(R.id.view_experimentRegion);
+        expMinTrialsView = findViewById(R.id.view_min_num_trials);
+        expOwnerView = findViewById(R.id.view_owner);
+        expStatusView = findViewById(R.id.view_status);
+        setText();
+        FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
+        // link floating action button to experiment action menu xml
+        registerForContextMenu(ExperimentActionMenu);
+
+        ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.showContextMenu();  // Note: default is long clicking to open action menu
+            }
+        });
+    }
+
+    private void setText(){
         experimentManager.getExperimentInfo(expID, task->{
             DocumentSnapshot docSnap = task.getResult();
             expNameView.setText(docSnap.getString("name"));
@@ -64,25 +83,6 @@ public class ViewExperimentActivity extends AppCompatActivity
                     expStatusView.setText("Closed");
                 }
             });
-        });
-        expNameView = findViewById(R.id.view_experimentName);
-        expDescriptionView = findViewById(R.id.view_experimentDescription);
-        expRegionView = findViewById(R.id.view_experimentRegion);
-        expMinTrialsView = findViewById(R.id.view_min_num_trials);
-        expOwnerView = findViewById(R.id.view_owner);
-        expStatusView = findViewById(R.id.view_status);
-
-
-        FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
-
-        // link floating action button to experiment action menu xml
-        registerForContextMenu(ExperimentActionMenu);
-
-        ExperimentActionMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.showContextMenu();  // Note: default is long clicking to open action menu
-            }
         });
     }
 

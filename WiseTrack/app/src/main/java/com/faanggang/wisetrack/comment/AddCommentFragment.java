@@ -13,16 +13,12 @@ import androidx.fragment.app.DialogFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.user.Users;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class AddCommentFragment extends DialogFragment {

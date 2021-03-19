@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * This class controls searching the database for experiments.
@@ -65,7 +64,6 @@ public class SearchManager {
                             exp.setOpen(snapshot.getBoolean("open"));
                         }
                         searcher.onSearchSuccess(searchResults);
-                    } else {
                     }
                 })
                 .addOnFailureListener(e -> {

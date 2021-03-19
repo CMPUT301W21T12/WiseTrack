@@ -22,7 +22,7 @@ public class MySubscriptionActivity extends AppCompatActivity implements Searche
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_experiments);
+        setContentView(R.layout.activity_view_my_experiments);
         subManager = new SubscriptionManager(this);
 
         experiments = new ArrayList<Experiment>();

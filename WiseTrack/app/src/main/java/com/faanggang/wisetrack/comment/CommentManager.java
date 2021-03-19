@@ -1,7 +1,6 @@
 package com.faanggang.wisetrack.comment;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,7 +44,7 @@ public class CommentManager {
      * @param comment
      * This is the Comment Object that you wish to upload to the Firestore.
      */
-    public void UploadComment(Comment comment){
+    public void uploadComment(Comment comment){
         CollectionReference collectionRef = db.collection("Comments");
         HashMap<String, Object> hm = new HashMap<String,Object>();
         hm.put("uID", comment.getAuthorID());
@@ -64,7 +63,7 @@ public class CommentManager {
      * @param response
      * This is the Response Object that will be uploaded to the Firestore.
      */
-    public void UploadResponse(String commentID, Response response){
+    public void uploadResponse(String commentID, Response response){
         DocumentReference docRef = db.collection("Comments").document(commentID);
         HashMap<String, Object> hm = new HashMap<String, Object>();
         hm.put("datetime", response.getDatetime());
