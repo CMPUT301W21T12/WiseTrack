@@ -1,6 +1,6 @@
 package com.faanggang.wisetrack;
 
-import com.faanggang.wisetrack.user.Users;
+import com.faanggang.wisetrack.model.user.Users;
 
 import org.junit.Assert;
 import org.junit.Test;

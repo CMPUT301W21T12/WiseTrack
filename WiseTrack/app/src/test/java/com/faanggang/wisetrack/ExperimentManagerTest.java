@@ -1,5 +1,4 @@
 package com.faanggang.wisetrack;
-import com.faanggang.wisetrack.experiment.Experiment;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -10,9 +9,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
 public class ExperimentManagerTest {
     private static MockSearcher mockSearcher;
     private static FirebaseFirestore mockDb;
