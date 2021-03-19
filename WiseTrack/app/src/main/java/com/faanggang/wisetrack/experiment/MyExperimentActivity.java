@@ -7,16 +7,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.faanggang.wisetrack.Experiment;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.search.ExperimentAdapter;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.adapters.ExperimentAdapter;
 
 import java.util.ArrayList;
 
-public class MyExperimentActivity extends AppCompatActivity implements UserExperimentManager.userExpFinder {
+public class MyExperimentActivity extends AppCompatActivity implements Searcher {
     private ExperimentAdapter expAdapter;
     private RecyclerView recyclerView;
-    private UserExperimentManager expManager;
+    private ExperimentManager expManager;
     private ArrayList<Experiment> experiments;
 
 
@@ -24,22 +24,23 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
     protected void onCreate(Bundle savedInstanceState) {
         Log.w("EXPERIMENT","We got here");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_experiments);
-        expManager = new UserExperimentManager(this);
+        setContentView(R.layout.activity_view_my_experiments);
+        expManager = new ExperimentManager(this);
 
         experiments = new ArrayList<Experiment>();
 
-        expAdapter= new ExperimentAdapter(experiments);
+        expAdapter= new ExperimentAdapter(this, experiments);
 
         recyclerView = findViewById(R.id.my_experiments_recyclerview);
         recyclerView.setAdapter(expAdapter);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
-        expManager.userExpQuery("2j7WacgiS0RjjWEY5K6sgh3Dfx63");
+        expManager.userExpQuery(WiseTrackApplication.getCurrentUser().getUserID());
+
     }
     @Override
-    public void onUserExpFound(ArrayList<Experiment> results) {
+    public void onSearchSuccess(ArrayList<Experiment> results) {
         experiments.clear();
         experiments.addAll(results);
         expAdapter.notifyDataSetChanged();

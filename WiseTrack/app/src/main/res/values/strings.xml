@@ -3,4 +3,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_string"></string>
+    <string name="main_menu_ViewProfile">View My Profile</string>
+    <string name="main_menu_ViewMyExperiments">View My Experiments</string>
+    <string name="main_menu_ViewSubscriptions">View My Subscriptions</string>
+    <string name="main_menu_PublishExperiments">Publish Experiment</string>
+    <string name="main_menu_SearchExperiments">Search For Experiments</string>
+    <string name="main_menu_SearchUserProfile">Search For User Profiles</string>
+    <string name="main_menu_ScanQRCode">Scan QR Code</string>
+    <string name="main_menu_ScanBarCode">Scan Bar Code</string>
+    <string name="search_item_Date">date</string>
+    <string name="search_item_Owner">owner</string>
+    <string name="search_item_Open">open</string>
+    <string name="search_item_Closed">closed</string>
 </resources>

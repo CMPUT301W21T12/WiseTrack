@@ -11,7 +11,13 @@ import com.faanggang.wisetrack.R;
 
 import java.util.EmptyStackException;
 
-public class PublishExperimentActivity2 extends AppCompatActivity
+/**
+ * PublishExperiment2_TrialType Activity:
+ * 4 buttons are displayed. User chooses what the experiment's trial type is (ie, counts,
+ * binomial, non-negative integer, or measurements trial.
+ * Click one of the 4 buttons to go to next page.
+ */
+public class PublishExperiment2_TrialType extends AppCompatActivity
     implements View.OnClickListener{
 
     private Button counts;
@@ -22,7 +28,7 @@ public class PublishExperimentActivity2 extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_experiment2);
+        setContentView(R.layout.publish_experiment_trial_type);
 
         counts = findViewById(R.id.counts_button);
         binomial = findViewById(R.id.binomial_button);
@@ -38,7 +44,7 @@ public class PublishExperimentActivity2 extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(PublishExperimentActivity2.this, PublishExperimentActivity3.class);
+        Intent intent = new Intent(PublishExperiment2_TrialType.this, PublishExperiment3_Geolocation.class);
 
         Bundle extras = getIntent().getExtras();
 

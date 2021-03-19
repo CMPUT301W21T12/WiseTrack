@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/subscribe_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="Subscribe" />
+
+    <Button
+        android:id="@+id/unpublish_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="Unpublish" />
+
+    <Button
+        android:id="@+id/end_experiment_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="End Current Experiment" />
+
+    <Button
+        android:id="@+id/results_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="View Experiment Results" />
+
+    <Button
+        android:id="@+id/geolocations_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="View Geolocations" />
+
+    <Button
+        android:id="@+id/execute_trials_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="Execute Trials" />
+
+    <Button
+        android:id="@+id/comment_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="Comment" />
+
+    <Button
+        android:id="@+id/view_trials_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:gravity="left"
+        android:text="View Trials" />
+</LinearLayout>

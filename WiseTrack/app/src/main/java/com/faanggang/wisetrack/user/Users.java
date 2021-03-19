@@ -1,6 +1,9 @@
 package com.faanggang.wisetrack.user;
 
-import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
+/**
+ * This is a representation of a user
+ */
 
 public class Users {
     private String userName;
@@ -21,10 +24,6 @@ public class Users {
 
     public String getUserName() {
         return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getFirstName() {
@@ -57,5 +56,9 @@ public class Users {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 }

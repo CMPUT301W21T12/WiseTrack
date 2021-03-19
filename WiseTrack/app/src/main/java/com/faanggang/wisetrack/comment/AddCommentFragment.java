@@ -13,23 +13,20 @@ import androidx.fragment.app.DialogFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.WiseTrackApplication;
+import com.faanggang.wisetrack.user.Users;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddCommentFragment extends DialogFragment {
-    //private EditText descriptionView;
-    //private EditText dateView;
     private EditText cmtContentView;
     private OnFragmentInteractionListener listener;
-
+    private String expID;
     public interface OnFragmentInteractionListener {
-        //void onOkPressed(Experiment newExperiment);
+        void addCommentOkPressed(Comment comment);
     }
 
     @Override
@@ -37,6 +34,10 @@ public class AddCommentFragment extends DialogFragment {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener){
             listener = (OnFragmentInteractionListener) context;
+            Bundle bundle = this.getArguments();
+            if (bundle != null){
+                this.expID = bundle.getString("EXP_ID");
+            }
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -51,12 +52,23 @@ public class AddCommentFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Add Experiment")
+                .setTitle("Add Comment")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String content = cmtContentView.getText().toString();
+                        if (content.trim().length()>0) {
+                            Date dt = new Date();
+                            Users user = WiseTrackApplication.getCurrentUser();
+                            listener.addCommentOkPressed(new Comment(
+                                    expID,
+                                    user.getUserID(),
+                                    content,
+                                    dt
+                            ));
+                        }
+
                     }}).create();
     }
 }

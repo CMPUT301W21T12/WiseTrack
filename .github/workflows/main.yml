@@ -1,0 +1,27 @@
+name: android testing 
+on:
+  push:
+    branches: 
+      - master
+      - github-actions
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./WiseTrack
+    env:
+      GOOGLE_SERVICES_SECRET: ${{ secrets.GOOGLE_SERVICES_SECRET }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: insert google-services.json from secrets
+        run: echo $GOOGLE_SERVICES_SECRET > ./app/google-services.json
+      - name: run unit tests
+        run: ./gradlew test

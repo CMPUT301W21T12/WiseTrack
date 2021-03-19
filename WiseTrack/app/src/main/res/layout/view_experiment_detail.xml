@@ -9,57 +9,66 @@
         android:id="@+id/experimentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="28dp"
         android:text="Experiment Name:"
         android:textColor="#302e2b"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/view_experimentName"
-        app:layout_constraintStart_toStartOf="@+id/view_experimentName" />
+        app:layout_constraintStart_toStartOf="@+id/view_experimentName"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/view_experimentName"
-        android:layout_width="320dp"
-        android:layout_height="30dp"
+        android:layout_width="0dp"
+        android:layout_height="29dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="33dp"
         android:hint="Experiment Name"
-        android:textSize="16sp"
+        android:textSize="16dp"
         app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@+id/experimentDescription"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/experimentName" />
 
     <TextView
         android:id="@+id/experimentDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
         android:text="Experiment Description:"
         android:textColor="#302e2b"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/view_experimentName"
-        app:layout_constraintTop_toBottomOf="@+id/view_experimentName" />
+        app:layout_constraintBottom_toTopOf="@+id/view_experimentDescription"
+        app:layout_constraintStart_toStartOf="@+id/view_experimentName" />
 
     <TextView
         android:id="@+id/view_experimentDescription"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="137dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="137dp"
         android:hint="Experiment Description"
         android:textSize="18sp"
         app:autoSizeTextType="none"
+        app:layout_constraintBottom_toTopOf="@+id/view_trial_type"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_experimentName" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/experimentRegion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="5dp"
         android:text="Region:"
         android:textColor="#302e2b"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/view_experimentRegion"
+        app:layout_constraintBottom_toTopOf="@+id/min_num_trials"
         app:layout_constraintStart_toStartOf="@+id/min_num_trials" />
 
     <TextView
@@ -67,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="5dp"
         android:hint="Experiment Region"
         android:textSize="16sp"
         app:autoSizeTextType="uniform"
@@ -79,10 +88,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="7dp"
+        android:layout_marginBottom="6dp"
         android:text="Minimum Number of Trials:"
         android:textColor="#302e2b"
         android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/view_min_num_trials"
+        app:layout_constraintBottom_toTopOf="@+id/owner"
         app:layout_constraintEnd_toStartOf="@+id/view_min_num_trials"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
@@ -91,33 +101,32 @@
         android:id="@+id/view_min_num_trials"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
         android:layout_marginEnd="26dp"
         android:hint="Min#Trials"
         android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/min_num_trials"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/min_num_trials"
-        app:layout_constraintTop_toBottomOf="@+id/view_experimentDescription" />
+        app:layout_constraintStart_toEndOf="@+id/min_num_trials" />
 
     <TextView
         android:id="@+id/owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
         android:text="Owner:"
         android:textColor="#302e2b"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/min_num_trials"
-        app:layout_constraintTop_toBottomOf="@+id/min_num_trials" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/view_owner"
+        app:layout_constraintStart_toStartOf="@+id/min_num_trials" />
 
     <TextView
         android:id="@+id/view_owner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="7dp"
         android:hint="Owner Name"
         android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/owner"
+        app:layout_constraintBottom_toTopOf="@+id/status"
         app:layout_constraintStart_toEndOf="@+id/owner" />
 
     <TextView
@@ -134,11 +143,46 @@
         android:id="@+id/view_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="7dp"
         android:hint="Open/Closed"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/status"
-        app:layout_constraintTop_toBottomOf="@+id/view_owner" />
+        app:layout_constraintBottom_toTopOf="@+id/trial_type"
+        app:layout_constraintStart_toEndOf="@+id/status" />
+
+    <TextView
+        android:id="@+id/trial_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="106dp"
+        android:text="Acceptable Trial Type:"
+        android:textColor="#302e2b"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/status" />
+
+    <TextView
+        android:id="@+id/view_trial_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:hint="Trial Type"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/trial_type"
+        app:layout_constraintStart_toEndOf="@+id/trial_type" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/experiment_action_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="7dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/floating_hamburger_fragment_icon"
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

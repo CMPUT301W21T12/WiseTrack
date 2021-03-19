@@ -1,26 +1,16 @@
 package com.faanggang.wisetrack.search;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.faanggang.wisetrack.Experiment;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.faanggang.wisetrack.experiment.Experiment;
+import com.faanggang.wisetrack.experiment.Searcher;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
- * This class controls searching the database.
+ * This class controls searching the database for experiments.
  */
 
 public class SearchManager {
@@ -28,21 +18,15 @@ public class SearchManager {
     private Searcher searcher;
 
     /**
-     * This is an interface that is implemented by Activities that forces implementing activities
-     * to implement a method to be called upon a successful search.
-     */
-    public interface Searcher {
-        void onSearchSuccess(List<Experiment> results);
-    }
-
-    /**
      * This is a constructor that instantiates the FireBase instance and sets the SearchManager's
      * current searcher.
      * @param searcher
      * searcher is the activity that will be using this instance of SearchManager
+     * @param db
+     * injected database to send requests to
      */
-    public SearchManager(Searcher searcher) {
-        db = FirebaseFirestore.getInstance();
+    public SearchManager(Searcher searcher, FirebaseFirestore db) {
+        this.db = db;
         this.searcher = searcher;
     }
 
@@ -56,41 +40,51 @@ public class SearchManager {
 
         CollectionReference experiments = db.collection("Experiments");
         ArrayList<Experiment> results;
-        Log.w("SEARCH", "searchForQuery");
 
-        ArrayList<String> queryKeywords = new ArrayList<>();
-        queryKeywords.addAll(Arrays.asList(query.split(" ")));
-
-        if (queryKeywords.size() > 10) {
-            queryKeywords.subList(0, 10);
-        }
-        Log.w("SEARCH", "got this far lol");
-
+        ArrayList<String> queryKeywords = getKeywordsFromString(query);
 
         db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
-                .orderBy("date")
+                .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        List<Experiment> searchResults = new ArrayList<Experiment>();
-                        List<DocumentSnapshot> result = task.getResult().getDocuments();
+                        ArrayList<Experiment> searchResults = new ArrayList<Experiment>();
+                        ArrayList<DocumentSnapshot> result = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
                         for (DocumentSnapshot snapshot : result) {
-                            searchResults.add(new Experiment(snapshot.getString("name"),
+                            Experiment exp = new Experiment(snapshot.getString("name"),
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
                                     snapshot.getLong("minTrials").intValue(),
-                                    snapshot.getLong("crowdSource").intValue(),
+                                    snapshot.getLong("trialType").intValue(),
                                     snapshot.getBoolean("geolocation"),
-                                    snapshot.getDate("date"),
-                                    snapshot.getString("ownerID")));
+                                    snapshot.getDate("datetime"),
+                                    snapshot.getString("uID"));
+                            exp.setExpID(snapshot.getId());
+                            searchResults.add(exp);
+                            exp.setOpen(snapshot.getBoolean("open"));
                         }
                         searcher.onSearchSuccess(searchResults);
-                    } else {
-                        Log.w("COMPLETED:FAILURE", task.getException().toString());
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.w("FAILURE", e.toString());
                 });
+    }
+
+    /**
+     * This method creates an ArrayList of keywords from a passed string.
+     * @param query
+     * query is a string that contains keywords
+     */
+    public ArrayList<String> getKeywordsFromString(String query) {
+        ArrayList<String> queryKeywords = new ArrayList<>();
+        queryKeywords.addAll(Arrays.asList(query.split(" ")));
+        // make all of the capital
+        for (int i = 0; i < queryKeywords.size(); i++) {
+            queryKeywords.set(i, queryKeywords.get(i).toUpperCase());
+        }
+        if (queryKeywords.size() > 10) {
+            queryKeywords.subList(0, 10);
+        }
+        return queryKeywords;
     }
 }
