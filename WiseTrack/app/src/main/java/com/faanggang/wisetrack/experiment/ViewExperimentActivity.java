@@ -9,6 +9,8 @@ import com.faanggang.wisetrack.executeTrial.ExecuteCountActivity;
 import com.faanggang.wisetrack.executeTrial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.statsManager.StatReportActivity;
+import com.faanggang.wisetrack.statsManager.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.unpublish.UnpublishConfirmFragment;
 import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -156,7 +158,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.results_option:
-                Toast.makeText(this, "View experiment results selected", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "View experiment results selected", Toast.LENGTH_SHORT).show(); // For statistics
+                Intent statIntent = new Intent( ViewExperimentActivity.this, ViewExperimentResultsActivity.class);
+                statIntent.putExtra("EXP_ID", expID);
+                startActivity(statIntent);
                 return true;
             case R.id.geolocations_option:
                 Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();

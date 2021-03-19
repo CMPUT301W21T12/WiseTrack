@@ -36,15 +36,19 @@ public class StatReportActivity extends AppCompatActivity {
         /**
          * Currently only views experiment's name would need to extract other values later.
          */
+        /**
+         *
+
         db.collection("Experiments").document(expID).get()
                 .addOnCompleteListener(task ->{
                     if (task.isSuccessful()){
                         DocumentSnapshot docSnap = task.getResult();
-                        exprName.setText(docSnap.getString("name"));
+                        //exprName.setText(docSnap.getString("name"));
                         // would need to extract trial content from database as well
                     }
                 })
         ;
+         */
 
 
 

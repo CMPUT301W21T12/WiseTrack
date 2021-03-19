@@ -19,6 +19,9 @@
         <activity android:name=".publish.PublishExperiment1_Initialization" />
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".MainMenuActivity" />
+        <activity android:name=".statsManager.ViewExperimentResultsActivity"/>
+        <activity android:name=".statsManager.StatReportActivity"/>
+
         <activity
             android:name=".user.ViewSelfActivity"
             android:parentActivityName=".MainMenuActivity" />
