@@ -63,7 +63,7 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
             MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, description, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
-            Map<String, Object> TrialHashMap = executeTrialController.CreateTrialDocument(currentTrial);
+            Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);
             try {
                 executeTrialController.executeTrial(TrialHashMap);
             } catch (Exception e) {

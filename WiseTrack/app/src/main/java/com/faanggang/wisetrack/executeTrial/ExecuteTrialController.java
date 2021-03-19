@@ -36,7 +36,7 @@ public class ExecuteTrialController {
      * @param trial: count OR non-negative integer count type trial
      * @return data: hashmap trial object ready to be inserted
      */
-    public Map CreateTrialDocument(CountTrial trial) {
+    public Map createTrialDocument(CountTrial trial) {
         Map<String, Object> data = new HashMap<>();
         data.put("count", trial.getCount());
         data.put("geolocation", trial.getTrialGeolocation());
@@ -63,7 +63,7 @@ public class ExecuteTrialController {
      * @param trial: binomial type trial
      * @return data: hashmap trial object ready to be inserted
      */
-    public Map CreateTrialDocument(BinomialTrial trial) {
+    public Map createTrialDocument(BinomialTrial trial) {
         Map<String, Object> data = new HashMap<>();
         data.put("success count", trial.getSuccess());
         data.put("failure count", trial.getFailure());
@@ -91,7 +91,7 @@ public class ExecuteTrialController {
      * @param trial: measurement type trial
      * @return data: hashmap trial object ready to be inserted
      */
-    public Map CreateTrialDocument(MeasurementTrial trial) {
+    public Map createTrialDocument(MeasurementTrial trial) {
         Map<String, Object> data = new HashMap<>();
         data.put("count", trial.getMeasurement());
         data.put("geolocation", trial.getTrialGeolocation());
