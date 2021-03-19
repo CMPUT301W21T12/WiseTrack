@@ -23,20 +23,16 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     private EditText trialData;
     private EditText trialGeolocation;
     private EditText trialDescription;
-    private Button cancelButton;
-    private Button saveButton;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
 
-    private CountTrial currentTrial;
+    private final Bundle extras = getIntent().getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_count);
-
-        Bundle extras = getIntent().getExtras();
 
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
@@ -46,8 +42,8 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
         trialGeolocation = findViewById(R.id.trial_geolocation_input);
         trialDescription = findViewById(R.id.trial_description_input);
 
-        cancelButton = findViewById(R.id.button_cancel);
-        saveButton = findViewById(R.id.button_save);
+        Button cancelButton = findViewById(R.id.button_cancel);
+        Button saveButton = findViewById(R.id.button_save);
 
         cancelButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
@@ -60,14 +56,13 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
 
         if (v.getId() == R.id.button_save) {
             if (trialData.getText() != null) {
-                // successCount field filled
+                // count data field is not empty
                 count = Integer.parseInt(trialData.getText().toString());
             }
 
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
 
-            Bundle extras = getIntent().getExtras();
             int trialType = extras.getInt("trialType");
             CountTrial currentTrial = new CountTrial(count, trialType, geolocation, description, mAuth.getUid(), new Date());
 

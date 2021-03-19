@@ -15,7 +15,6 @@ import com.faanggang.wisetrack.experiment.ViewExperimentActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ExecuteBinomialActivity extends AppCompatActivity implements View.OnClickListener {
