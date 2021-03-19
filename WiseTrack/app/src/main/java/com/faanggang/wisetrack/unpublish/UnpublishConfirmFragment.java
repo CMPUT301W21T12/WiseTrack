@@ -5,22 +5,19 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.Calendar;
 
-public class UnpublishFragment1_Confirm extends DialogFragment {
+public class UnpublishConfirmFragment extends DialogFragment {
 
 
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed();
+        void onUnpublishPressed();
     }
 
     @Override
@@ -45,16 +42,14 @@ public class UnpublishFragment1_Confirm extends DialogFragment {
         return builder
                 .setTitle("Are you sure you want to unpublish this experiment?")
                 .setNegativeButton("CANCEL", null)
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                .setPositiveButton("UNPUBLISH", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        listener.onOkPressed();
-
+                        listener.onUnpublishPressed();
 
                     }}).create();
 
     }
-
 
 }

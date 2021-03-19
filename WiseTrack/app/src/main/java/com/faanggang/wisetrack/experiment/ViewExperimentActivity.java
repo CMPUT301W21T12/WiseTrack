@@ -13,16 +13,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.comment.SubscriptionManager;
+import com.faanggang.wisetrack.unpublish.UnpublishConfirmFragment;
 import com.faanggang.wisetrack.user.UserManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ViewExperimentActivity extends AppCompatActivity {
+public class ViewExperimentActivity extends AppCompatActivity
+    implements UnpublishConfirmFragment.OnFragmentInteractionListener{
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
@@ -95,6 +102,10 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
+
+                UnpublishConfirmFragment frag = new UnpublishConfirmFragment();
+                frag.show(getSupportFragmentManager(), "UNPUBLISH_EXPERIMENT");
+
                 return true;
             case R.id.end_experiment_option:
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
@@ -119,5 +130,36 @@ public class ViewExperimentActivity extends AppCompatActivity {
             default:
                 return super.onContextItemSelected(item);
         }
+    }
+
+
+    @Override
+    public void onUnpublishPressed(){
+        DocumentReference experiment = db.collection("Experiments").document(expID);
+
+        experiment
+                .update("open", false)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("UNPUBLISH", "Experiment " + expID + " successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("UNPUBLISH", "Error updating document", e);
+
+                        // ADD AN ERROR FRAGMENT HERE
+                    }
+                });
+
+        // Update the "OPEN" keyword to "CLOSED"
+        experiment.update("keywords", FieldValue.arrayRemove("OPEN"));
+        experiment.update("keywords", FieldValue.arrayUnion("CLOSED"));
+
+        // Go back to main
+        Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
