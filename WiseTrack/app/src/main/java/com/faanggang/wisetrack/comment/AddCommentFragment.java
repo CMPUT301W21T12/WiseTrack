@@ -68,7 +68,6 @@ public class AddCommentFragment extends DialogFragment {
                             listener.addCommentOkPressed(new Comment(
                                     expID,
                                     user.getUserID(),
-                                    user.getUserName(),
                                     content,
                                     dt
                             ));

@@ -13,7 +13,9 @@ import com.faanggang.wisetrack.WiseTrackApplication;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
-
+/**
+ * Activity that handles user edit to their profile
+ */
 public class EditProfileActivity extends AppCompatActivity {
 
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -29,17 +31,16 @@ public class EditProfileActivity extends AppCompatActivity {
         EditText editLastName = findViewById(R.id.editTextLastName);
         EditText editPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         EditText editEmail = findViewById(R.id.editTextEmail);
-        EditText editUserName = findViewById(R.id.editTextUserName);
 
-        populateText(editFirstName, editLastName, editPhoneNumber, editEmail, editUserName);
+        populateText(editFirstName, editLastName, editPhoneNumber, editEmail);
 
         Button confirmEditButton = findViewById(R.id.confirmEditButton);
         confirmEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                updateUserInfoChanges(currentUser, editFirstName, editLastName, editPhoneNumber, editEmail, editUserName);
-                userManager.updateFireBaseUser(currentUser.getUserID());
+                updateUserInfoChanges(currentUser, editFirstName, editLastName, editPhoneNumber, editEmail);
+                userManager.updateCurrentUser(currentUser.getUserID());
                 Intent intent = new Intent(EditProfileActivity.this, ViewSelfActivity.class);
                 startActivity(intent);
             }
@@ -47,24 +48,47 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * method that handles user input on GUI updates currentUser info using
+     * currentUser stored in WiseTrackApplication
+     * @param currentUser
+     * currentUser stored in WiseTrackApplication
+     * @param editFirstName
+     * new First Name input by user
+     * @param editLastName
+     * new Last Name input by user
+     * @param editPhoneNumber
+     * new phone number input by user
+     * @param editEmail
+     * new email input by user
+     */
     public void updateUserInfoChanges(Users currentUser ,EditText editFirstName, EditText editLastName, EditText editPhoneNumber,
-                                      EditText editEmail, EditText editUserName) {
+                                      EditText editEmail) {
 
         String firstName = editFirstName.getText().toString();
         String lastName = editLastName.getText().toString();
         String phoneNumber = editPhoneNumber.getText().toString();
         String email = editEmail.getText().toString();
-        String userName = editUserName.getText().toString();
 
         currentUser.setFirstName(firstName);
         currentUser.setLastName(lastName);
         currentUser.setPhoneNumber(phoneNumber);
         currentUser.setEmail(email);
-        currentUser.setUserName(userName);
     }
 
+    /**
+     * method to populate the edit text with current current user info
+     * @param editFirstName
+     * EditText for first name
+     * @param editLastName
+     * EditText for last name
+     * @param editPhoneNumber
+     * EditText for phone number
+     * @param editEmail
+     * EditText for email
+     */
     public void populateText(EditText editFirstName, EditText editLastName, EditText editPhoneNumber,
-                             EditText editEmail, EditText editUserName) {
+                             EditText editEmail) {
 
         Users currentUser = WiseTrackApplication.getCurrentUser();
 
@@ -72,6 +96,5 @@ public class EditProfileActivity extends AppCompatActivity {
         editLastName.setText(currentUser.getLastName());
         editPhoneNumber.setText(currentUser.getPhoneNumber());
         editEmail.setText(currentUser.getEmail());
-        editUserName.setText(currentUser.getUserName());
     }
 }

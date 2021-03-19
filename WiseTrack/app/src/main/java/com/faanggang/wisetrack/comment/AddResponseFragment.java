@@ -59,7 +59,6 @@ public class AddResponseFragment extends DialogFragment {
                             listener.addResponseOkPressed(new Response(
                                     "",
                                     user.getUserID(),
-                                    user.getUserName(),
                                     content,
                                     dt
                             ));

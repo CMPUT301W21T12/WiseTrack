@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.faanggang.wisetrack.WiseTrackApplication;
 import com.faanggang.wisetrack.experiment.Experiment;
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,7 +38,7 @@ public class PublishExperiment4_Complete extends AppCompatActivity
     private boolean geolocation;
     private static final String TAG = "DocSnippets";
     private FirebaseAuth mAuth;
-    private PublishingController publishingController;
+    private PublishingManager publishingManager;
     private Experiment currentExperiment;
 
     @Override
@@ -45,7 +47,7 @@ public class PublishExperiment4_Complete extends AppCompatActivity
         setContentView(R.layout.publish_experiment_complete);
 
         mAuth = FirebaseAuth.getInstance();
-        publishingController = new PublishingController();
+        publishingManager = new PublishingManager(FirebaseFirestore.getInstance());
         experiment_description = findViewById(R.id.publish4_description);
         publish = findViewById(R.id.publish4_publish_button);
         cancel = findViewById(R.id.publish4_cancel_button);
@@ -104,18 +106,20 @@ public class PublishExperiment4_Complete extends AppCompatActivity
 
             // Firebase:
             // Add experiment document data to "Experiments" collection with auto-generated id
-            Map<String, Object> experimentHashMap = publishingController
-                    .createExperimentHashMap(currentExperiment);
+            Map<String, Object> experimentHashMap = publishingManager
+                    .createExperimentMap(currentExperiment, WiseTrackApplication.getCurrentUser()
+                            .getUserName());
             try {
-                publishingController.publishExperiment(experimentHashMap);
+                publishingManager.publishExperiment(experimentHashMap);
             } catch (Exception e) {
                 Log.e(TAG, "Error trying to publish experiment: " + e.getMessage());
             }
+
+        }
 
         // GO back to main
         Intent intent = new Intent(PublishExperiment4_Complete.this, MainActivity.class);
         startActivity(intent);
 
-        }
     }
 }

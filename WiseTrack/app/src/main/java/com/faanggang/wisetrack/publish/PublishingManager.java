@@ -1,6 +1,5 @@
 package com.faanggang.wisetrack.publish;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -20,15 +19,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PublishingController {
+/**
+ * This class controls publishing an experiment to our Firestore database.
+ */
+public class PublishingManager {
     private CollectionReference experimentCollectionReference;
     private FirebaseFirestore db;
 
-    public PublishingController() {
-        db = FirebaseFirestore.getInstance();
+    /**
+     * This constructor initializes this instance's database with the passed one.
+     * @param db
+     * db is the FirebaseFirestore to be used as the database for this instance.
+     */
+    public PublishingManager(FirebaseFirestore db) {
+        this.db = db;
         experimentCollectionReference = db.collection("Experiments");
     }
 
+    /**
+     * This method publishes the experiment to the Firestore database.
+     * @param experimentData
+     * experimentData is a map of values to be published to the database as an experiment.
+     */
     public void publishExperiment(Map<String, Object> experimentData) throws Exception {
         experimentCollectionReference
                 .add(experimentData)
@@ -50,7 +62,15 @@ public class PublishingController {
                 });
     }
 
-    public Map createExperimentHashMap(Experiment experiment) {
+    /**
+     * This method creates a map of values necessary for experiment in the database based on
+     * the Experiment object's values.
+     * @param experiment
+     * experiment is an Experiment object whose variables are to be used to values in the map.
+     * @return
+     * a Map that has all necessary key-value pairs is returned.
+     */
+    public Map createExperimentMap(Experiment experiment, String userName) {
         Map<String, Object> data = new HashMap<>();
         data.put("name", experiment.getName());
         data.put("description", experiment.getDescription());
@@ -61,11 +81,12 @@ public class PublishingController {
         data.put("datetime", new Timestamp(experiment.getDate()));
         data.put("uID", experiment.getOwnerID());
         data.put("open", true); // open by default
+        data.put("subscribers", new ArrayList<String>());
         ArrayList<String> keywords = new ArrayList<>();
         keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));
         keywords.addAll(Arrays.asList(experiment.getName().split(" ")));
         keywords.add("open");
-        keywords.add(WiseTrackApplication.getCurrentUser().getUserName());
+        keywords.add(userName);
 
         for (int i = 0; i < keywords.size(); i++) {
             keywords.set(i, keywords.get(i).toUpperCase());
@@ -74,8 +95,5 @@ public class PublishingController {
 
         return data;
     }
-
-    public void setExperimentCollectionReference(CollectionReference experimentCollectionReference) {
-        this.experimentCollectionReference = experimentCollectionReference;
-    }
+    
 }
