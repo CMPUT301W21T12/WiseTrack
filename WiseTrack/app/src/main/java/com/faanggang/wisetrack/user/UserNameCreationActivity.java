@@ -46,25 +46,25 @@ public class UserNameCreationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = editUserName.getText().toString();
                 CollectionReference usersRef = db.collection("Users");
-                usersRef.whereEqualTo("user", username)
+                Log.d("Test", "it got here");
+                usersRef.whereEqualTo("userName", username)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if(task.isSuccessful()){
-                                    for (DocumentSnapshot document : task.getResult()){
-                                        if (document.exists()) {
-                                            //document exists with the user entered username
-                                            Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
-                                            Log.d("username creation:", "Username already exists error");
+                                    Log.d("test2", "task is successful");
+                                    if (task.getResult().size() == 0) {
+                                        userManager.createNewUser(userManager, username);
+                                        Log.d("Username creation", "Username created");
+                                        Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
+                                        startActivity(intent);
+                                    }
 
-                                        }
-                                        else {
-                                            createNewUser();
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            storeCurrentUser(user.getUid());
-                                            Log.d("Username creation", "Username created");
-                                        }
+                                    else {
+                                        //document exists with the user entered username
+                                        Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
+                                        Log.d("username creation", "Username already exists error");
                                     }
                                 }
                                 else {
@@ -77,62 +77,4 @@ public class UserNameCreationActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void createNewUser(){
-        Activity activity = this;
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("NEW SIGNIN", "success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            userManager.addUser(user.getUid());
-                            storeCurrentUser(user.getUid());
-                            Intent intent = new Intent(activity, MainMenuActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Log.w("NEW SIGNIN", "failure");
-                        }
-                    }
-                });
-
-    }
-
-    /**
-     * This method retrieves current user info from database using UserManager
-     * and stores it into a WiseTrackApplication singleton class
-     * @param uid
-     */
-    public void storeCurrentUser(String uid) {
-
-        // creates a OnCompleteListner object that is passed into UserManager
-        OnCompleteListener<DocumentSnapshot> storeUser = new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot userDoc = task.getResult();
-                    if (userDoc.exists()) {
-                        Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
-                        // creates currentUser object with user info data from database
-                        Users currentUser = new Users(
-                                userDoc.getString("userName"),
-                                userDoc.getString("firstName"),
-                                userDoc.getString("lastName"),
-                                userDoc.getString("email"),
-                                userDoc.getId(),
-                                userDoc.getString("phoneNumber"));
-                        WiseTrackApplication.setCurrentUser(currentUser);
-                        Log.d("ApplicationUser:", WiseTrackApplication.getCurrentUser().getFirstName());
-                    }
-                    else {
-                        Log.d("Failed: ", "No such document");
-                    }
-                }
-            }
-        };
-
-        userManager.getUserInfo(uid, storeUser);
-    }
-
 }

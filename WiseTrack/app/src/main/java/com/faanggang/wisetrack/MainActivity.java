@@ -77,81 +77,81 @@ public class MainActivity extends AppCompatActivity {
         else {
             // user is a existing user
             Log.w("EXISTING USERID", currentUser.getUid());
-            storeCurrentUser(currentUser.getUid());
+            userManager.storeCurrentUser(currentUser.getUid(), userManager);
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
         }
 
     }
 
-    public void getIDButton(View view) {
-        if(currentUser == null){
-            createNewUser();
-        } else {
-            Log.w("USERID", currentUser.getUid());
-        }
-
-    }
+//    public void getIDButton(View view) {
+//        if(currentUser == null){
+//            createNewUser();
+//        } else {
+//            Log.w("USERID", currentUser.getUid());
+//        }
+//
+//    }
 
     /**
      * This is a method which signs a new user in using Firebase Authentication
      * and calls UserManager class to store default user information into cloud database
      */
-    public void createNewUser(){
-        Activity activity = this;
-        mAuth.signInAnonymously()
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("NEW SIGNIN", "success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            userManager.addUser(user.getUid());
-                            storeCurrentUser(user.getUid());
-                            Intent intent = new Intent(activity, MainMenuActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Log.w("NEW SIGNIN", "failure");
-                        }
-                    }
-                });
-
-    }
+//    public void createNewUser(){
+//        Activity activity = this;
+//        mAuth.signInAnonymously()
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            Log.d("NEW SIGNIN", "success");
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            userManager.addUser(user.getUid());
+//                            storeCurrentUser(user.getUid());
+//                            Intent intent = new Intent(activity, MainMenuActivity.class);
+//                            startActivity(intent);
+//                        } else {
+//                            Log.w("NEW SIGNIN", "failure");
+//                        }
+//                    }
+//                });
+//
+//    }
 
     /**
      * This method retrieves current user info from database using UserManager
      * and stores it into a WiseTrackApplication singleton class
      * @param uid
      */
-    public void storeCurrentUser(String uid) {
-
-        // creates a OnCompleteListner object that is passed into UserManager
-        OnCompleteListener<DocumentSnapshot> storeUser = new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot userDoc = task.getResult();
-                    if (userDoc.exists()) {
-                        Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
-                        // creates currentUser object with user info data from database
-                        Users currentUser = new Users(
-                                userDoc.getString("userName"),
-                                userDoc.getString("firstName"),
-                                userDoc.getString("lastName"),
-                                userDoc.getString("email"),
-                                userDoc.getId(),
-                                userDoc.getString("phoneNumber"));
-                        WiseTrackApplication.setCurrentUser(currentUser);
-                        Log.d("ApplicationUser:", WiseTrackApplication.getCurrentUser().getFirstName());
-                    }
-                    else {
-                        Log.d("Failed: ", "No such document");
-                    }
-                }
-            }
-        };
-
-        userManager.getUserInfo(uid, storeUser);
-    }
+//    public void storeCurrentUser(String uid) {
+//
+//        // creates a OnCompleteListner object that is passed into UserManager
+//        OnCompleteListener<DocumentSnapshot> storeUser = new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot userDoc = task.getResult();
+//                    if (userDoc.exists()) {
+//                        Log.d("Retrieved DocumentSnapshot ID:", userDoc.getId());
+//                        // creates currentUser object with user info data from database
+//                        Users currentUser = new Users(
+//                                userDoc.getString("userName"),
+//                                userDoc.getString("firstName"),
+//                                userDoc.getString("lastName"),
+//                                userDoc.getString("email"),
+//                                userDoc.getId(),
+//                                userDoc.getString("phoneNumber"));
+//                        WiseTrackApplication.setCurrentUser(currentUser);
+//                        Log.d("ApplicationUser:", WiseTrackApplication.getCurrentUser().getFirstName());
+//                    }
+//                    else {
+//                        Log.d("Failed: ", "No such document");
+//                    }
+//                }
+//            }
+//        };
+//
+//        userManager.getUserInfo(uid, storeUser);
+//    }
 
 }

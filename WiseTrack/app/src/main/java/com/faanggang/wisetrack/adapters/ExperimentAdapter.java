@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.experiment.ExperimentManager;
 import com.faanggang.wisetrack.user.UserManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
