@@ -1,6 +1,5 @@
 package com.faanggang.wisetrack.publish;
 
-import android.app.Application;
 import android.util.Log;
 
 import androidx.annotation.NonNull;

@@ -115,10 +115,11 @@ public class PublishExperiment4_Complete extends AppCompatActivity
                 Log.e(TAG, "Error trying to publish experiment: " + e.getMessage());
             }
 
+        }
+
         // GO back to main
         Intent intent = new Intent(PublishExperiment4_Complete.this, MainActivity.class);
         startActivity(intent);
 
-        }
     }
 }
