@@ -8,13 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.adapters.CommentAdapter;
 import com.faanggang.wisetrack.adapters.ResponseAdapter;
-import com.google.api.Distribution;
 
 import java.util.ArrayList;
 
@@ -65,15 +62,24 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
         parent_username_view.setText(intent.getStringExtra("PARENT_USERNAME"));
     }
 
+    /**
+     * This method takes the results of a Firebase Query and adds them to the list of responses to display.
+     * @param results: List of responses that match the query criteria.
+     */
     @Override
     public void onResponsesFound(ArrayList<Response> results) {
         responses.clear();
         responses.addAll(results);
         rspAdapter.notifyDataSetChanged();
     }
+
+    /**
+     * This method calls a manager to uploads a response to the Firestore and updates the current list to display immediate changes.
+     * @param response: A response to upload to Firestore and display.
+     */
     @Override
     public void addResponseOkPressed(Response response){
-        cmtManager.UploadResponse(parentID, response);
+        cmtManager.uploadResponse(parentID, response);
         responses.add(0,response);
         rspAdapter.notifyDataSetChanged();
     };

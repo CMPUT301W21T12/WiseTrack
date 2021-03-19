@@ -12,9 +12,7 @@ import com.faanggang.wisetrack.experiment.Experiment;
 
 import java.util.ArrayList;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.experiment.ExperimentManager;
 import com.faanggang.wisetrack.user.UserManager;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
@@ -46,17 +44,17 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ExperimentItemView item = (ExperimentItemView) holder;
         item.setID(experiments.get(position).getExpID());
-        item.getTitle_TextView().setText(experiments.get(position).getName());
+        item.getTitleTextView().setText(experiments.get(position).getName());
         userManager.getUserInfo(experiments.get(position).getOwnerID(), task->{
-            item.getOwner_TextView().setText(task.getResult().getString("userName"));
+            item.getOwnerTextView().setText(task.getResult().getString("userName"));
         });
 
-        item.getDescription_TextView().setText(experiments.get(position).getDescription());
+        item.getDescriptionTextView().setText(experiments.get(position).getDescription());
         if (experiments.get(position).isOpen()) {
-            item.getStatus_TextView().setText(R.string.search_item_Open);
+            item.getStatusTextView().setText(R.string.search_item_Open);
             item.setStatusColor(true);
         } else {
-            item.getStatus_TextView().setText(R.string.search_item_Closed);
+            item.getStatusTextView().setText(R.string.search_item_Closed);
             item.setStatusColor(false);
         }
     }
