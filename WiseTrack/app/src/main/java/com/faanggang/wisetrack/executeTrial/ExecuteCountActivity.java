@@ -48,19 +48,13 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        int count = 0;
-
         if (v.getId() == R.id.button_save) {
-            if (trialData.getText() != null) {
-                // count data field is not empty
-                count = Integer.parseInt(trialData.getText().toString());
-            }
-
+            int count = Integer.parseInt(trialData.getText().toString());
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
 
-            Bundle extras = getIntent().getExtras();
-            int trialType = extras.getInt("trialType");
+            //Bundle extras = getIntent().getExtras();
+            //int trialType = extras.getInt("trialType");
             CountTrial currentTrial = new CountTrial(count, geolocation, description, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
