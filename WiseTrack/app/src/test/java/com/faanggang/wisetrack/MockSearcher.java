@@ -1,14 +1,15 @@
 package com.faanggang.wisetrack;
 
 import com.faanggang.wisetrack.experiment.Experiment;
+import com.faanggang.wisetrack.experiment.Searcher;
 import com.faanggang.wisetrack.search.SearchManager;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MockSearcher implements SearchManager.Searcher {
-    public List<Experiment> resultingExperiments;
+
+public class MockSearcher implements Searcher {
+    public ArrayList<Experiment> resultingExperiments;
     private SearchManager searchManager;
 
     public MockSearcher(FirebaseFirestore db) {
@@ -16,7 +17,7 @@ public class MockSearcher implements SearchManager.Searcher {
         searchManager = new SearchManager(this, db);
     }
     @Override
-    public void onSearchSuccess(List<Experiment> results) {
+    public void onSearchSuccess(ArrayList<Experiment> results) {
         resultingExperiments.addAll(results);
     }
 

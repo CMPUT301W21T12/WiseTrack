@@ -1,8 +1,10 @@
 package com.faanggang.wisetrack.user;
 
+
 /**
  * This is a representation of a user
  */
+
 public class Users {
     private String userName;
     private String firstName;

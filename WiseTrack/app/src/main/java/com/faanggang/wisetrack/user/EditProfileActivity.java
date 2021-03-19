@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.WiseTrackApplication;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
 
 /**
  * Activity that handles user edit to their profile

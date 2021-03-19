@@ -1,7 +1,6 @@
 package com.faanggang.wisetrack.comment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,7 +12,6 @@ import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.adapters.CommentAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ViewAllCommentActivity extends AppCompatActivity implements CommentManager.commentSearcher, AddCommentFragment.OnFragmentInteractionListener{
     private CommentManager cmtManager;
@@ -52,17 +50,23 @@ public class ViewAllCommentActivity extends AppCompatActivity implements Comment
 
 
     }
-
+    /**
+     * This method takes the results of a Firebase Query and adds them to the list of comments to display.
+     * @param results: List of comments that match the query criteria.
+     */
     @Override
     public void onExpCommentsFound(ArrayList<Comment> results) {
         comments.clear();
         comments.addAll(results);
         cmtAdapter.notifyDataSetChanged();
     }
-
+    /**
+     * This method calls the manager to upload a comment to the Firestore and updates the current list to display immediate changes.
+     * @param comment: A comment to upload to Firestore and display.
+     */
     @Override
     public void addCommentOkPressed(Comment comment){
-        cmtManager.UploadComment(comment);
+        cmtManager.uploadComment(comment);
         cmtManager.getExperimentComments(expID);
     };
 }

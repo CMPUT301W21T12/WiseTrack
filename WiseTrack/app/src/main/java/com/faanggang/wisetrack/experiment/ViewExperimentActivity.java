@@ -1,17 +1,6 @@
 package com.faanggang.wisetrack.experiment;
 
-import android.content.Intent;
-import android.os.Bundle;
 
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.MainActivity;
 import com.faanggang.wisetrack.R;
@@ -19,17 +8,27 @@ import com.faanggang.wisetrack.executeTrial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.executeTrial.ExecuteCountActivity;
 import com.faanggang.wisetrack.executeTrial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.WiseTrackApplication;
-import com.faanggang.wisetrack.comment.SubscriptionManager;
+import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
 import com.faanggang.wisetrack.unpublish.UnpublishConfirmFragment;
 import com.faanggang.wisetrack.user.UserManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.faanggang.wisetrack.comment.ViewAllCommentActivity;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewExperimentActivity extends AppCompatActivity
     implements UnpublishConfirmFragment.OnFragmentInteractionListener{
@@ -64,7 +63,6 @@ public class ViewExperimentActivity extends AppCompatActivity
         subManager = new SubscriptionManager();
         userManager = new UserManager(FirebaseFirestore.getInstance());
         expID = getIntent().getStringExtra("EXP_ID");
-        Log.w("EXP", expID);
         setContentView(R.layout.view_experiment_detail);
         experimentManager.getExperimentInfo(expID, task->{
             DocumentSnapshot docSnap = task.getResult();
@@ -103,6 +101,7 @@ public class ViewExperimentActivity extends AppCompatActivity
             });
         });
 
+
         expNameView = findViewById(R.id.view_experimentName);
         expDescriptionView = findViewById(R.id.view_experimentDescription);
         expRegionView = findViewById(R.id.view_experimentRegion);
@@ -111,8 +110,8 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
 
-        FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
 
+        FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
         // link floating action button to experiment action menu xml
         registerForContextMenu(ExperimentActionMenu);
 
@@ -121,6 +120,24 @@ public class ViewExperimentActivity extends AppCompatActivity
             public void onClick(View v) {
                 v.showContextMenu();  // Note: default is long clicking to open action menu
             }
+        });
+    }
+
+    private void setText(){
+        experimentManager.getExperimentInfo(expID, task->{
+            DocumentSnapshot docSnap = task.getResult();
+            expNameView.setText(docSnap.getString("name"));
+            expDescriptionView.setText(docSnap.getString("description"));
+            expRegionView.setText(docSnap.getString("region"));
+            expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
+            userManager.getUserInfo(docSnap.getString("uID"), task2->{
+                expOwnerView.setText(task2.getResult().getString("userName"));
+                if (docSnap.getBoolean("open")) {
+                    expStatusView.setText("Open");
+                } else {
+                    expStatusView.setText("Closed");
+                }
+            });
         });
     }
 

@@ -1,13 +1,13 @@
 package com.faanggang.wisetrack.search;
 
 import com.faanggang.wisetrack.experiment.Experiment;
+import com.faanggang.wisetrack.experiment.Searcher;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * This class controls searching the database for experiments.
@@ -16,14 +16,6 @@ import java.util.List;
 public class SearchManager {
     private FirebaseFirestore db;
     private Searcher searcher;
-
-    /**
-     * This is an interface that is implemented by Activities that forces implementing activities
-     * to implement a method to be called upon a successful search.
-     */
-    public interface Searcher {
-        void onSearchSuccess(List<Experiment> results);
-    }
 
     /**
      * This is a constructor that instantiates the FireBase instance and sets the SearchManager's
@@ -56,8 +48,8 @@ public class SearchManager {
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        List<Experiment> searchResults = new ArrayList<Experiment>();
-                        List<DocumentSnapshot> result = task.getResult().getDocuments();
+                        ArrayList<Experiment> searchResults = new ArrayList<Experiment>();
+                        ArrayList<DocumentSnapshot> result = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
                         for (DocumentSnapshot snapshot : result) {
                             Experiment exp = new Experiment(snapshot.getString("name"),
                                     snapshot.getString("description"),
@@ -72,7 +64,6 @@ public class SearchManager {
                             exp.setOpen(snapshot.getBoolean("open"));
                         }
                         searcher.onSearchSuccess(searchResults);
-                    } else {
                     }
                 })
                 .addOnFailureListener(e -> {
