@@ -36,7 +36,6 @@ public class MyExperimentActivity extends AppCompatActivity implements UserExper
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
-
         expManager.userExpQuery(WiseTrackApplication.getCurrentUser().getUserID());
 
     }

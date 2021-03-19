@@ -51,7 +51,6 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         int count = 0;
 
         if (v.getId() == R.id.button_save) {
@@ -63,26 +62,22 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
 
-            int trialType = extras.getInt("trialType");
-            CountTrial currentTrial = new CountTrial(count, trialType, geolocation, description, mAuth.getUid(), new Date());
+            //int trialType = extras.getInt("trialType");
+            CountTrial currentTrial = new CountTrial(count, geolocation, description, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.CreateTrialDocument(currentTrial);
             try {
                 executeTrialController.executeTrial(TrialHashMap);
             } catch (Exception e) {
-                Log.e(TAG, "Error trying to execute binomial trial: " + e.getMessage());
+                Log.e(TAG, "Error trying to execute count trial: " + e.getMessage());
             }
 
-            Toast.makeText(this, "Trial result experiment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Trial result saved", Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == R.id.button_cancel) {
             // return to experiment detail screen
-            intent = new Intent(ExecuteCountActivity.this, ViewExperimentActivity.class);
-            startActivity(intent);
+            finish();
         }
-        intent = new Intent(ExecuteCountActivity.this, ViewExperimentActivity.class);
-        startActivity(intent);
-
     }
 }

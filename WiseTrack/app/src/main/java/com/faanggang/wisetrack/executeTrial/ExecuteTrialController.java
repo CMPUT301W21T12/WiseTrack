@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class ExecuteTrialController {
         data.put("description", trial.getTrialDescription());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
-        data.put("trial id", trial.getTrialID());
+        //data.put("trial id", trial.getTrialID());
 
         // add non-empty trial description as keywords; expand search functionality
         if (trial.getTrialDescription() != "") {
@@ -70,7 +71,7 @@ public class ExecuteTrialController {
         data.put("description", trial.getTrialDescription());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
-        data.put("trial id", trial.getTrialID());
+        //data.put("trial id", trial.getTrialID());
 
         // add non-empty trial description as keywords; expand search functionality
         if (trial.getTrialDescription() != "") {
@@ -97,7 +98,7 @@ public class ExecuteTrialController {
         data.put("description", trial.getTrialDescription());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
-        data.put("trial id", trial.getTrialID());
+        //data.put("trial id", trial.getTrialID());
 
         // add non-empty trial description as keywords; expand search functionality
         if (trial.getTrialDescription() != "") {

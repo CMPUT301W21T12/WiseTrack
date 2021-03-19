@@ -30,6 +30,12 @@ public class CountTrial extends Trial{
         }
     }
 
+    // testing dummy constructor!
+    public CountTrial(int count, String trialGeolocation, String trialDescription, String uID, Date date) {
+        super(trialGeolocation, trialDescription, uID, date);
+        this.count = count;
+    }
+
     public int getCount() {
         return count;
     }

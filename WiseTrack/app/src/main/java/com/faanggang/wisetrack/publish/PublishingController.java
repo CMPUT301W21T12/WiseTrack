@@ -60,7 +60,6 @@ public class PublishingController {
         data.put("geolocation", experiment.getGeolocation());
         data.put("datetime", new Timestamp(experiment.getDate()));
         data.put("uID", experiment.getOwnerID());
-        data.put("trialType", 1); // default trial type
         data.put("open", true); // open by default
         ArrayList<String> keywords = new ArrayList<>();
         keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));

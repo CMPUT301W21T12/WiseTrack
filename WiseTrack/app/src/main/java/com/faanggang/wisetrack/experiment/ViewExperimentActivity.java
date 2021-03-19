@@ -128,7 +128,7 @@ public class ViewExperimentActivity extends AppCompatActivity {
                 if (trialType == 0 || trialType == 2) {  // handle both count and non-negative integer count trial
                     Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
                     executeIntent.putExtra("EXP_ID", expID);
-                    executeIntent.putExtra("trialType", trialType);
+                    //executeIntent.putExtra("trialType", trialType);
                     startActivity(executeIntent);
                     return true;
                 } else if (trialType == 1) {  // handle binomial trial

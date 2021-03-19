@@ -52,7 +52,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         int success = 0, failure = 0;  // default set to 0 number of success count
 
         // null value handling
@@ -79,14 +78,12 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
                 Log.e(TAG, "Error trying to execute binomial trial: " + e.getMessage());
             }
 
-            Toast.makeText(this, "Trial result experiment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Trial result saved", Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == R.id.button_cancel) {
             // return to experiment detail screen
-            intent = new Intent(ExecuteBinomialActivity.this, ViewExperimentActivity.class);
-            startActivity(intent);
+            finish();
         }
-        intent = new Intent(ExecuteBinomialActivity.this, ViewExperimentActivity.class);
-        startActivity(intent);
+
     }
 }

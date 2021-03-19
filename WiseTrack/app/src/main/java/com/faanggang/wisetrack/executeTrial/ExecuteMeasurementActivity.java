@@ -51,7 +51,6 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         float data = 0;
 
         // null value handling
@@ -70,17 +69,13 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
             try {
                 executeTrialController.executeTrial(TrialHashMap);
             } catch (Exception e) {
-                Log.e(TAG, "Error trying to execute binomial trial: " + e.getMessage());
+                Log.e(TAG, "Error trying to execute measurement trial: " + e.getMessage());
             }
 
-            Toast.makeText(this, "Trial result experiment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Trial result saved", Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == R.id.button_cancel) {
-            // return to experiment detail screen
-            intent = new Intent(ExecuteMeasurementActivity.this, ViewExperimentActivity.class);
-            startActivity(intent);
+            finish();
         }
-        intent = new Intent(ExecuteMeasurementActivity.this, ViewExperimentActivity.class);
-        startActivity(intent);
     }
 }
