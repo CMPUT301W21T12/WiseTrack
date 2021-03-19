@@ -1,15 +1,35 @@
 package com.faanggang.wisetrack.comment;
 import android.util.Log;
+
+import com.faanggang.wisetrack.experiment.Experiment;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class manages how user subscriptions are added and removed from users.
  *
  * */
 public class SubscriptionManager {
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore db;
+    private subSearcher finder;
+
+    public SubscriptionManager(){
+        this.db = FirebaseFirestore.getInstance();
+        this.finder = finder;
+    }
+    public SubscriptionManager(subSearcher finder){
+        this.db = FirebaseFirestore.getInstance();
+        this.finder = finder;
+    }
+
+    public interface subSearcher{
+        void onSubscriptionsFound(ArrayList<Experiment> results);
+    }
+
+
     /**
     * This method updates the "Subscription" field of a user on the firebase.
     * @param expID
@@ -21,7 +41,7 @@ public class SubscriptionManager {
         db.collection("Users").document(userID).get()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscriptions");
+                ArrayList<String> subs = (ArrayList<String>) task.getResult().get("subscriptions");
                 if (!subs.contains(expID)){
                     HashMap<String, Object> map = new HashMap<String,Object>();
                     subs.add(expID);
@@ -33,7 +53,7 @@ public class SubscriptionManager {
         db.collection("Experiments").document(expID).get()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscribers");
+                ArrayList<String> subs = (ArrayList<String>) task.getResult().get("subscribers");
                 if (!subs.contains(userID)){
                     HashMap<String, Object> map = new HashMap<String,Object>();
                     subs.add(userID);
@@ -67,5 +87,35 @@ public class SubscriptionManager {
                         Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
                     }
                 });
+    }
+
+
+    public void getSubscriptions(String userID){
+        db.collection("Experiments").whereArrayContains("subscribers", userID).get()
+        .addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                ArrayList<Experiment> results = new ArrayList<Experiment>();
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                for(DocumentSnapshot doc: documents){
+                    Log.w("EXPERIMENT", doc.getString("name"));
+                    Experiment e = new Experiment(
+                            doc.getString("name"),
+                            doc.getString("description"),
+                            doc.getString("region"),
+                            doc.getLong("minTrials").intValue(),
+                            doc.getLong("trialType").intValue(),
+                            doc.getBoolean("geolocation"),
+                            doc.getDate("datetime"),
+                            doc.getString("uID")
+                    );
+                    e.setOpen(doc.getBoolean("open"));
+                    e.setExpID(doc.getId());
+                    results.add(e);
+                    finder.onSubscriptionsFound(results);
+                }
+            } else{
+                Log.w("EXPERIMENT","DID NOT FIND");
+            }
+        });
     }
 }

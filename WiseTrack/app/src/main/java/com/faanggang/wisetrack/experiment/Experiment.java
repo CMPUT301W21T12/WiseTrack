@@ -4,20 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Experiment {
-
-    private String name;
-    private String description;
-    private String region;
-    private int minTrials;
-    private int trialType;
-    private boolean geolocation;
-    private Date datetime;
-    private String uID;
-    private String expID;
-    private boolean open;
-    private ArrayList<String> subscribers;
-
-
     /**
      * @param name
      * @param description
@@ -31,8 +17,8 @@ public class Experiment {
      * @param expID: the firebase ID
      * @param open: is the experiment open or closed/unpublished? Set TRUE upon creation of
      *            experiment
+     * @param subscribers: list of user's that are subscribed to this experiment.
      */
-
     private String name;
     private String description;
     private String region;
@@ -43,6 +29,7 @@ public class Experiment {
     private String uID;
     private String expID;
     private boolean open;
+    private ArrayList<String> subscribers;
 
     public Experiment(String name, String description, String region,
                       int minTrials, int trialType, boolean geolocation, Date date,
