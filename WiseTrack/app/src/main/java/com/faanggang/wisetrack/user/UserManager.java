@@ -25,6 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+/**
+ * UserManager accesses cloud firebase to retrieve or store new/updated user info data
+ */
 public class UserManager {
 
     private FirebaseFirestore db;
@@ -34,6 +37,13 @@ public class UserManager {
         this.db = db;
     }
 
+    /**
+     * get a users information from cloud firebase
+     * @param uid
+     * uid is the userID of the user we can retrieving
+     * @param callback
+     * callback is the OnCompleteListener object which has the OnComplete method
+     */
     public void getUserInfo(String uid, OnCompleteListener<DocumentSnapshot> callback) {
 
         DocumentReference userRef = db.collection("Users").document(uid);
@@ -42,6 +52,13 @@ public class UserManager {
 
     }
 
+    /**
+     * adds a user into cloud firebase
+     * @param uid
+     * userID of the new User
+     * @param username
+     * unique username entered by the user
+     */
     public void addUser(String uid, String username) {
         Map<String, Object> users = new HashMap<>();
         users.put("firstName", "First Name");
@@ -49,7 +66,6 @@ public class UserManager {
         users.put("email", "Email");
         users.put("phoneNumber", "0");
         users.put("userName", username);
-        users.put("userName", "Username");
         users.put("subscriptions", new ArrayList<String>());
 
         db.collection("Users").document(uid)
@@ -68,7 +84,12 @@ public class UserManager {
                 });
     }
 
-    public void updateFireBaseUser(String uid) {
+    /**
+     * updates edited user info
+     * @param uid
+     * current user's ID
+     */
+    public void updateCurrentUser(String uid) {
         db.collection("Users").document(uid)
                 .update(
                         "email", WiseTrackApplication.getCurrentUser().getEmail(),
@@ -80,6 +101,13 @@ public class UserManager {
 
     }
 
+    /**
+     * Stores experiment document from cloud firebase to the user document that created it
+     * @param uid
+     * userID of user
+     * @param experimentReference
+     * experiment document on cloud firebase for that experiment
+     */
     public void addExperimentReference(String uid, DocumentReference experimentReference) {
         db.collection("Users").document(uid)
                 .get()
@@ -99,24 +127,6 @@ public class UserManager {
                 });
     }
 
-    public void updateExperimentUserNames(String uid, String previousUsername, String newUsername) {
-        db.collection("Users").document(uid)
-                .get()
-                .addOnCompleteListener(outerTask -> {
-                    List<DocumentReference> userExperiments = (List<DocumentReference>) outerTask.getResult()
-                            .get("createdExperiments");
-                    for (DocumentReference dR : userExperiments) {
-                        dR.get().addOnCompleteListener(innerTask -> {
-                            List<String> keywords = (List<String>) innerTask.getResult()
-                                    .get("keywords");
-                            keywords.remove(previousUsername.toUpperCase());
-                            keywords.add(newUsername.toUpperCase());
-                            dR.update("keywords", keywords);
-                        });
-                    }
-                });
-    }
-
     /**
      * This is a method which signs a new user in using Firebase Authentication
      * and calls UserManager class to store default user information into cloud database
@@ -128,8 +138,11 @@ public class UserManager {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("NEW SIGNIN", "success");
+                            // gets the current user that just signed in
                             FirebaseUser user = mAuth.getCurrentUser();
+                            // adds user to cloud firebase
                             userManager.addUser(user.getUid(), username);
+                            // store user into WiseTrackApplication.class
                             storeCurrentUser(user.getUid(), userManager);
                         } else {
                             Log.w("NEW SIGNIN", "failure");
@@ -162,6 +175,8 @@ public class UserManager {
                                 userDoc.getString("email"),
                                 userDoc.getId(),
                                 userDoc.getString("phoneNumber"));
+                        //sets current user
+                        //this user object can then be access from any activity
                         WiseTrackApplication.setCurrentUser(currentUser);
                         Log.d("ApplicationUser:", WiseTrackApplication.getCurrentUser().getFirstName());
                     }
