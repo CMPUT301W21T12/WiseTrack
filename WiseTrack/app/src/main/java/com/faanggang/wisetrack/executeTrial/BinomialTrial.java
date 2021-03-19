@@ -29,11 +29,11 @@ public class BinomialTrial extends Trial{
         this.success = success;
     }
 
-    public int getFail() {
+    public int getFailure() {
         return failure;
     }
 
-    public void setFail(int fail) {
+    public void setFailure(int fail) {
         this.failure = fail;
     }
 }

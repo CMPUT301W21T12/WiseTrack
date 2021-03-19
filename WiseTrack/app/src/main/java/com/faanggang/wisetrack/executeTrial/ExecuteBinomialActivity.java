@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,24 +19,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ExecuteBinomialActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "Snippets";
     private EditText successCount;
     private EditText failureCount;
     private EditText trialGeolocation;
     private EditText trialDescription;
-    private Button cancelButton;
-    private Button saveButton;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
-
-    private BinomialTrial currentTrial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_binomial);
 
-        executeTrialController = new ExecuteTrialController();
+        Bundle extras = getIntent().getExtras();
+
+        executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
 
         successCount = findViewById(R.id.success_count_input);
@@ -44,8 +44,8 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
         trialGeolocation = findViewById(R.id.trial_geolocation_input);
         trialDescription = findViewById(R.id.trial_description_input);
 
-        cancelButton = findViewById(R.id.button_cancel);
-        saveButton = findViewById(R.id.button_save);
+        Button cancelButton = findViewById(R.id.button_cancel);
+        Button saveButton = findViewById(R.id.button_save);
 
         cancelButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
@@ -74,14 +74,22 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
             String geolocation = trialGeolocation.getText().toString();
             String description = trialDescription.getText().toString();
 
-            currentTrial = new BinomialTrial(success, failure, geolocation, description, mAuth.getUid(), new Date());
+            BinomialTrial currentTrial = new BinomialTrial(success, failure, geolocation, description, mAuth.getUid(), new Date());
 
-            Map<String, Object> TrialHashMap = new HashMap<>();
+            // create and store current trial into firebase
+            Map<String, Object> TrialHashMap = executeTrialController.CreateTrialDocument(currentTrial);
+            try {
+                executeTrialController.executeTrial(TrialHashMap);
+            } catch (Exception e) {
+                Log.e(TAG, "Error trying to execute binomial trial: " + e.getMessage());
+            }
+
             Toast.makeText(this, "Trial result experiment", Toast.LENGTH_SHORT).show();
 
         } else if (v.getId() == R.id.button_cancel) {
             // return to experiment detail screen
             intent = new Intent(ExecuteBinomialActivity.this, ViewExperimentActivity.class);
+            startActivity(intent);
         }
         intent = new Intent(ExecuteBinomialActivity.this, ViewExperimentActivity.class);
         startActivity(intent);

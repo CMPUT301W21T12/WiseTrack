@@ -51,6 +51,7 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         Intent intent;
+        int count;
 
         if (v.getId() == R.id.button_save) {
             String data = trialData.getText().toString();
