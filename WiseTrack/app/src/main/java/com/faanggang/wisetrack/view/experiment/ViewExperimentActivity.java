@@ -14,6 +14,7 @@ import com.faanggang.wisetrack.controllers.ExperimentManager;
 import com.faanggang.wisetrack.controllers.SubscriptionManager;
 import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,6 +46,7 @@ public class ViewExperimentActivity extends AppCompatActivity
     private TextView expTrialTypeView;
     private Long trialType;  // integer indicator of trial type
     private String expID;
+    private String userID;
     private ExperimentManager experimentManager;
     private UserManager userManager;
     private SubscriptionManager subManager;
@@ -75,6 +77,18 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
+
+        expOwnerView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (userID != null) {
+                    Intent intent = new Intent(ViewExperimentActivity.this, ViewOtherActivity.class);
+                    intent.putExtra("USER_ID", userID);
+                    startActivity(intent);
+                }
+            }
+        });
 
         FloatingActionButton ExperimentActionMenu = findViewById(R.id.experiment_action_menu);
         // link floating action button to experiment action menu xml
@@ -122,6 +136,7 @@ public class ViewExperimentActivity extends AppCompatActivity
                 anotherTrialType = -1;  // invalid
             }
             expTrialTypeView.setText(trialType_str);
+            userID = docSnap.getString("uID");
             userManager.getUserInfo(docSnap.getString("uID"), task2->{
                 expOwnerView.setText(task2.getResult().getString("userName"));
 

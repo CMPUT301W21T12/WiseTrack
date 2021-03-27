@@ -1,6 +1,7 @@
 package com.faanggang.wisetrack.view.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.model.comment.Response;
 import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -42,6 +44,14 @@ public class ResponseAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         });
         item.getDatetimeView().setText(rsp.getDateTimeString());
         item.getContentView().setText(rsp.getContent());
+        item.getAuthorView().setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ViewOtherActivity.class);
+                intent.putExtra("USER_ID",responses.get(pos).getAuthorID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

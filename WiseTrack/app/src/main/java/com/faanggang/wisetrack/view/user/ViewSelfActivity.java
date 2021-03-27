@@ -23,6 +23,7 @@ public class ViewSelfActivity extends AppCompatActivity {
     private TextView emailText;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
