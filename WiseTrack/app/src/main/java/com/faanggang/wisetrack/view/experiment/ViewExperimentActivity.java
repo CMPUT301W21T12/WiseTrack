@@ -82,9 +82,11 @@ public class ViewExperimentActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewExperimentActivity.this, ViewOtherActivity.class);
-                intent.putExtra("USER_ID", userID);
-                startActivity(intent);
+                if (userID != null) {
+                    Intent intent = new Intent(ViewExperimentActivity.this, ViewOtherActivity.class);
+                    intent.putExtra("USER_ID", userID);
+                    startActivity(intent);
+                }
             }
         });
 
