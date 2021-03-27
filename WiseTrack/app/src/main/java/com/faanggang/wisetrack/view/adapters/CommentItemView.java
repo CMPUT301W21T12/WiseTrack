@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.model.comment.Comment;
 import com.faanggang.wisetrack.view.comment.ViewAllResponseActivity;
+import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 
 public class CommentItemView extends RecyclerView.ViewHolder implements View.OnClickListener{
     private TextView commentAuthorView;
@@ -45,6 +46,7 @@ public class CommentItemView extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void onClick(View v) {
+
         Intent intent = new Intent(context, ViewAllResponseActivity.class);
         intent.putExtra("CMT_ID", comment.getFirebaseID());
         intent.putExtra("PARENT_CONTENT", commentContentView.getText());
