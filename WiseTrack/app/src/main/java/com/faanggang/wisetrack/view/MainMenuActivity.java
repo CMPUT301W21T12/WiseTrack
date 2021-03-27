@@ -14,6 +14,7 @@ import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.view.experiment.MySubscriptionActivity;
 import com.faanggang.wisetrack.view.publish.PublishExperiment1_Initialization;
+import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
 import com.faanggang.wisetrack.view.search.SearchActivity;
 import com.faanggang.wisetrack.view.user.ViewSelfActivity;
 
@@ -25,11 +26,6 @@ import java.util.ArrayList;
  */
 
 public class MainMenuActivity extends AppCompatActivity {
-
-    ListView experimentList;
-    ArrayAdapter<Experiment> experimentAdapter;
-    ArrayList<Experiment> experimentDataList;
-    Button experimentSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        experimentSearchButton = findViewById(R.id.menuSearch_button);
+
 
         final Button experimentSearchButton = findViewById(R.id.menuSearch_button);
 
@@ -87,6 +83,14 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        final Button scanQRCodeButton = findViewById(R.id.menuScanQR_button);
+        scanQRCodeButton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, CameraScannerActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
