@@ -13,6 +13,7 @@ import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.view.experiment.MySubscriptionActivity;
+import com.faanggang.wisetrack.view.map.MapActivity;
 import com.faanggang.wisetrack.view.publish.PublishExperiment1_Initialization;
 import com.faanggang.wisetrack.view.search.SearchActivity;
 import com.faanggang.wisetrack.view.user.ViewSelfActivity;
@@ -87,6 +88,14 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
+        final Button tempMapButton = findViewById(R.id.openMap_button);
+        tempMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, MapActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
