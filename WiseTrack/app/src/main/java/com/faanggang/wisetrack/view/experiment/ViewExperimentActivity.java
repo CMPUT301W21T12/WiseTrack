@@ -153,7 +153,7 @@ public class ViewExperimentActivity extends AppCompatActivity
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.experiment_action_menu, menu);
+        getMenuInflater().inflate(R.menu.experiment_action_menu_owner, menu);
     }
 
     @Override

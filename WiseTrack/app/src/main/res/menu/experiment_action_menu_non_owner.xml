@@ -5,12 +5,6 @@
         android:id="@+id/subscribe_option"
         android:title="Subscribe"/>
     <item
-        android:id="@+id/unpublish_option"
-        android:title="Unpublish"/>
-    <item
-        android:id="@+id/end_experiment_option"
-        android:title="End Current Experiment"/>
-    <item
         android:id="@+id/results_option"
         android:title="View Experiment Results"/>
     <item
@@ -22,7 +16,4 @@
     <item
         android:id="@+id/comment_option"
         android:title="Comment"/>
-    <item
-        android:id="@+id/view_trials_option"
-        android:title="View Trials"/>
 </menu>
