@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.view.experiment;
 
 
 
+import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
@@ -61,6 +62,14 @@ public class ViewExperimentActivity extends AppCompatActivity
         this.anotherTrialType = anotherTrialType;
     }
 
+    public String getOwnerID() {
+        return userID;
+    }
+
+    public void setOwnerID(String userID) {
+        this.userID = userID;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +126,7 @@ public class ViewExperimentActivity extends AppCompatActivity
             } else {
                 expStatusView.setText("Closed");
             }
+
             trialType = docSnap.getLong("trialType");
             String trialType_str;
             if (trialType == 0) {
@@ -154,6 +164,14 @@ public class ViewExperimentActivity extends AppCompatActivity
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.experiment_action_menu_owner, menu);
+
+        // determine which options should be displayed based on whether the current experimenter is the owner
+        if (getOwnerID().equals(WiseTrackApplication.getCurrentUser().getUserID())) {
+            menu.setGroupVisible(R.id.owner_only_options, true);
+        } else if (!getOwnerID().equals(WiseTrackApplication.getCurrentUser().getUserID())) {
+            menu.setGroupVisible(R.id.owner_only_options, false);
+        }
+        menu.setGroupVisible(R.id.experimenter_options, true);
     }
 
     @Override
