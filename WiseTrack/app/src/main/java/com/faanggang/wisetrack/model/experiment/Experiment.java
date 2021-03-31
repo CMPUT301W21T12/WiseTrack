@@ -14,7 +14,7 @@ public class Experiment {
      * @param geolocation: true = geolocation required, false = geolocation optional
      * @param date
      * @param uID: userID of the owner (the user publishing the experiment)
-     * @param expID: the firebase ID
+     * @param expID: the firebase ID of the current experiment
      * @param open: is the experiment open or closed/unpublished? Set TRUE upon creation of
      *            experiment
      * @param subscribers: list of user's that are subscribed to this experiment.
@@ -106,7 +106,7 @@ public class Experiment {
     }
 
     public void setOwnerID(String ownerID) {
-        this.uID = uID;
+        this.uID = ownerID;
     }
 
     public void setExpID(String id){ this.expID = id;}
