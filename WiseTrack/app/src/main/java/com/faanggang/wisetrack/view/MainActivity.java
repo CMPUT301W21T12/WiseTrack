@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
             //direct new user to username creation activity
             Intent intent = new Intent(this, UserNameCreationActivity.class);
             startActivity(intent);
+
         }
         else {
             // user is a existing user
