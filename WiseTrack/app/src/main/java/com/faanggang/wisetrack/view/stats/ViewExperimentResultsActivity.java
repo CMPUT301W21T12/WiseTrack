@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack.view.stats;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.model.stats.StatHistogram;
+import com.faanggang.wisetrack.model.stats.StatPlot;
 
 
 /**
@@ -38,13 +41,17 @@ public class ViewExperimentResultsActivity extends AppCompatActivity implements 
     public void onClick(View v) {
         if (v.getId() == R.id.view_statistics_button) {
             Toast.makeText(this, "STATS REPORT", Toast.LENGTH_SHORT).show();
-            //Intent reportIntent = new Intent(ViewExperimentResultsActivity.this, StatReportActivity.class);
-            //startActivity(reportIntent);
+            Intent reportIntent = new Intent(ViewExperimentResultsActivity.this, StatReportActivity.class);
+            startActivity(reportIntent);
 
         } else if (v.getId() == R.id.view_histogram_button) {
             Toast.makeText(this, "HISTOGRAM (UNAVAILABLE)", Toast.LENGTH_SHORT).show();
+            Intent histogramIntent = new Intent(ViewExperimentResultsActivity.this, StatHistogramActivity.class);
+            startActivity(histogramIntent);
         } else if (v.getId() == R.id.view_plots_button) {
             Toast.makeText(this, "PLOT (UNAVAILABLE)", Toast.LENGTH_SHORT).show();
+            Intent plotIntent = new Intent(ViewExperimentResultsActivity.this, StatPlotActivity.class);
+            startActivity(plotIntent);
         }
     }
 }

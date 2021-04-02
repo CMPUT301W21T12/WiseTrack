@@ -22,15 +22,15 @@
         android:id="@+id/stats_mean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="432dp"
         android:text="Mean:"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stats_median" />
+        app:layout_constraintStart_toStartOf="@+id/stats_median"
+        app:layout_constraintTop_toBottomOf="@+id/stats_median"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/stats_mean2"
@@ -57,7 +57,7 @@
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toEndOf="@+id/stats_median"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,11 +66,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
-        android:layout_marginEnd="304dp"
         android:text="Median:"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -86,7 +87,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/stats_median"
-        app:layout_constraintTop_toBottomOf="@+id/stats_mean" />
+        app:layout_constraintTop_toBottomOf="@+id/stats_mean"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/stat_quartiles"
@@ -96,8 +98,8 @@
         android:text="Quartiles: "
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/stats_stdev"
-        tools:layout_editor_absoluteX="34dp" />
+        app:layout_constraintStart_toStartOf="@+id/stats_stdev"
+        app:layout_constraintTop_toBottomOf="@+id/stats_stdev" />
 
     <TextView
         android:id="@+id/stat_quartiles2"
@@ -116,13 +118,14 @@
         android:id="@+id/stats_stdev2"
         android:layout_width="129dp"
         android:layout_height="30dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="360dp"
         android:text="stdev Value "
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/stats_stdev"
         app:layout_constraintTop_toTopOf="@+id/stats_stdev"
         app:layout_constraintVertical_bias="0.0" />

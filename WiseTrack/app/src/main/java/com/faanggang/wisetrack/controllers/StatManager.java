@@ -1,6 +1,10 @@
 package com.faanggang.wisetrack.controllers;
 
+import android.util.Log;
+
 import com.faanggang.wisetrack.model.stats.StatReport;
+
+import java.util.List;
 
 /**
  * Manage and handle all statistic related methods for experiments
@@ -12,8 +16,16 @@ import com.faanggang.wisetrack.model.stats.StatReport;
  * 2 - Non - Negative
  * 3 - Measurements
  */
+
+/**
+ * Testing
+ * value check
+ * hopefully inner values
+ */
+
+// add test for values
 public class StatManager {
-    public StatReport currentTrialReport = new StatReport(0,0,0, new float[]{0, 0, 0});
+    public StatReport currentTrialReport = new StatReport();
     //private StatHistogram currentTrialHistogram;
     //private StatPlot currentTrialPlot;
     public StatManager () {
@@ -22,17 +34,16 @@ public class StatManager {
     /**
      * Calculate the following:
      * Median , Mean, Std. Deviation and quartiles
+     * @param trialData from trial as a float array
      */
-    public void generateStatReport() {
-        float[] trialData = new float[]{42,3,4,7,18,21,26,44,69,10}; // Test array
-
-        // grab trial data from trial as a float array
-        currentTrialReport.setMean(currentTrialReport.calculateMean(trialData));
-        currentTrialReport.setMedian(currentTrialReport.calculateMedian(trialData));
-        currentTrialReport.setStdev(currentTrialReport.calculateStdev(trialData));
-        currentTrialReport.setQuartiles(currentTrialReport.calculateQuartiles(trialData));
-        currentTrialReport.setInterquartileRange(currentTrialReport.calculateInterquartileRange(trialData));
-
+    public void generateStatReport(List<Float> trialData) {
+        if (trialData.size() > 1) {
+            currentTrialReport.setMean(currentTrialReport.calculateMean(trialData));
+            currentTrialReport.setMedian(currentTrialReport.calculateMedian(trialData));
+            currentTrialReport.setStdev(currentTrialReport.calculateStdev(trialData));
+            currentTrialReport.setQuartiles(currentTrialReport.calculateQuartiles(trialData));
+            currentTrialReport.setInterquartileRange(currentTrialReport.calculateInterquartileRange(trialData));
+        }
 
 
     }
