@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.controllers.QRCodeManager;
 import com.faanggang.wisetrack.controllers.UserManager;
 import com.faanggang.wisetrack.view.user.UserNameCreationActivity;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView owl = (ImageView) findViewById(R.id.imageView);
         owl.setImageResource(R.drawable.logo);
+
+
+
     }
 
     @Override

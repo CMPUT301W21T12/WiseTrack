@@ -11,7 +11,6 @@ import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.view.MainActivity;
 import com.google.zxing.Result;
 
 //https://github.com/yuriy-budiyev/code-scanner
