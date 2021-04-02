@@ -24,7 +24,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -34,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class ViewExperimentActivity extends AppCompatActivity
     implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
@@ -51,6 +54,7 @@ public class ViewExperimentActivity extends AppCompatActivity
     private ExperimentManager experimentManager;
     private UserManager userManager;
     private SubscriptionManager subManager;
+    private boolean geolocationRequired;
 
     private int anotherTrialType;
 
@@ -118,6 +122,7 @@ public class ViewExperimentActivity extends AppCompatActivity
             expDescriptionView.setText(docSnap.getString("description"));
             expRegionView.setText(docSnap.getString("region"));
             expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
+            geolocationRequired = docSnap.getBoolean("geolocation");
             if (docSnap.getBoolean("open")) {
                 expStatusView.setText("Open");
                 if (docSnap.getBoolean("geolocation")){
@@ -201,23 +206,17 @@ public class ViewExperimentActivity extends AppCompatActivity
                 Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.execute_trials_option:
-                if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
-                    Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
-                    executeIntent.putExtra("EXP_ID", expID);
-                    executeIntent.putExtra("trialType", anotherTrialType);
-                    startActivity(executeIntent);
-                    return true;
-                } else if (anotherTrialType == 1) {  // handle binomial trial
-                    Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
-                    executeIntent.putExtra("EXP_ID", expID);
-                    startActivity(executeIntent);
-                    return true;
-                } else if (anotherTrialType == 3) {  // handle measurement trial
-                    Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
-                    executeIntent.putExtra("EXP_ID", expID);
-                    startActivity(executeIntent);
-                    return true;
+                if (geolocationRequired) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                    } else {
+                        selectExecute();
+                    }
+                } else {
+                    selectExecute();
                 }
+                return true;
             case R.id.comment_option:
                 Intent intent = new Intent(ViewExperimentActivity.this, ViewAllCommentActivity.class);
                 intent.putExtra("EXP_ID", expID);
@@ -231,6 +230,27 @@ public class ViewExperimentActivity extends AppCompatActivity
         }
     }
 
+
+    private boolean selectExecute() {
+        if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
+            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
+            executeIntent.putExtra("EXP_ID", expID);
+            executeIntent.putExtra("trialType", anotherTrialType);
+            startActivity(executeIntent);
+            return true;
+        } else if (anotherTrialType == 1) {  // handle binomial trial
+            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
+            executeIntent.putExtra("EXP_ID", expID);
+            startActivity(executeIntent);
+            return true;
+        } else if (anotherTrialType == 3) {  // handle measurement trial
+            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
+            executeIntent.putExtra("EXP_ID", expID);
+            startActivity(executeIntent);
+            return true;
+     }
+        return true;
+    }
 
     @Override
     public void onEndExperimentOk(){
