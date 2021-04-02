@@ -44,6 +44,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 userManager.updateCurrentUser(currentUser.getUserID());
                 Intent intent = new Intent(EditProfileActivity.this, ViewSelfActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
