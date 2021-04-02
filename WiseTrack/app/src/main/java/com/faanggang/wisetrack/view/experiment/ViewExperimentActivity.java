@@ -36,7 +36,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewExperimentActivity extends AppCompatActivity
-    implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
+    implements EndExperimentConfirmFragment.OnFragmentInteractionListener,
+        UnpublishExperimentFragment.OnFragmentInteractionListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
@@ -260,5 +261,27 @@ public class ViewExperimentActivity extends AppCompatActivity
         // Go back to main
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onUnpublishExperimentOk() {
+        DocumentReference experiment = db.collection("Experiments").document(expID);
+
+        experiment
+                .update("published", false)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("UNPUBLISH_EXPERIMENT", "Experiment " + expID + " successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("UNPUBLISH_EXPERIMENT", "Error updating document", e);
+
+                        // ADD AN ERROR FRAGMENT HERE
+                    }
+                });
     }
 }
