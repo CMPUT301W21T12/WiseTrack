@@ -41,37 +41,41 @@ public class UserNameCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = editUserName.getText().toString();
-                CollectionReference usersRef = db.collection("Users");
-                Log.d("Test", "it got here");
-                // query for all user document with the username input by the new user
-                usersRef.whereEqualTo("userName", username)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    Log.d("test2", "task is successful");
-                                    // username entered by user is unique and does not exists
-                                    if (task.getResult().size() == 0) {
-                                        userManager.createNewUser(userManager, username);
-                                        Log.d("Username creation", "Username created");
-                                        Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
-                                        startActivity(intent);
-                                    }
-
-                                    else {
-                                        //document exists with the user entered username
-                                        Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
-                                        Log.d("username creation", "Username already exists error");
+                if (detectSpecial(username)) {
+                    Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
+                } else {
+                    CollectionReference usersRef = db.collection("Users");
+                    // query for all user document with the username input by the new user
+                    usersRef.whereEqualTo("userName", username)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("test2", "task is successful");
+                                        // username entered by user is unique and does not exists
+                                        if (task.getResult().size() == 0) {
+                                            userManager.createNewUser(userManager, username);
+                                            Log.d("Username creation", "Username created");
+                                            Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            //document exists with the user entered username
+                                            Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
+                                            Log.d("username creation", "Username already exists error");
+                                        }
+                                    } else {
+                                        // error retrieving document
+                                        Log.d("username creation:", "error getting document");
                                     }
                                 }
-                                else {
-                                    // error retrieving document
-                                    Log.d("username creation:", "error getting document");
-                                }
-                            }
-                        });
+                            });
+                }
             }
         });
+    }
+
+    public boolean detectSpecial(String s) {
+        return (s == null) ? false : s.matches("[^A-Za-z0-9 ]");
     }
 }
