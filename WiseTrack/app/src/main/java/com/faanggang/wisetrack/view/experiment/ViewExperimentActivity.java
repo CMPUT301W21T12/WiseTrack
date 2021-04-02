@@ -192,7 +192,7 @@ public class ViewExperimentActivity extends AppCompatActivity
 
                 return true;
             case R.id.results_option:
-                //Toast.makeText(this, "View experiment results selected", Toast.LENGTH_SHORT).show(); // For statistics
+                // For statistics
                 Intent statIntent = new Intent( ViewExperimentActivity.this, ViewExperimentResultsActivity.class);
                 statIntent.putExtra("EXP_ID", expID);
                 startActivity(statIntent);

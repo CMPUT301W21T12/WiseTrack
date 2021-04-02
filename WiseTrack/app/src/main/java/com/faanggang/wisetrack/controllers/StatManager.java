@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.faanggang.wisetrack.model.stats.StatReport;
 
+import java.util.List;
+
 /**
  * Manage and handle all statistic related methods for experiments
  * To be used in all activity files
@@ -34,8 +36,8 @@ public class StatManager {
      * Median , Mean, Std. Deviation and quartiles
      * @param trialData from trial as a float array
      */
-    public void generateStatReport(float[] trialData) {
-        if (trialData.length > 1) {
+    public void generateStatReport(List<Float> trialData) {
+        if (trialData.size() > 1) {
             currentTrialReport.setMean(currentTrialReport.calculateMean(trialData));
             currentTrialReport.setMedian(currentTrialReport.calculateMedian(trialData));
             currentTrialReport.setStdev(currentTrialReport.calculateStdev(trialData));
