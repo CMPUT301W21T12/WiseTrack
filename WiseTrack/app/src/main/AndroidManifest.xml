@@ -21,6 +21,8 @@
         <activity android:name=".view.MainMenuActivity" />
         <activity android:name=".view.stats.ViewExperimentResultsActivity"/>
         <activity android:name=".view.stats.StatReportActivity"/>
+        <activity android:name=".view.stats.StatPlotActivity"/>
+        <activity android:name=".view.stats.StatHistogramActivity"/>
         <activity android:name=".view.user.ViewOtherActivity"/>
         <activity
             android:name=".view.user.ViewSelfActivity"

@@ -19,6 +19,13 @@ public class StatReport {
           this.quartiles = quartiles;
 
      }
+     public StatReport() {
+          this.mean = 0;
+          this.median = 0;
+          this.stdev = 0;
+          this.quartiles = new float[]{0,0,0};
+     }
+
 
      /**
       * Calculates Mean of trials.
