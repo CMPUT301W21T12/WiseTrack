@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.view.experiment;
 
 
 
-import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
@@ -36,7 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewExperimentActivity extends AppCompatActivity
-    implements EndExperimentConfirmFragment.OnFragmentInteractionListener,
+    implements EndExperimentFragment.OnFragmentInteractionListener,
         UnpublishExperimentFragment.OnFragmentInteractionListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
@@ -188,7 +187,7 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.end_experiment_option:
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
 
-                EndExperimentConfirmFragment frag = new EndExperimentConfirmFragment();
+                EndExperimentFragment frag = new EndExperimentFragment();
                 frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
 
                 return true;

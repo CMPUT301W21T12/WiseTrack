@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 
-public class EndExperimentConfirmFragment extends DialogFragment {
+public class EndExperimentFragment extends DialogFragment {
 
 
     private OnFragmentInteractionListener listener;
