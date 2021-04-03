@@ -44,6 +44,7 @@ public class SearchManager {
         ArrayList<String> queryKeywords = getKeywordsFromString(query);
 
         db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
+                .whereEqualTo("published", true)  // do not show unpublished results
                 .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
