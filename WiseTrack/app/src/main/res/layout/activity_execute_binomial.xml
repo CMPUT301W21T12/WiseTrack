@@ -30,17 +30,6 @@
         app:layout_constraintTop_toBottomOf="@+id/success_count_input" />
 
     <EditText
-        android:id="@+id/trial_description_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
-        android:ems="15"
-        android:hint="Enter trial description (optional)"
-        android:inputType="textMultiLine"
-        app:layout_constraintStart_toStartOf="@+id/trial_geolocation_input"
-        app:layout_constraintTop_toBottomOf="@+id/trial_geolocation_input" />
-
-    <EditText
         android:id="@+id/trial_geolocation_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

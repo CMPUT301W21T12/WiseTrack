@@ -10,12 +10,11 @@ public class BinomialTrial extends Trial{
      * @param success          : interger value of total number of success
      * @param failure             : interger value of total number of fail
      * @param trialGeolocation : string input of location for which current trial was conducted
-     * @param trialDescription : an optional field, default set to empty string
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public BinomialTrial(int success, int failure, String trialGeolocation, String trialDescription, String uID, Date date) {
-        super(trialGeolocation, trialDescription, uID, date);
+    public BinomialTrial(int success, int failure, String trialGeolocation, String uID, Date date) {
+        super(trialGeolocation, uID, date);
 
         this.success = success;
         this.failure = failure;

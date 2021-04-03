@@ -21,7 +21,6 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
     private static final String TAG = "Snippets";
     private EditText trialData;
     private EditText trialGeolocation;
-    private EditText trialDescription;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
@@ -39,7 +38,6 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
         trialData = findViewById(R.id.trial_data_input);
         // hardcoded address for now; will implement android map fragment later
         trialGeolocation = findViewById(R.id.trial_geolocation_input);
-        trialDescription = findViewById(R.id.trial_description_input);
 
         Button cancelButton = findViewById(R.id.button_cancel);
         Button saveButton = findViewById(R.id.button_save);
@@ -59,9 +57,8 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
                 data = Float.parseFloat(trialData.getText().toString());
             }
             String geolocation = trialGeolocation.getText().toString();
-            String description = trialDescription.getText().toString();
 
-            MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, description, mAuth.getUid(), new Date());
+            MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

@@ -8,12 +8,11 @@ public class CountTrial extends Trial{
     /**
      * @param count: current trial test result - count type or non-negative
      * @param trialGeolocation : string input of location for which current trial was conducted
-     * @param trialDescription : an optional field, default set to empty string
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public CountTrial(int count, int trialType, String trialGeolocation, String trialDescription, String uID, Date date) {
-        super(trialGeolocation, trialDescription, uID, date);
+    public CountTrial(int count, int trialType, String trialGeolocation, String uID, Date date) {
+        super(trialGeolocation, uID, date);
         this.trialType = trialType;
 
         if (trialType == 0) {
@@ -29,8 +28,8 @@ public class CountTrial extends Trial{
     }
 
     // dummy constructor for testing
-    public CountTrial(int count, String trialGeolocation, String trialDescription, String uID, Date date) {
-        super(trialGeolocation, trialDescription, uID, date);
+    public CountTrial(int count, String trialGeolocation, String uID, Date date) {
+        super(trialGeolocation, uID, date);
         this.count = count;
     }
 

@@ -22,7 +22,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
     private EditText successCount;
     private EditText failureCount;
     private EditText trialGeolocation;
-    private EditText trialDescription;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
@@ -41,7 +40,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
         failureCount = findViewById(R.id.failure_count_input);
         // hardcoded address for now; will implement android map fragment later
         trialGeolocation = findViewById(R.id.trial_geolocation_input);
-        trialDescription = findViewById(R.id.trial_description_input);
 
         Button cancelButton = findViewById(R.id.button_cancel);
         Button saveButton = findViewById(R.id.button_save);
@@ -66,9 +64,8 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
             }
 
             String geolocation = trialGeolocation.getText().toString();
-            String description = trialDescription.getText().toString();
 
-            BinomialTrial currentTrial = new BinomialTrial(success, failure, geolocation, description, mAuth.getUid(), new Date());
+            BinomialTrial currentTrial = new BinomialTrial(success, failure, geolocation, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);
