@@ -20,6 +20,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Activity that handles username creation for all new users
  */
@@ -43,7 +46,8 @@ public class UserNameCreationActivity extends AppCompatActivity {
                 String username = editUserName.getText().toString();
                 if (detectSpecial(username)) {
                     Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
-                } else {
+                }
+                else {
                     CollectionReference usersRef = db.collection("Users");
                     // query for all user document with the username input by the new user
                     usersRef.whereEqualTo("userName", username)
@@ -75,7 +79,23 @@ public class UserNameCreationActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check if user has entered special characters in username field
+     * @param s
+     * String of the username entered by user
+     * @return
+     * returns True is special character is found, else false
+     */
     public boolean detectSpecial(String s) {
-        return (s == null) ? false : s.matches("[^A-Za-z0-9 ]");
+        // check if first character is a space
+        String c = s.substring(0, 1);
+        if (c.equals(" ")) {
+            return true;
+        }
+        else {
+            Pattern p = Pattern.compile("[^A-Za-z0-9 ]");
+            Matcher m = p.matcher(s);
+            return m.find();
+        }
     }
 }
