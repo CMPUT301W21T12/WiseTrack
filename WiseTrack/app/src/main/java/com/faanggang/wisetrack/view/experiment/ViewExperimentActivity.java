@@ -1,7 +1,6 @@
 package com.faanggang.wisetrack.view.experiment;
 
 
-
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
@@ -16,6 +15,11 @@ import com.faanggang.wisetrack.controllers.SubscriptionManager;
 import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.controllers.UserManager;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,19 +31,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class ViewExperimentActivity extends AppCompatActivity
-    implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
+        implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
@@ -55,6 +64,8 @@ public class ViewExperimentActivity extends AppCompatActivity
     private UserManager userManager;
     private SubscriptionManager subManager;
     private boolean geolocationRequired;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
 
     private int anotherTrialType;
 
@@ -91,6 +102,22 @@ public class ViewExperimentActivity extends AppCompatActivity
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
 
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    Log.e("LocationCallback", "null");
+                    return;
+                } else {
+                    Log.w("awesome", locationResult.toString());
+                }
+            }
+        };
+
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        startLocationUpdates(); // should move this down later
         expOwnerView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -114,6 +141,27 @@ public class ViewExperimentActivity extends AppCompatActivity
             }
         });
     }
+
+    private void startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Log.w("what the heck man", "this stinks");
+        fusedLocationClient.requestLocationUpdates(LocationRequest.create().setPriority(LocationRequest.PRIORITY_NO_POWER),
+                locationCallback,
+                Looper.getMainLooper());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
 
     private void setText(){
         experimentManager.getExperimentInfo(expID, task->{
@@ -211,10 +259,24 @@ public class ViewExperimentActivity extends AppCompatActivity
                         != PackageManager.PERMISSION_GRANTED) {
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
                     } else {
+                        Log.w("yosh", "");
+                        fusedLocationClient.getLastLocation()
+                                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location location) {
+                                        // Got last known location. In some rare situations this can be null.
+                                        if (location != null) {
+                                            Log.w("lets go!!! its dababy inr oblxo", location.toString());
+                                        } else {
+                                            Log.w("ww", "wuhuh");
+                                        }
+                                    }
+                                });
                         selectExecute();
                     }
                 } else {
                     selectExecute();
+
                 }
                 return true;
             case R.id.comment_option:
