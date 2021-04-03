@@ -183,12 +183,16 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
+
+                UnpublishExperimentFragment unpublish_frag = new UnpublishExperimentFragment();
+                unpublish_frag.show(getSupportFragmentManager(), "UNPUBLISH_EXPERIMENT");
+
                 return true;
             case R.id.end_experiment_option:
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
 
-                EndExperimentFragment frag = new EndExperimentFragment();
-                frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
+                EndExperimentFragment end_frag = new EndExperimentFragment();
+                end_frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
 
                 return true;
             case R.id.results_option:
