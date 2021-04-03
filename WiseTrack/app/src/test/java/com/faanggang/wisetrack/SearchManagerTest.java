@@ -37,9 +37,7 @@ public class SearchManagerTest {
 
         Mockito.when(mockDb.collection("Experiments"))
                 .thenReturn(mockCollectionRef);
-        Mockito.when(mockCollectionRef.whereArrayContainsAny("keywords", keywords))
-                .thenReturn(mockQuery);
-        Mockito.when(mockQuery.orderBy("datetime"))
+        Mockito.when(mockCollectionRef.orderBy("datetime"))
                 .thenReturn(mockQuery);
         Mockito.when(mockQuery.get())
                 .thenReturn(mockTask);
@@ -67,12 +65,13 @@ public class SearchManagerTest {
         mockSearcher = new MockSearcher(mockDb);
         mockSearcher.makeSearchRequest("Test Experiments");
 
-        Mockito.verify(mockDb, Mockito.times(2))
+        Mockito.verify(mockDb, Mockito.times(1))
                 .collection("Experiments");
         Mockito.verify(mockCollectionRef, Mockito.times(1))
-                .whereArrayContainsAny("keywords", keywords);
-        Mockito.verify(mockQuery, Mockito.times(1))
                 .orderBy("datetime");
+        Mockito.verify(mockQuery, Mockito.times(1))
+                .get();
+
     }
 
 }
