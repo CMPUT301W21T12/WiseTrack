@@ -43,8 +43,8 @@ public class SearchManager {
 
         ArrayList<String> queryKeywords = getKeywordsFromString(query);
 
-        db.collection("Experiments").whereArrayContainsAny("keywords", queryKeywords)
-                .whereEqualTo("published", true)  // do not show unpublished results
+        db.collection("Experiments")
+                .whereArrayContainsAny("keywords", queryKeywords)
                 .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -52,6 +52,11 @@ public class SearchManager {
                         ArrayList<Experiment> searchResults = new ArrayList<Experiment>();
                         ArrayList<DocumentSnapshot> result = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
                         for (DocumentSnapshot snapshot : result) {
+
+                            // filter out unpublished experiments
+                            if(snapshot.getBoolean("published") == false)
+                                continue;  // skip this experiment if it's been unpublished
+
                             Experiment exp = new Experiment(snapshot.getString("name"),
                                     snapshot.getString("description"),
                                     snapshot.getString("region"),
