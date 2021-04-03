@@ -320,8 +320,7 @@ public class ViewExperimentActivity extends AppCompatActivity
                 end_frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
 
                 return true;
-            case R.id.results_option:
-                // For statistics
+            case R.id.results_option:  // For statistics
                 Intent statIntent = new Intent( ViewExperimentActivity.this, ViewExperimentResultsActivity.class);
                 statIntent.putExtra("EXP_ID", expID);
                 startActivity(statIntent);

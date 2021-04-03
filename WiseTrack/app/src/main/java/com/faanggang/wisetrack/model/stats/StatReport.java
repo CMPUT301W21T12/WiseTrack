@@ -172,7 +172,7 @@ public class StatReport {
 
           return interquartileRange;
      }
-     
+
      public float getMean() {
           return mean;
      }
