@@ -23,20 +23,43 @@ import java.util.function.Function;
 public class GeolocationManager {
     Context context;
     private FusedLocationProviderClient fusedLocationClient;
+    private static GeolocationManager geolocationManager = null;
+    private static boolean activated = false;
 
-    public GeolocationManager(Context context) {
+    public static GeolocationManager getInstance() {
+        if (geolocationManager == null) {
+            geolocationManager = new GeolocationManager();
+        }
+        return geolocationManager;
+    }
+
+    public void stopLocationUpdate() {
+        fusedLocationClient.removeLocationUpdates(new LocationCallback() {});
+    }
+
+    private GeolocationManager() {
         this.context = context;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
+        activated = true;
         fusedLocationClient.requestLocationUpdates(LocationRequest
                         .create().setPriority(LocationRequest.PRIORITY_NO_POWER),
                 new LocationCallback() {},
                 Looper.getMainLooper());
+    }
+
+    public boolean isActivated() {
+        return activated;
     }
 
     public void promptPermissions(Activity activity) {

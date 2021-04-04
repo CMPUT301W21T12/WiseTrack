@@ -46,7 +46,9 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-        geolocationManager = new GeolocationManager(this);
+        geolocationManager = GeolocationManager.getInstance();
+        geolocationManager.setContext(this);
+
         final Button viewProfileButton = findViewById(R.id.menuProfile_Button);
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,4 +107,9 @@ public class MainMenuActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        geolocationManager.stopLocationUpdate();
+    }
 }

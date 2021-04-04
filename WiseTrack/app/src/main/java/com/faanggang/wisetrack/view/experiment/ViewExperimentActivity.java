@@ -104,7 +104,8 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
-        geolocationManager = new GeolocationManager(this);
+        geolocationManager = GeolocationManager.getInstance();
+        geolocationManager.setContext(this);
         startedFetching = false;
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -196,6 +197,12 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        geolocationManager.stopLocationUpdate();
+    }
+
     private void warnGeolocation(){
         Toast.makeText(this, "Warning: This experiment requires geolocation!",Toast.LENGTH_LONG).show();
     }
@@ -247,6 +254,24 @@ public class ViewExperimentActivity extends AppCompatActivity
                         Toast.makeText(this, "Please allow this app to access Geolocation to proceed", Toast.LENGTH_SHORT).show();
                     } else if (location == null) {
                         Toast.makeText(this, "Getting user location...", Toast.LENGTH_SHORT).show();
+
+                        fusedLocationClient.getLastLocation()
+                                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                                    @Override
+                                    public void onSuccess(Location location) {
+                                        // Got last known location. In some rare situations this can be null.
+                                        if (location != null) {
+                                            Log.w("Geolocation is ", location.toString());
+                                            ViewExperimentActivity.this.location = location;
+                                        } else {
+                                            Log.w("Geolocation is", "null");
+                                        }
+                                    }
+                                });
+
+                        if (!geolocationManager.isActivated()) {
+                            geolocationManager.startLocationUpdates();
+                        }
                     } else {
                         selectExecute();
                     }
