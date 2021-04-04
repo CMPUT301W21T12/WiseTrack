@@ -80,17 +80,9 @@ public class PublishingManager {
         data.put("datetime", new Timestamp(experiment.getDate()));
         data.put("uID", experiment.getOwnerID());
         data.put("open", true); // open by default
+        data.put("published", true); // published by default
         data.put("subscribers", new ArrayList<String>());
-        ArrayList<String> keywords = new ArrayList<>();
-        keywords.addAll(Arrays.asList(experiment.getDescription().split(" ")));
-        keywords.addAll(Arrays.asList(experiment.getName().split(" ")));
-        keywords.add("open");
-        keywords.add(userName);
-
-        for (int i = 0; i < keywords.size(); i++) {
-            keywords.set(i, keywords.get(i).toUpperCase());
-        }
-        data.put("keywords", keywords);
+        data.put("username", userName);
 
         return data;
     }

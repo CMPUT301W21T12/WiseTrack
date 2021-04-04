@@ -21,6 +21,8 @@ import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.view.experiment.MySubscriptionActivity;
 import com.faanggang.wisetrack.view.publish.PublishExperiment1_Initialization;
+import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
 import com.faanggang.wisetrack.view.search.SearchActivity;
 import com.faanggang.wisetrack.view.user.ViewSelfActivity;
 import com.google.android.gms.location.LocationCallback;
@@ -49,6 +51,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
         geolocationManager = GeolocationManager.getInstance(this);
         geolocationManager.setContext(this);
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+        }
 
         final Button viewProfileButton = findViewById(R.id.menuProfile_Button);
         viewProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +74,6 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        experimentSearchButton = findViewById(R.id.menuSearch_button);
 
         final Button experimentSearchButton = findViewById(R.id.menuSearch_button);
 
@@ -106,6 +110,16 @@ public class MainMenuActivity extends AppCompatActivity {
         } else {
             geolocationManager.promptPermissions(this);
         }
+
+        final Button scanQRCodeButton = (Button) findViewById(R.id.menuScanQR_button);
+
+        scanQRCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, CameraScannerActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     // adapted from code found https://developer.android.com/training/permissions/requesting

@@ -15,4 +15,11 @@
     <string name="search_item_Owner">owner</string>
     <string name="search_item_Open">open</string>
     <string name="search_item_Closed">closed</string>
+
+    <string-array name="binomial_result_items">
+        <item>""</item>
+        <item>Success</item>
+        <item>Failure</item>
+    </string-array>
+
 </resources>

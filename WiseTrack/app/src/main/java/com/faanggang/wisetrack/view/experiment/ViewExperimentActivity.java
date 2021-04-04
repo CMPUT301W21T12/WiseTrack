@@ -10,11 +10,18 @@ import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
-
+import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
 import com.faanggang.wisetrack.controllers.SubscriptionManager;
-import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+import com.faanggang.wisetrack.view.MainActivity;
+import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
+import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -49,7 +56,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class ViewExperimentActivity extends AppCompatActivity
-        implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
+    implements EndExperimentFragment.OnFragmentInteractionListener,
+        UnpublishExperimentFragment.OnFragmentInteractionListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
@@ -233,12 +241,16 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
+
+                UnpublishExperimentFragment unpublish_frag = new UnpublishExperimentFragment();
+                unpublish_frag.show(getSupportFragmentManager(), "UNPUBLISH_EXPERIMENT");
+
                 return true;
             case R.id.end_experiment_option:
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
 
-                EndExperimentConfirmFragment frag = new EndExperimentConfirmFragment();
-                frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
+                EndExperimentFragment end_frag = new EndExperimentFragment();
+                end_frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
 
                 return true;
             case R.id.results_option:
@@ -274,6 +286,18 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.get_qr_option:
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                    startActivity(qrIntent);
+                }
+                else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -330,5 +354,27 @@ public class ViewExperimentActivity extends AppCompatActivity
         // Go back to main
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onUnpublishExperimentOk() {
+        DocumentReference experiment = db.collection("Experiments").document(expID);
+
+        experiment
+                .update("published", false)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("UNPUBLISH_EXPERIMENT", "Experiment " + expID + " successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("UNPUBLISH_EXPERIMENT", "Error updating document", e);
+
+                        // ADD AN ERROR FRAGMENT HERE
+                    }
+                });
     }
 }
