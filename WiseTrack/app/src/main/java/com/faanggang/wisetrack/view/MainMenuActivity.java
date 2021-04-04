@@ -6,6 +6,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -16,7 +19,11 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+
 import com.faanggang.wisetrack.controllers.GeolocationManager;
+
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.view.experiment.MySubscriptionActivity;
@@ -25,6 +32,8 @@ import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
 import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
 import com.faanggang.wisetrack.view.search.SearchActivity;
 import com.faanggang.wisetrack.view.user.ViewSelfActivity;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 

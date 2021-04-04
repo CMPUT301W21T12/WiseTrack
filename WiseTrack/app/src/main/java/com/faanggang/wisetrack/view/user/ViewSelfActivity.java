@@ -1,10 +1,14 @@
 package com.faanggang.wisetrack.view.user;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,8 +25,6 @@ public class ViewSelfActivity extends AppCompatActivity {
     private TextView lastNameText;
     private TextView phoneNumberText;
     private TextView emailText;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,19 @@ public class ViewSelfActivity extends AppCompatActivity {
             }
         });
 
+        final Button getUserIDButton = findViewById(R.id.get_UserID_Button);
+        getUserIDButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userID = WiseTrackApplication.getCurrentUser().getUserID();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData idClip = ClipData.newPlainText("id", userID);
+                clipboard.setPrimaryClip(idClip);
+                String string = "UserID: "+userID+ " has been copied to your clipboard";
+                Toast.makeText(getApplicationContext(),string, Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     public void setText(Users currentUser) {
@@ -58,6 +73,8 @@ public class ViewSelfActivity extends AppCompatActivity {
         phoneNumberText.setText(currentUser.getPhoneNumber());
         emailText.setText(currentUser.getEmail());
     }
+
+
 
 
 }

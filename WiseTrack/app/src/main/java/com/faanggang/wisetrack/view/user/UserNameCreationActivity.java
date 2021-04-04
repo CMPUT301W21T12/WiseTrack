@@ -20,6 +20,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Activity that handles username creation for all new users
  */
@@ -41,38 +44,58 @@ public class UserNameCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = editUserName.getText().toString();
-                CollectionReference usersRef = db.collection("Users");
-                Log.d("Test", "it got here");
-                // query for all user document with the username input by the new user
-                usersRef.whereEqualTo("userName", username)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful()){
-                                    Log.d("test2", "task is successful");
-                                    // username entered by user is unique and does not exists
-                                    if (task.getResult().size() == 0) {
-                                        userManager.createNewUser(userManager, username);
-                                        Log.d("Username creation", "Username created");
-                                        Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }
-
-                                    else {
-                                        //document exists with the user entered username
-                                        Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
-                                        Log.d("username creation", "Username already exists error");
+                if (detectSpecial(username)) {
+                    Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    CollectionReference usersRef = db.collection("Users");
+                    // query for all user document with the username input by the new user
+                    usersRef.whereEqualTo("userName", username)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("test2", "task is successful");
+                                        // username entered by user is unique and does not exists
+                                        if (task.getResult().size() == 0) {
+                                            userManager.createNewUser(userManager, username);
+                                            Log.d("Username creation", "Username created");
+                                            Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            //document exists with the user entered username
+                                            Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
+                                            Log.d("username creation", "Username already exists error");
+                                        }
+                                    } else {
+                                        // error retrieving document
+                                        Log.d("username creation:", "error getting document");
                                     }
                                 }
-                                else {
-                                    // error retrieving document
-                                    Log.d("username creation:", "error getting document");
-                                }
-                            }
-                        });
+                            });
+                }
             }
         });
+    }
+
+    /**
+     * Check if user has entered special characters in username field
+     * @param s
+     * String of the username entered by user
+     * @return
+     * returns True is special character is found, else false
+     */
+    public boolean detectSpecial(String s) {
+        // check if first character is a space
+        String c = s.substring(0, 1);
+        if (c.equals(" ")) {
+            return true;
+        }
+        else {
+            Pattern p = Pattern.compile("[^A-Za-z0-9 ]");
+            Matcher m = p.matcher(s);
+            return m.find();
+        }
     }
 }
