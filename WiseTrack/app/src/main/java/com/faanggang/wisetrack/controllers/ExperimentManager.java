@@ -67,6 +67,11 @@ public class ExperimentManager {
                             );
                             e.setOpen(doc.getBoolean("open"));
                             e.setExpID(doc.getId());
+                            if (doc.getString("username") != null) {
+                                e.setUsername(doc.getString("username"));
+                            } else {
+                                e.setUsername("username");
+                            }
                             results.add(e);
                             searcher.onSearchSuccess(results);
                         }

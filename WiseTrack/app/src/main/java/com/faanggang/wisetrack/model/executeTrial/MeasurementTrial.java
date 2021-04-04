@@ -8,12 +8,11 @@ public class MeasurementTrial extends Trial {
     /**
      * @param measurement     : the trial result
      * @param trialGeolocation : string input of location for which current trial was conducted
-     * @param trialDescription : an optional field, default set to empty string
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public MeasurementTrial(float measurement, String trialGeolocation, String trialDescription, String uID, Date date) {
-        super(trialGeolocation, trialDescription, uID, date);
+    public MeasurementTrial(float measurement, String trialGeolocation, String uID, Date date) {
+        super(trialGeolocation, uID, date);
         this.measurement = measurement;
     }
 
