@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.view.experiment;
 
 
 
-import javax.swing.text.View;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
@@ -25,11 +24,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;

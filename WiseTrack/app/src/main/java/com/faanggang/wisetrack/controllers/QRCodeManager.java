@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -80,6 +81,30 @@ public class QRCodeManager {
                 Log.d("QR", "Failed with: ", task.getException());
             }
         });
+    }
+
+    public void readCode(String code) {
+        db.collection("QRCodes").document(code).get()
+            .addOnCompleteListener( task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (doc.exists()){
+                        Boolean open = doc.getBoolean("isPublic");
+                        if (open || WiseTrackApplication.getCurrentUser().getUserID()==doc.getString("uID")){
+                            String expID = doc.getString("expID");
+                            int trialResult = doc.getLong("trialResult").intValue();
+                            scanListener.onScanValid(expID, trialResult);
+                        } else{
+                            scanListener.onScanInvalid();
+                        }
+
+                    } else {
+                        scanListener.onScanInvalid();
+                    }
+                } else {
+                    Log.d("QR", "Failed with: ", task.getException());
+                }
+            });
     }
 
     private String addQRCode(String expID, int trialResult){
