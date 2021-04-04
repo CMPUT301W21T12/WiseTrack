@@ -68,6 +68,5 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainMenuActivity.class);
             startActivity(intent);
         }
-
     }
 }

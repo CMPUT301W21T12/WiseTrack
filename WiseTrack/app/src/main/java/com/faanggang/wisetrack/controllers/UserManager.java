@@ -186,4 +186,5 @@ public class UserManager {
 
         userManager.getUserInfo(uid, storeUser);
     }
+
 }
