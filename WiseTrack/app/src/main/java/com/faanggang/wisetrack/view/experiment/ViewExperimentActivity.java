@@ -2,19 +2,19 @@ package com.faanggang.wisetrack.view.experiment;
 
 
 
-import com.faanggang.wisetrack.model.experiment.Experiment;
-import com.faanggang.wisetrack.view.MainActivity;
+
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.controllers.ExperimentManager;
+import com.faanggang.wisetrack.controllers.SubscriptionManager;
+import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+import com.faanggang.wisetrack.view.MainActivity;
+import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
+import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
-import com.faanggang.wisetrack.model.WiseTrackApplication;
-import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
-
-import com.faanggang.wisetrack.controllers.ExperimentManager;
-import com.faanggang.wisetrack.controllers.SubscriptionManager;
-import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
-import com.faanggang.wisetrack.controllers.UserManager;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,7 +24,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -34,9 +36,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class ViewExperimentActivity extends AppCompatActivity
-    implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
+    implements EndExperimentFragment.OnFragmentInteractionListener,
+        UnpublishExperimentFragment.OnFragmentInteractionListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
@@ -51,6 +55,7 @@ public class ViewExperimentActivity extends AppCompatActivity
     private ExperimentManager experimentManager;
     private UserManager userManager;
     private SubscriptionManager subManager;
+    private boolean geolocationRequired;
 
     private int anotherTrialType;
 
@@ -118,6 +123,7 @@ public class ViewExperimentActivity extends AppCompatActivity
             expDescriptionView.setText(docSnap.getString("description"));
             expRegionView.setText(docSnap.getString("region"));
             expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
+            geolocationRequired = docSnap.getBoolean("geolocation");
             if (docSnap.getBoolean("open")) {
                 expStatusView.setText("Open");
                 if (docSnap.getBoolean("geolocation")){
@@ -183,16 +189,20 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
+
+                UnpublishExperimentFragment unpublish_frag = new UnpublishExperimentFragment();
+                unpublish_frag.show(getSupportFragmentManager(), "UNPUBLISH_EXPERIMENT");
+
                 return true;
             case R.id.end_experiment_option:
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
 
-                EndExperimentConfirmFragment frag = new EndExperimentConfirmFragment();
-                frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
+                EndExperimentFragment end_frag = new EndExperimentFragment();
+                end_frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
 
                 return true;
             case R.id.results_option:
-                //Toast.makeText(this, "View experiment results selected", Toast.LENGTH_SHORT).show(); // For statistics
+                // For statistics
                 Intent statIntent = new Intent( ViewExperimentActivity.this, ViewExperimentResultsActivity.class);
                 statIntent.putExtra("EXP_ID", expID);
                 startActivity(statIntent);
@@ -201,23 +211,17 @@ public class ViewExperimentActivity extends AppCompatActivity
                 Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.execute_trials_option:
-                if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
-                    Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
-                    executeIntent.putExtra("EXP_ID", expID);
-                    executeIntent.putExtra("trialType", anotherTrialType);
-                    startActivity(executeIntent);
-                    return true;
-                } else if (anotherTrialType == 1) {  // handle binomial trial
-                    Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
-                    executeIntent.putExtra("EXP_ID", expID);
-                    startActivity(executeIntent);
-                    return true;
-                } else if (anotherTrialType == 3) {  // handle measurement trial
-                    Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
-                    executeIntent.putExtra("EXP_ID", expID);
-                    startActivity(executeIntent);
-                    return true;
+                if (geolocationRequired) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                    } else {
+                        selectExecute();
+                    }
+                } else {
+                    selectExecute();
                 }
+                return true;
             case R.id.comment_option:
                 Intent intent = new Intent(ViewExperimentActivity.this, ViewAllCommentActivity.class);
                 intent.putExtra("EXP_ID", expID);
@@ -226,11 +230,44 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.get_qr_option:
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                    startActivity(qrIntent);
+                }
+                else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
     }
 
+
+    private boolean selectExecute() {
+        if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
+            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
+            executeIntent.putExtra("EXP_ID", expID);
+            executeIntent.putExtra("trialType", anotherTrialType);
+            startActivity(executeIntent);
+            return true;
+        } else if (anotherTrialType == 1) {  // handle binomial trial
+            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
+            executeIntent.putExtra("EXP_ID", expID);
+            startActivity(executeIntent);
+            return true;
+        } else if (anotherTrialType == 3) {  // handle measurement trial
+            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
+            executeIntent.putExtra("EXP_ID", expID);
+            startActivity(executeIntent);
+            return true;
+     }
+        return true;
+    }
 
     @Override
     public void onEndExperimentOk(){
@@ -260,5 +297,27 @@ public class ViewExperimentActivity extends AppCompatActivity
         // Go back to main
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onUnpublishExperimentOk() {
+        DocumentReference experiment = db.collection("Experiments").document(expID);
+
+        experiment
+                .update("published", false)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("UNPUBLISH_EXPERIMENT", "Experiment " + expID + " successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("UNPUBLISH_EXPERIMENT", "Error updating document", e);
+
+                        // ADD AN ERROR FRAGMENT HERE
+                    }
+                });
     }
 }
