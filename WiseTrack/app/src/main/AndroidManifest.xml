@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.faanggang.wisetrack">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-        <activity android:name=".view.trial.ExecuteMeasurementActivity"></activity>
+        <activity android:name=".view.qrcodes.QRTrialConfirmActivity"></activity>
+        <activity android:name=".view.qrcodes.ViewQRCodeActivity" />
+        <activity android:name=".view.qrcodes.CameraScannerActivity" />
+        <activity android:name=".view.trial.ExecuteMeasurementActivity" />
         <activity android:name=".view.trial.ExecuteBinomialActivity" />
         <activity android:name=".view.trial.ExecuteCountActivity" />
         <activity android:name=".view.comment.ViewAllResponseActivity" />
@@ -19,11 +28,11 @@
         <activity android:name=".view.publish.PublishExperiment1_Initialization" />
         <activity android:name=".view.search.SearchActivity" />
         <activity android:name=".view.MainMenuActivity" />
-        <activity android:name=".view.stats.ViewExperimentResultsActivity"/>
-        <activity android:name=".view.stats.StatReportActivity"/>
-        <activity android:name=".view.stats.StatPlotActivity"/>
-        <activity android:name=".view.stats.StatHistogramActivity"/>
-        <activity android:name=".view.user.ViewOtherActivity"/>
+        <activity android:name=".view.stats.ViewExperimentResultsActivity" />
+        <activity android:name=".view.stats.StatReportActivity" />
+        <activity android:name=".view.stats.StatPlotActivity" />
+        <activity android:name=".view.stats.StatHistogramActivity" />
+        <activity android:name=".view.user.ViewOtherActivity" />
         <activity
             android:name=".view.user.ViewSelfActivity"
             android:parentActivityName=".view.MainMenuActivity" />
@@ -35,7 +44,6 @@
         <activity android:name=".view.experiment.ViewExperimentActivity" />
         <activity android:name=".view.comment.ViewAllCommentActivity" />
         <activity android:name=".view.experiment.MySubscriptionActivity" />
-
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

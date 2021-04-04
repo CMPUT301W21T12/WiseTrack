@@ -80,6 +80,7 @@ public class PublishingManager {
         data.put("datetime", new Timestamp(experiment.getDate()));
         data.put("uID", experiment.getOwnerID());
         data.put("open", true); // open by default
+        data.put("published", true); // published by default
         data.put("subscribers", new ArrayList<String>());
         data.put("username", userName);
 
