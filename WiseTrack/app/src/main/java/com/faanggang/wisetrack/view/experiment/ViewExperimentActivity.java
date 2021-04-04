@@ -1,8 +1,15 @@
 package com.faanggang.wisetrack.view.experiment;
 
 
-
-
+import com.faanggang.wisetrack.controllers.GeolocationManager;
+import com.faanggang.wisetrack.model.experiment.Experiment;
+import com.faanggang.wisetrack.view.MainActivity;
+import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
 import com.faanggang.wisetrack.controllers.SubscriptionManager;
@@ -16,6 +23,11 @@ import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,15 +39,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 public class ViewExperimentActivity extends AppCompatActivity
@@ -56,8 +73,12 @@ public class ViewExperimentActivity extends AppCompatActivity
     private UserManager userManager;
     private SubscriptionManager subManager;
     private boolean geolocationRequired;
-
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
+    private GeolocationManager geolocationManager;
     private int anotherTrialType;
+    private Location location;
+    private boolean startedFetching;
 
     public int getAnotherTrialType() {
         return anotherTrialType;
@@ -91,6 +112,31 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
+        geolocationManager = GeolocationManager.getInstance(this);
+        geolocationManager.setContext(this);
+        startedFetching = false;
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (!geolocationManager.isActivated()) {
+                geolocationManager.startLocationUpdates();
+            }
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                Log.w("Geolocation is ", location.toString());
+                                ViewExperimentActivity.this.location = location;
+                            } else {
+                                Log.w("Geolocation is", "null");
+                            }
+                        }
+                    });
+        }
 
         expOwnerView.setOnClickListener(new View.OnClickListener() {
 
@@ -162,6 +208,12 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        geolocationManager.stopLocationUpdate();
+    }
+
     private void warnGeolocation(){
         Toast.makeText(this, "Warning: This experiment requires geolocation!",Toast.LENGTH_LONG).show();
     }
@@ -213,13 +265,18 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.execute_trials_option:
                 if (geolocationRequired) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                            != PackageManager.PERMISSION_GRANTED
+                            ||  ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Please allow this app to access Geolocation to proceed", Toast.LENGTH_SHORT).show();
+                    } else if (geolocationManager.getLastLocation() == null) {
+                        Toast.makeText(this, "Getting user location...", Toast.LENGTH_SHORT).show();
                     } else {
                         selectExecute();
                     }
                 } else {
                     selectExecute();
+
                 }
                 return true;
             case R.id.comment_option:
