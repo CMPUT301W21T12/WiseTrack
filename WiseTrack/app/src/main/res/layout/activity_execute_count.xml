@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,24 +10,23 @@
         android:id="@+id/trial_data_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginBottom="1dp"
         android:ems="15"
-        android:hint="Enter count:"
-        android:inputType="numberSigned"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="Enter a nonegative integer:"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/textview_one_count"
+        app:layout_constraintStart_toStartOf="@+id/textview_one_count" />
 
     <EditText
         android:id="@+id/trial_geolocation_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="20dp"
         android:ems="15"
         android:hint="Enter trial geolocation:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trial_data_input" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_one_count" />
 
     <Button
         android:id="@+id/button_cancel"
@@ -49,5 +47,18 @@
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_one_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="25dp"
+        android:text="Note: 1 new count will be submitted for the current experiment"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

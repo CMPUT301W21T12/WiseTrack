@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
@@ -21,6 +22,9 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     private static final String TAG = "Snippets";
     private EditText trialData;
     private EditText trialGeolocation;
+    private TextView oneCount;
+
+    int trialType;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
@@ -34,12 +38,20 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
 
+        oneCount = findViewById(R.id.textview_one_count);
         trialData = findViewById(R.id.trial_data_input);
         // hardcoded address for now; will implement android map fragment later
         trialGeolocation = findViewById(R.id.trial_geolocation_input);
 
         Button cancelButton = findViewById(R.id.button_cancel);
         Button saveButton = findViewById(R.id.button_save);
+
+        trialType = extras.getInt("trialType");
+        if (trialType == 0) {  // count type
+            trialData.setVisibility(View.GONE);
+        } else if (trialType == 2) {  // nonngeative int type
+            oneCount.setVisibility(View.INVISIBLE);
+        }
 
         cancelButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
@@ -48,11 +60,12 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_save) {
-            int count = Integer.parseInt(trialData.getText().toString());
+            int count = 1;  // default set to one count
+            if (trialType == 2) {
+                count = Integer.parseInt(trialData.getText().toString());
+            }
             String geolocation = trialGeolocation.getText().toString();
 
-            //Bundle extras = getIntent().getExtras();
-            //int trialType = extras.getInt("trialType");
             CountTrial currentTrial = new CountTrial(count, geolocation, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
