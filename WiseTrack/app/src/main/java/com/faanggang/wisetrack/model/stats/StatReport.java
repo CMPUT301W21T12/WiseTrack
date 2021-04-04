@@ -10,13 +10,17 @@ import java.util.List;
  * Java Documentation for Lists: https://docs.oracle.com/javase/8/docs/api/java/util/List.html
  */
 public class StatReport {
+     private float minimum;
+     private float maximum;
      private float mean;
      private float median;
      private double stdev; // check this idk if theres gonna be a type error
      private List<Float> quartiles;
      private float interquartileRange;  // implemented but not put in cause its not asked for.
      private float mode; //
-     public StatReport(float mean, float median, double stdev, List<Float> quartiles) {
+     public StatReport(float minimum, float maximum, float mean, float median, double stdev, List<Float> quartiles) {
+          this.minimum = minimum;
+          this.maximum = maximum;
           this.mean = mean;
           this.median = median;
           this.stdev = stdev;
@@ -24,10 +28,36 @@ public class StatReport {
 
      }
      public StatReport() {
+          this.minimum = 0;
+          this.maximum = 0;
           this.mean = 0;
           this.median = 0;
           this.stdev = 0;
           this.quartiles = new ArrayList<Float>();
+     }
+
+     /**
+      * Grabs the minimum value from experiment trials
+      * @param trialTest
+      * @return Smallest result of an experiment
+      */
+     public float calculateMin(List<Float> trialTest){
+          Collections.sort(trialTest);
+          minimum = trialTest.get(0);
+          return minimum;
+     }
+
+
+
+     /**
+      * Grabs the maximum value from experiment trials
+      * @param trialTest
+      * @return Largest result of an experiment
+      */
+     public float calculateMax(List<Float> trialTest) {
+          Collections.sort(trialTest);
+          maximum = trialTest.get(trialTest.size()-1);
+          return maximum;
      }
 
 
@@ -142,52 +172,43 @@ public class StatReport {
 
           return interquartileRange;
      }
-
+     
      public float getMean() {
           return mean;
      }
-
      public void setMean(float mean) {
           this.mean = mean;
      }
-
      public float getMedian() {
           return median;
      }
-
      public void setMedian(float median) {
           this.median = median;
      }
-
      public double getStdev() {
           return stdev;
      }
-
      public void setStdev(double stdev) {
           this.stdev = stdev;
      }
-
      public List<Float> getQuartiles() {
           return quartiles;
      }
-
      public void setQuartiles(List<Float> quartiles) {
           this.quartiles = quartiles;
      }
-
      public float getInterquartileRange() {
           return interquartileRange;
      }
-
-     public void setInterquartileRange(float interquartileRange) {
-          this.interquartileRange = interquartileRange;
-     }
-
+     public void setInterquartileRange(float interquartileRange) { this.interquartileRange = interquartileRange; }
      public float getMode() {
           return mode;
      }
-
      public void setMode(float mode) {
           this.mode = mode;
      }
+     public float getMinimum() { return minimum; }
+     public void setMinimum(float minimum) { this.minimum = minimum; }
+     public float getMaximum() { return maximum; }
+     public void setMaximum(float maximum) { this.maximum = maximum; }
 }
