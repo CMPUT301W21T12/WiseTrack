@@ -195,10 +195,16 @@ public class ViewExperimentActivity extends AppCompatActivity
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.get_qr_option:
-                Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
-                qrIntent.putExtra("EXP_ID", expID);
-                qrIntent.putExtra("EXP_TYPE", trialType);
-                startActivity(qrIntent);
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                    startActivity(qrIntent);
+                }
+                else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onContextItemSelected(item);

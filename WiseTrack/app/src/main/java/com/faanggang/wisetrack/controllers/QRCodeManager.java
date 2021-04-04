@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.controllers;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,20 +22,16 @@ import static android.graphics.Color.WHITE;
 
 public class QRCodeManager {
     private FirebaseFirestore db;
-    private codeRequestListener requestListener;
+
     private codeScanListener scanListener;
 
-    public interface codeRequestListener{
-        void onRequestGet(String code);
-    }
+
     public interface codeScanListener {
         void onScanValid(String expID, int trialResult);
         void onScanInvalid();
     }
-
-    public QRCodeManager(codeRequestListener listener){
+    public QRCodeManager(){
         db = FirebaseFirestore.getInstance();
-        this.requestListener = listener;
     }
     public QRCodeManager(codeScanListener listener){
         db = FirebaseFirestore.getInstance();
@@ -64,19 +61,21 @@ public class QRCodeManager {
         return bitmap;
     }
 
-    public void requestCodesForExperiment(String expID, int trialResult){
+    public void requestCodesForExperiment(String expID, int trialResult, ImageView image){
         db.collection("QRCodes").whereEqualTo("expID", expID)
             .whereEqualTo("trialResult", trialResult)
             .get().addOnCompleteListener(task ->{
             if (task.isSuccessful()) {
                 List<DocumentSnapshot> doc = task.getResult().getDocuments();
                 String code;
-                if (!doc.isEmpty()){
+                if (doc.isEmpty()){
                     code = addQRCode(expID, trialResult);
                 } else {
                     code = doc.get(0).getId();
                 }
-                requestListener.onRequestGet(code);
+                //PUT REPLACEMENT HERE
+                Bitmap bitmap = stringToBitmap(code,200,200);
+                image.setImageBitmap(bitmap);
             } else {
                 Log.d("QR", "Failed with: ", task.getException());
             }
