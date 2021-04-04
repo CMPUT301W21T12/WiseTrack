@@ -11,8 +11,14 @@ import android.widget.TextView;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+import com.faanggang.wisetrack.model.executeTrial.BinomialTrial;
+import com.faanggang.wisetrack.model.executeTrial.CountTrial;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Date;
+import java.util.Map;
 
 public class QRTrialConfirmActivity extends AppCompatActivity {
     private ExperimentManager experimentManager;
@@ -23,7 +29,9 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
     private Button confirm_button;
     private Button cancel_button;
     private String expID;
+    private int trialType;
     private long trialResult;
+    private Boolean needsGeolocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +74,27 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
 
 
     private void confirmTrial(){
-        finish();
+        Trial trial;
+        Map trialMap;
+        
+        if (trialType==0|| trialType==2) {
+            trial = new CountTrial((int) trialResult,
+                    "",
+                    WiseTrackApplication.getCurrentUser().getUserID(),
+                    new Date());
+            trialMap = trialController.createTrialDocument((CountTrial) trial);
+            trialController.executeTrial(trialMap);
+            finish();
+        } else if (trialType==1){
+            trial = new BinomialTrial((int) trialResult,
+                    "",
+                    WiseTrackApplication.getCurrentUser().getUserID(),
+                    new Date());
+            trialMap = trialController.createTrialDocument((BinomialTrial) trial);
+            trialController.executeTrial(trialMap);
+            finish();
+        }
+
     }
     private void cancelTrial(){
         finish();
@@ -78,8 +106,10 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
             DocumentSnapshot doc = task.getResult();
             if (doc.exists()){
                 expNameView.setText(doc.getString("name"));
-                trialResultView.setText((int) result);
-                geoLocationView.setText("GeoLocation Required: " + doc.getBoolean("geolocation").toString());
+                trialResultView.setText(String.format("%d", result));
+                needsGeolocation = doc.getBoolean("geolocation");
+                geoLocationView.setText("GeoLocation Required: " + needsGeolocation.toString());
+                trialType =  doc.getLong("trialType").intValue();
             }
         });
     }

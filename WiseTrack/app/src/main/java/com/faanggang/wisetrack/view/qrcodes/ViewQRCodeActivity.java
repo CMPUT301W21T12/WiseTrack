@@ -61,8 +61,8 @@ public class ViewQRCodeActivity extends AppCompatActivity {
             case 0: // counts
                 break;
             case 1: // binomial
-                qrCodeManager.requestCodesForExperiment(expID, 0, qrImage1);
-                qrCodeManager.requestCodesForExperiment(expID, 1, qrImage2);
+                qrCodeManager.requestCodesForExperiment(expID, 1, qrImage1);
+                qrCodeManager.requestCodesForExperiment(expID, 0, qrImage2);
                 break;
             case 2: // NNIC
                 break;
