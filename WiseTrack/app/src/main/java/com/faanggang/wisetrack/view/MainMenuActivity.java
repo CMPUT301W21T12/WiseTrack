@@ -15,6 +15,7 @@ import com.faanggang.wisetrack.view.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.view.experiment.MySubscriptionActivity;
 import com.faanggang.wisetrack.view.publish.PublishExperiment1_Initialization;
 import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
 import com.faanggang.wisetrack.view.search.SearchActivity;
 import com.faanggang.wisetrack.view.user.ViewSelfActivity;
 

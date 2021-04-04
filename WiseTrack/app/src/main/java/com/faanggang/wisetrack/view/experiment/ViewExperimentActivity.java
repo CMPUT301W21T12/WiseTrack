@@ -2,8 +2,10 @@ package com.faanggang.wisetrack.view.experiment;
 
 
 
+import com.faanggang.wisetrack.controllers.QRCodeManager;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
@@ -48,7 +50,6 @@ public class ViewExperimentActivity extends AppCompatActivity
     private ExperimentManager experimentManager;
     private UserManager userManager;
     private SubscriptionManager subManager;
-
     private int anotherTrialType;
 
     public int getAnotherTrialType() {
@@ -192,6 +193,12 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.get_qr_option:
+                Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
+                qrIntent.putExtra("EXP_ID", expID);
+                qrIntent.putExtra("EXP_TYPE", trialType);
+                startActivity(qrIntent);
                 return true;
             default:
                 return super.onContextItemSelected(item);

@@ -3,7 +3,9 @@
     package="com.faanggang.wisetrack">
 
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-        <activity android:name=".view.qrcodes.CameraScannerActivity"></activity>
+        <activity android:name=".view.qrcodes.ViewQRCodeActivity"></activity>
+        <activity android:name=".view.qrcodes.CameraScannerActivity" />
         <activity android:name=".view.trial.ExecuteMeasurementActivity" />
         <activity android:name=".view.trial.ExecuteBinomialActivity" />
         <activity android:name=".view.trial.ExecuteCountActivity" />
