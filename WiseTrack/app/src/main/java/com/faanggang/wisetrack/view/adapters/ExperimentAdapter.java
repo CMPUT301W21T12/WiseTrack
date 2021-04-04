@@ -10,10 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.faanggang.wisetrack.model.experiment.Experiment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.UserManager;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.DateTime;
 
 // adapted from https://developer.android.com/guide/topics/ui/layout/recyclerview#java
 // which is licensed under Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
@@ -40,16 +44,23 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return new ExperimentItemView(view, context);
     }
 
+    public String getDateString(Date date) {
+        return new SimpleDateFormat("yyyy-MM-dd hh:mm a").format(date);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ExperimentItemView item = (ExperimentItemView) holder;
         item.setID(experiments.get(position).getExpID());
         item.getTitleTextView().setText(experiments.get(position).getName());
-        userManager.getUserInfo(experiments.get(position).getOwnerID(), task->{
-            item.getOwnerTextView().setText(task.getResult().getString("userName"));
-        });
 
+        //userManager.getUserInfo(experiments.get(position).getOwnerID(), task->{
+        //    item.getOwnerTextView().setText(task.getResult().getString("userName"));
+        //});
+        item.getOwnerTextView().setText(experiments.get(position).getUsername());
         item.getDescriptionTextView().setText(experiments.get(position).getDescription());
+        item.getDateTextView().setText(getDateString(experiments.get(position).getDate()));
+
         if (experiments.get(position).isOpen()) {
             item.getStatusTextView().setText(R.string.search_item_Open);
             item.setStatusColor(true);

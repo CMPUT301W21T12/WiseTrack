@@ -1,13 +1,19 @@
 package com.faanggang.wisetrack.controllers;
 
+import android.provider.DocumentsContract;
+
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.model.experiment.Searcher;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * This class controls searching the database for experiments.
@@ -37,38 +43,14 @@ public class SearchManager {
      * query is a string that contains keywords to search for in the database.
      */
     public void searchForQuery(String query) {
-
-        CollectionReference experiments = db.collection("Experiments");
-        ArrayList<Experiment> results;
-
-        ArrayList<String> queryKeywords = getKeywordsFromString(query);
-
         db.collection("Experiments")
-                .whereArrayContainsAny("keywords", queryKeywords)
                 .orderBy("datetime")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        ArrayList<Experiment> searchResults = new ArrayList<Experiment>();
-                        ArrayList<DocumentSnapshot> result = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
-                        for (DocumentSnapshot snapshot : result) {
-
-                            // filter out unpublished experiments
-                            if(snapshot.getBoolean("published") == false)
-                                continue;  // skip this experiment if it's been unpublished
-
-                            Experiment exp = new Experiment(snapshot.getString("name"),
-                                    snapshot.getString("description"),
-                                    snapshot.getString("region"),
-                                    snapshot.getLong("minTrials").intValue(),
-                                    snapshot.getLong("trialType").intValue(),
-                                    snapshot.getBoolean("geolocation"),
-                                    snapshot.getDate("datetime"),
-                                    snapshot.getString("uID"));
-                            exp.setExpID(snapshot.getId());
-                            searchResults.add(exp);
-                            exp.setOpen(snapshot.getBoolean("open"));
-                        }
+                        ArrayList<DocumentSnapshot> result
+                                = (ArrayList<DocumentSnapshot>) task.getResult().getDocuments();
+                        ArrayList<Experiment> searchResults = getQueriedExperiments(result, query);
                         searcher.onSearchSuccess(searchResults);
                     }
                 })
@@ -76,21 +58,38 @@ public class SearchManager {
                 });
     }
 
-    /**
-     * This method creates an ArrayList of keywords from a passed string.
-     * @param query
-     * query is a string that contains keywords
-     */
-    public ArrayList<String> getKeywordsFromString(String query) {
-        ArrayList<String> queryKeywords = new ArrayList<>();
-        queryKeywords.addAll(Arrays.asList(query.split(" ")));
-        // make all of the capital
-        for (int i = 0; i < queryKeywords.size(); i++) {
-            queryKeywords.set(i, queryKeywords.get(i).toUpperCase());
+    public Experiment createExperimentFromSnapshot(DocumentSnapshot snapshot) {
+        Experiment experiment = new Experiment(snapshot.getString("name"),
+                snapshot.getString("description"),
+                snapshot.getString("region"),
+                snapshot.getLong("minTrials").intValue(),
+                snapshot.getLong("trialType").intValue(),
+                snapshot.getBoolean("geolocation"),
+                snapshot.getDate("datetime"),
+                snapshot.getString("uID"));
+        experiment.setExpID(snapshot.getId());
+        if (snapshot.getString("username") != null) {
+            experiment.setUsername(snapshot.getString("username"));
+        } else {
+            experiment.setUsername("username");
         }
-        if (queryKeywords.size() > 10) {
-            queryKeywords.subList(0, 10);
+
+        return experiment;
+    }
+
+    public ArrayList<Experiment> getQueriedExperiments(ArrayList<DocumentSnapshot> documentSnapshots, String query) {
+        ArrayList<Experiment> experiments = new ArrayList<>();
+
+        for (DocumentSnapshot snapshot : documentSnapshots) {
+            if (snapshot.getString("name").toLowerCase(Locale.ENGLISH).contains(query)
+                || snapshot.getString("description").toLowerCase(Locale.ENGLISH).contains(query)
+                || (snapshot.getBoolean("open") == true && query.contains("open"))
+                || (snapshot.getBoolean("open") == false && query.contains("closed"))
+                || (snapshot.getString("username") != null
+                    && snapshot.getString("username").toLowerCase(Locale.ENGLISH).contains(query))){
+                experiments.add(createExperimentFromSnapshot(snapshot));
+            }
         }
-        return queryKeywords;
+        return experiments;
     }
 }
