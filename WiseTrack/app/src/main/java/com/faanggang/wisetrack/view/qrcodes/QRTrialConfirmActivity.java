@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
@@ -76,24 +77,28 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
     private void confirmTrial(){
         Trial trial;
         Map trialMap;
-        
-        if (trialType==0|| trialType==2) {
-            trial = new CountTrial((int) trialResult,
-                    "",
-                    WiseTrackApplication.getCurrentUser().getUserID(),
-                    new Date());
-            trialMap = trialController.createTrialDocument((CountTrial) trial);
-            trialController.executeTrial(trialMap);
-            finish();
-        } else if (trialType==1){
-            trial = new BinomialTrial((int) trialResult,
-                    "",
-                    WiseTrackApplication.getCurrentUser().getUserID(),
-                    new Date());
-            trialMap = trialController.createTrialDocument((BinomialTrial) trial);
-            trialController.executeTrial(trialMap);
-            finish();
+        if (!WiseTrackApplication.getLocationPermission(this) && needsGeolocation) {
+            Toast.makeText(this, "Cannot submit trial without location", Toast.LENGTH_SHORT).show();
+        } else{
+            if (trialType==0|| trialType==2) {
+                trial = new CountTrial((int) trialResult,
+                        "",
+                        WiseTrackApplication.getCurrentUser().getUserID(),
+                        new Date());
+                trialMap = trialController.createTrialDocument((CountTrial) trial);
+                trialController.executeTrial(trialMap);
+                finish();
+            } else if (trialType==1){
+                trial = new BinomialTrial((int) trialResult,
+                        "",
+                        WiseTrackApplication.getCurrentUser().getUserID(),
+                        new Date());
+                trialMap = trialController.createTrialDocument((BinomialTrial) trial);
+                trialController.executeTrial(trialMap);
+                finish();
+            }
         }
+
 
     }
     private void cancelTrial(){

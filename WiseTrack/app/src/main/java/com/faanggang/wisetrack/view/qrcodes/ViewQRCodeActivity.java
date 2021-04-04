@@ -59,6 +59,7 @@ public class ViewQRCodeActivity extends AppCompatActivity {
 
         switch (type.intValue()){
             case 0: // counts
+                qrCodeManager.requestCodesForExperiment(expID, 1, qrImage1);
                 break;
             case 1: // binomial
                 qrCodeManager.requestCodesForExperiment(expID, 1, qrImage1);
