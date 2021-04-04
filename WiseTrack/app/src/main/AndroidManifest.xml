@@ -3,11 +3,9 @@
     package="com.faanggang.wisetrack">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera.any" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application
@@ -17,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-        <activity android:name=".view.qrcodes.ViewQRCodeActivity"></activity>
+        <activity android:name=".view.qrcodes.QRTrialConfirmActivity"></activity>
+        <activity android:name=".view.qrcodes.ViewQRCodeActivity" />
         <activity android:name=".view.qrcodes.CameraScannerActivity" />
         <activity android:name=".view.trial.ExecuteMeasurementActivity" />
         <activity android:name=".view.trial.ExecuteBinomialActivity" />
@@ -29,11 +28,11 @@
         <activity android:name=".view.publish.PublishExperiment1_Initialization" />
         <activity android:name=".view.search.SearchActivity" />
         <activity android:name=".view.MainMenuActivity" />
-        <activity android:name=".view.stats.ViewExperimentResultsActivity"/>
-        <activity android:name=".view.stats.StatReportActivity"/>
-        <activity android:name=".view.stats.StatPlotActivity"/>
-        <activity android:name=".view.stats.StatHistogramActivity"/>
-        <activity android:name=".view.user.ViewOtherActivity"/>
+        <activity android:name=".view.stats.ViewExperimentResultsActivity" />
+        <activity android:name=".view.stats.StatReportActivity" />
+        <activity android:name=".view.stats.StatPlotActivity" />
+        <activity android:name=".view.stats.StatHistogramActivity" />
+        <activity android:name=".view.user.ViewOtherActivity" />
         <activity
             android:name=".view.user.ViewSelfActivity"
             android:parentActivityName=".view.MainMenuActivity" />
