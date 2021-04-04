@@ -1,6 +1,7 @@
 package com.faanggang.wisetrack.view.experiment;
 
 
+import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
@@ -66,8 +67,10 @@ public class ViewExperimentActivity extends AppCompatActivity
     private boolean geolocationRequired;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
-
+    private GeolocationManager geolocationManager;
     private int anotherTrialType;
+    private Location location;
+    private boolean startedFetching;
 
     public int getAnotherTrialType() {
         return anotherTrialType;
@@ -101,23 +104,28 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
-
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
-                    Log.e("LocationCallback", "null");
-                    return;
-                } else {
-                    Log.w("awesome", locationResult.toString());
-                }
-            }
-        };
-
+        geolocationManager = new GeolocationManager(this);
+        startedFetching = false;
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        startLocationUpdates(); // should move this down later
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                Log.w("lets go!!! its dababy inr oblxo", location.toString());
+                                ViewExperimentActivity.this.location = location;
+                            } else {
+                                Log.w("ww", "wuhuh");
+                            }
+                        }
+                    });
+        }
+
         expOwnerView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -141,27 +149,6 @@ public class ViewExperimentActivity extends AppCompatActivity
             }
         });
     }
-
-    private void startLocationUpdates() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        Log.w("what the heck man", "this stinks");
-        fusedLocationClient.requestLocationUpdates(LocationRequest.create().setPriority(LocationRequest.PRIORITY_NO_POWER),
-                locationCallback,
-                Looper.getMainLooper());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    private void stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback);
-    }
-
 
     private void setText(){
         experimentManager.getExperimentInfo(expID, task->{
@@ -256,22 +243,11 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.execute_trials_option:
                 if (geolocationRequired) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                            != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Please allow this app to access Geolocation to proceed", Toast.LENGTH_SHORT).show();
+                    } else if (location == null) {
+                        Toast.makeText(this, "Getting user location...", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.w("yosh", "");
-                        fusedLocationClient.getLastLocation()
-                                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location location) {
-                                        // Got last known location. In some rare situations this can be null.
-                                        if (location != null) {
-                                            Log.w("lets go!!! its dababy inr oblxo", location.toString());
-                                        } else {
-                                            Log.w("ww", "wuhuh");
-                                        }
-                                    }
-                                });
                         selectExecute();
                     }
                 } else {
