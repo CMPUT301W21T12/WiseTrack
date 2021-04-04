@@ -104,7 +104,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
-        geolocationManager = GeolocationManager.getInstance();
+        geolocationManager = GeolocationManager.getInstance(this);
         geolocationManager.setContext(this);
         startedFetching = false;
 

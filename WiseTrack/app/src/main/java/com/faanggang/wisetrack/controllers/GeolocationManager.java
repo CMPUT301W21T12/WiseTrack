@@ -21,14 +21,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.function.Function;
 
 public class GeolocationManager {
-    Context context;
+    private static Context context;
     private FusedLocationProviderClient fusedLocationClient;
     private static GeolocationManager geolocationManager = null;
     private static boolean activated = false;
 
-    public static GeolocationManager getInstance() {
+    public static GeolocationManager getInstance(Context context) {
         if (geolocationManager == null) {
-            geolocationManager = new GeolocationManager();
+            geolocationManager = new GeolocationManager(context);
         }
         return geolocationManager;
     }
@@ -37,7 +37,7 @@ public class GeolocationManager {
         fusedLocationClient.removeLocationUpdates(new LocationCallback() {});
     }
 
-    private GeolocationManager() {
+    private GeolocationManager(Context context) {
         this.context = context;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
     }
