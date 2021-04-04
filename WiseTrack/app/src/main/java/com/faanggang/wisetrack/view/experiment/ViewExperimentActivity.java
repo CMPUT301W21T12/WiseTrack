@@ -112,6 +112,9 @@ public class ViewExperimentActivity extends AppCompatActivity
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
+            if (!geolocationManager.isActivated()) {
+                geolocationManager.startLocationUpdates();
+            }
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                         @Override
@@ -268,10 +271,6 @@ public class ViewExperimentActivity extends AppCompatActivity
                                         }
                                     }
                                 });
-
-                        if (!geolocationManager.isActivated()) {
-                            geolocationManager.startLocationUpdates();
-                        }
                     } else {
                         selectExecute();
                     }
