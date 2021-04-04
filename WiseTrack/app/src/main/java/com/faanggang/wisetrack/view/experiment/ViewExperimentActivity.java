@@ -253,24 +253,12 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.execute_trials_option:
                 if (geolocationRequired) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED
+                            ||  ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(this, "Please allow this app to access Geolocation to proceed", Toast.LENGTH_SHORT).show();
-                    } else if (location == null) {
+                    } else if (geolocationManager.getLastLocation() == null) {
                         Toast.makeText(this, "Getting user location...", Toast.LENGTH_SHORT).show();
-
-                        fusedLocationClient.getLastLocation()
-                                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                                    @Override
-                                    public void onSuccess(Location location) {
-                                        // Got last known location. In some rare situations this can be null.
-                                        if (location != null) {
-                                            Log.w("Geolocation is ", location.toString());
-                                            ViewExperimentActivity.this.location = location;
-                                        } else {
-                                            Log.w("Geolocation is", "null");
-                                        }
-                                    }
-                                });
                     } else {
                         selectExecute();
                     }

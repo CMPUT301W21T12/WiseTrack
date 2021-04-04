@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -15,6 +16,7 @@ import com.faanggang.wisetrack.view.MainMenuActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -25,6 +27,7 @@ public class GeolocationManager {
     private FusedLocationProviderClient fusedLocationClient;
     private static GeolocationManager geolocationManager = null;
     private static boolean activated = false;
+    private static Location lastLocation = null;
 
     public static GeolocationManager getInstance(Context context) {
         if (geolocationManager == null) {
@@ -53,9 +56,21 @@ public class GeolocationManager {
 
         activated = true;
         fusedLocationClient.requestLocationUpdates(LocationRequest
-                        .create().setPriority(LocationRequest.PRIORITY_NO_POWER),
-                new LocationCallback() {},
+                        .create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(1000),
+                new LocationCallback() {
+                    @Override
+                    public void onLocationResult(@NonNull LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+                        Log.w("Last Location", locationResult.getLastLocation().toString());
+                        lastLocation = locationResult.getLastLocation();
+                    }
+                },
                 Looper.getMainLooper());
+    }
+
+    public Location getLastLocation() {
+        return lastLocation;
     }
 
     public boolean isActivated() {
@@ -65,7 +80,11 @@ public class GeolocationManager {
     public void promptPermissions(Activity activity) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            activity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            activity.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,},1);
+        }
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            activity.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,},2);
         }
     }
 }
