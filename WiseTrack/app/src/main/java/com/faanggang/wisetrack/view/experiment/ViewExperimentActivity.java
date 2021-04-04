@@ -2,18 +2,20 @@ package com.faanggang.wisetrack.view.experiment;
 
 
 
-import com.faanggang.wisetrack.view.MainActivity;
+import javax.swing.text.View;
+
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.controllers.ExperimentManager;
+import com.faanggang.wisetrack.controllers.SubscriptionManager;
+import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+import com.faanggang.wisetrack.view.MainActivity;
+import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
+import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
-import com.faanggang.wisetrack.model.WiseTrackApplication;
-import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
-
-import com.faanggang.wisetrack.controllers.ExperimentManager;
-import com.faanggang.wisetrack.controllers.SubscriptionManager;
-import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
-import com.faanggang.wisetrack.controllers.UserManager;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,14 +25,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -228,6 +227,18 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.get_qr_option:
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                    startActivity(qrIntent);
+                }
+                else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onContextItemSelected(item);

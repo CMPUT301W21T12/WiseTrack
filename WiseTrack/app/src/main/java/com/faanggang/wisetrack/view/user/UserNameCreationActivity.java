@@ -57,6 +57,7 @@ public class UserNameCreationActivity extends AppCompatActivity {
                                         Log.d("Username creation", "Username created");
                                         Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
                                         startActivity(intent);
+                                        finish();
                                     }
 
                                     else {
