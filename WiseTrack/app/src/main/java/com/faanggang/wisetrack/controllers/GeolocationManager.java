@@ -57,7 +57,7 @@ public class GeolocationManager {
         activated = true;
         fusedLocationClient.requestLocationUpdates(LocationRequest
                         .create().setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(1000),
+                .setInterval(10000),
                 new LocationCallback() {
                     @Override
                     public void onLocationResult(@NonNull LocationResult locationResult) {
