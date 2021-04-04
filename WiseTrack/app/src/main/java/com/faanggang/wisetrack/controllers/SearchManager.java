@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * This class controls searching the database for experiments.
@@ -67,6 +68,11 @@ public class SearchManager {
                 snapshot.getDate("datetime"),
                 snapshot.getString("uID"));
         experiment.setExpID(snapshot.getId());
+        if (snapshot.getString("username") != null) {
+            experiment.setUsername(snapshot.getString("username"));
+        } else {
+            experiment.setUsername("username");
+        }
 
         return experiment;
     }
@@ -75,33 +81,15 @@ public class SearchManager {
         ArrayList<Experiment> experiments = new ArrayList<>();
 
         for (DocumentSnapshot snapshot : documentSnapshots) {
-            if (snapshot.getString("name").contains(query)
-                || snapshot.getString("description").contains(query)
+            if (snapshot.getString("name").toLowerCase(Locale.ENGLISH).contains(query)
+                || snapshot.getString("description").toLowerCase(Locale.ENGLISH).contains(query)
                 || (snapshot.getBoolean("open") == true && query.contains("open"))
                 || (snapshot.getBoolean("open") == false && query.contains("closed"))
                 || (snapshot.getString("username") != null
-                    && snapshot.getString("username").contains(query))){
+                    && snapshot.getString("username").toLowerCase(Locale.ENGLISH).contains(query))){
                 experiments.add(createExperimentFromSnapshot(snapshot));
             }
         }
         return experiments;
-    }
-
-    /**
-     * This method creates an ArrayList of keywords from a passed string.
-     * @param query
-     * query is a string that contains keywords
-     */
-    public ArrayList<String> getKeywordsFromString(String query) {
-        ArrayList<String> queryKeywords = new ArrayList<>();
-        queryKeywords.addAll(Arrays.asList(query.split(" ")));
-        // make all of the capital
-        for (int i = 0; i < queryKeywords.size(); i++) {
-            queryKeywords.set(i, queryKeywords.get(i).toUpperCase());
-        }
-        if (queryKeywords.size() > 10) {
-            queryKeywords.subList(0, 10);
-        }
-        return queryKeywords;
     }
 }

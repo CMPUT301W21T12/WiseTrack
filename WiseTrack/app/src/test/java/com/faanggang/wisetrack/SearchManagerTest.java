@@ -47,14 +47,6 @@ public class SearchManagerTest {
                 .thenReturn(mockTask);
     }
 
-    @Test
-    public void testGetKeywords() {
-        String queryString = "awesome Best Experiments";
-        String[] expectedReturn = new String[]{"AWESOME", "BEST", "EXPERIMENTS"};
-
-        assertArrayEquals(mockSearcher.getKeywordsFromString(queryString).toArray(), expectedReturn);
-    }
-
     @Before
     public void cleanUp() {
         Mockito.reset();

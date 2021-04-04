@@ -30,6 +30,7 @@ public class Experiment {
     private String expID;
     private boolean open;
     private ArrayList<String> subscribers;
+    private String username = null;
 
     public Experiment(String name, String description, String region,
                       int minTrials, int trialType, boolean geolocation, Date date,
@@ -43,6 +44,14 @@ public class Experiment {
         this.datetime = date;
         this.uID = uID;
         this.open = true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getName() {

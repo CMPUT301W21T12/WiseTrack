@@ -28,10 +28,6 @@ public class MockSearcher implements Searcher {
         searchManager.searchForQuery(query);
     }
 
-    public ArrayList<String> getKeywordsFromString(String query) {
-        return searchManager.getKeywordsFromString(query);
-    }
-
     public void userExperimentQueryRequest(String query) {
         expManager.userExpQuery(query);
     }
