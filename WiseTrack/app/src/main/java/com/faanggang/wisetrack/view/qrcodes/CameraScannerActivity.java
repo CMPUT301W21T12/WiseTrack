@@ -38,6 +38,7 @@ public class CameraScannerActivity extends AppCompatActivity implements QRCodeMa
                     @Override
                     public void run() {
                         qrManager.readCode(result.getText());
+
                     }
                 });
             }
@@ -66,6 +67,8 @@ public class CameraScannerActivity extends AppCompatActivity implements QRCodeMa
     @Override
     public void onScanValid(String expID, int trialResult) {
         Intent intent = new Intent(getApplicationContext(), QRTrialConfirmActivity.class);
+        intent.putExtra("EXP_ID", expID);
+        intent.putExtra("TRIAL_RESULT", (long) trialResult);
         startActivity(intent);
     }
 
