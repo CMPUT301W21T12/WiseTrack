@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.faanggang.wisetrack">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera.any" />
-
 
     <application
         android:allowBackup="true"
@@ -15,10 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
+        <service
+            android:name="com.faanggang.wisetrack.view.experiment.ViewExperimentActivity"
+            android:foregroundServiceType="location"
+            tools:ignore="Instantiatable,MissingClass">
+        </service>
+        <activity android:name=".view.trial.ExecuteMeasurementActivity"></activity>
         <activity android:name=".view.qrcodes.QRTrialConfirmActivity"></activity>
         <activity android:name=".view.qrcodes.ViewQRCodeActivity" />
         <activity android:name=".view.qrcodes.CameraScannerActivity" />
-        <activity android:name=".view.trial.ExecuteMeasurementActivity" />
         <activity android:name=".view.trial.ExecuteBinomialActivity" />
         <activity android:name=".view.trial.ExecuteCountActivity" />
         <activity android:name=".view.comment.ViewAllResponseActivity" />
@@ -51,6 +57,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
