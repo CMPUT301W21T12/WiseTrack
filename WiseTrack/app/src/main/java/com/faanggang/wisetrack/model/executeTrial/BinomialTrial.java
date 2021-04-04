@@ -3,36 +3,24 @@ package com.faanggang.wisetrack.model.executeTrial;
 import java.util.Date;
 
 public class BinomialTrial extends Trial{
-    private int success;
-    private int failure;
+    private int trialResult;
 
     /**
-     * @param success          : interger value of total number of success
-     * @param failure             : interger value of total number of fail
+     * @param trialResult   : String indicating trial result - "Success"/"Failure"/Default "Unicorn"
      * @param trialGeolocation : string input of location for which current trial was conducted
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public BinomialTrial(int success, int failure, String trialGeolocation, String uID, Date date) {
+    public BinomialTrial(int trialResult, String trialGeolocation, String uID, Date date) {
         super(trialGeolocation, uID, date);
-
-        this.success = success;
-        this.failure = failure;
+        this.trialResult = trialResult;
     }
 
-    public int getSuccess() {
-        return success;
+    public int getTrialResult() {
+        return trialResult;
     }
 
-    public void setSuccess(int success) {
-        this.success = success;
-    }
-
-    public int getFailure() {
-        return failure;
-    }
-
-    public void setFailure(int fail) {
-        this.failure = fail;
+    public void setSuccess(boolean success) {
+        this.trialResult = trialResult;
     }
 }

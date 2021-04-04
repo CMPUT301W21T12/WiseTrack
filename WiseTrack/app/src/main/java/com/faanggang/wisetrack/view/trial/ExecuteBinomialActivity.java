@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
@@ -18,10 +21,11 @@ import java.util.Date;
 import java.util.Map;
 
 public class ExecuteBinomialActivity extends AppCompatActivity implements View.OnClickListener {
+    private int trialResult;
     private static final String TAG = "Snippets";
-    private EditText successCount;
-    private EditText failureCount;
+    private Spinner dropdown;
     private EditText trialGeolocation;
+    ArrayAdapter<String> adapter;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
@@ -36,8 +40,48 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
 
-        successCount = findViewById(R.id.success_count_input);
-        failureCount = findViewById(R.id.failure_count_input);
+        // get the spinner
+        dropdown = findViewById(R.id.spinner_select_trial_result);
+        // create string adapter for the spinner and populate it
+        adapter = new ArrayAdapter<String>(ExecuteBinomialActivity.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.binomial_result_items));
+        // set dropdown layout style
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);  // attach data adapter to spinner
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals("")) {
+                    // nothing selected
+                    Toast.makeText(parent.getContext(), "Warning: No trial result selected!\n" +
+                            "Default: Invalid Input", Toast.LENGTH_SHORT).show();
+                    trialResult = -1;  // set default value
+                } else {
+                    String item = parent.getItemAtPosition(position).toString();
+
+                    if (item.equals("Success")) {
+                        Toast.makeText(parent.getContext(), "Selected: Success", Toast.LENGTH_SHORT).show();
+                        trialResult = 1;
+                    } else if (item.equals("Failure")) {
+                        Toast.makeText(parent.getContext(), "Selected: Failure", Toast.LENGTH_SHORT).show();
+                        trialResult = 0;
+                    } else {
+                        try {
+                            throw new Exception("No valid spinner item selection detected.");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(parent.getContext(), "Warning: No trial result selected!", Toast.LENGTH_SHORT).show();
+                // invokes automatic callback interface
+            }
+        });
+
         // hardcoded address for now; will implement android map fragment later
         trialGeolocation = findViewById(R.id.trial_geolocation_input);
 
@@ -50,22 +94,13 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        int success = 0, failure = 0;  // default set to 0 number of success count
 
-        // null value handling
         if (v.getId() == R.id.button_save) {
-            if (successCount.getText() != null) {
-                // successCount field filled
-                success = Integer.parseInt(successCount.getText().toString());
-            }
-            if (failureCount.getText() != null) {
-                // failureCount field filled
-                failure = Integer.parseInt(failureCount.getText().toString());
-            }
+            // get spinner value
 
             String geolocation = trialGeolocation.getText().toString();
 
-            BinomialTrial currentTrial = new BinomialTrial(success, failure, geolocation, mAuth.getUid(), new Date());
+            BinomialTrial currentTrial = new BinomialTrial(trialResult, geolocation, mAuth.getUid(), new Date());
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

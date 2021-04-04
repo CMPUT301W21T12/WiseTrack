@@ -55,8 +55,7 @@ public class ExecuteTrialController {
      */
     public Map createTrialDocument(BinomialTrial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("success count", trial.getSuccess());
-        data.put("failure count", trial.getFailure());
+        data.put("result", trial.getTrialResult());
         data.put("geolocation", trial.getTrialGeolocation());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
@@ -71,7 +70,7 @@ public class ExecuteTrialController {
      */
     public Map createTrialDocument(MeasurementTrial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("count", trial.getMeasurement());
+        data.put("measurement", trial.getMeasurement());
         data.put("geolocation", trial.getTrialGeolocation());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());

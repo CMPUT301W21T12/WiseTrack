@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,38 +7,43 @@
     android:layout_height="match_parent"
     tools:context=".view.trial.ExecuteCountActivity">
 
-    <EditText
-        android:id="@+id/success_count_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="48dp"
-        android:ems="15"
-        android:hint="Enter success count:"
-        android:inputType="number"
+    <Spinner
+        android:id="@+id/spinner_select_trial_result"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="26dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:text="select trial result"
+        app:layout_constraintBottom_toTopOf="@+id/trial_geolocation_input"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/textview_select_trial_result" />
 
-    <EditText
-        android:id="@+id/failure_count_input"
+    <TextView
+        android:id="@+id/textview_select_trial_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="15"
-        android:hint="Enter failure count:"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="@+id/success_count_input"
-        app:layout_constraintTop_toBottomOf="@+id/success_count_input" />
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="53dp"
+        android:text="Select a result:"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/spinner_select_trial_result"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/trial_geolocation_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="152dp"
         android:ems="15"
         android:hint="Enter trial geolocation:"
-        app:layout_constraintStart_toStartOf="@+id/failure_count_input"
-        app:layout_constraintTop_toBottomOf="@+id/failure_count_input" />
+        app:layout_constraintStart_toStartOf="@+id/spinner_select_trial_result"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/button_cancel"
@@ -53,7 +59,7 @@
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="57dp"
+        android:layout_marginEnd="56dp"
         android:layout_marginBottom="58dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
