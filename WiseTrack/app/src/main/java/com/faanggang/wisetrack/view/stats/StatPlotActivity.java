@@ -2,7 +2,6 @@ package com.faanggang.wisetrack.view.stats;
 
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.faanggang.wisetrack.R;
 import com.jjoe64.graphview.GraphView;
@@ -11,6 +10,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 /**
  * Displays an experiment's data over time
+ * https://github.com/jjoe64/GraphView/wiki/Documentation
  */
 public class StatPlotActivity extends AppCompatActivity {
     private LineGraphSeries<DataPoint> series;
