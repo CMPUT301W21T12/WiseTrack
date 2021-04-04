@@ -117,10 +117,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                         public void onSuccess(Location location) {
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
-                                Log.w("lets go!!! its dababy inr oblxo", location.toString());
+                                Log.w("Geolocation is ", location.toString());
                                 ViewExperimentActivity.this.location = location;
                             } else {
-                                Log.w("ww", "wuhuh");
+                                Log.w("Geolocation is", "null");
                             }
                         }
                     });
