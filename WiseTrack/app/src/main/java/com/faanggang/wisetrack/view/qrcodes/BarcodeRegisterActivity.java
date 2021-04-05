@@ -19,10 +19,11 @@ import com.google.zxing.Result;
 public class BarcodeRegisterActivity extends AppCompatActivity implements QRCodeManager.barcodeRegisterListener {
     private CodeScanner codeScanner;
     private QRCodeManager qrManager;
+    private Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        intent = getIntent();
         setContentView(R.layout.activity_camera_scanner);
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         qrManager = new QRCodeManager(this);
@@ -63,7 +64,12 @@ public class BarcodeRegisterActivity extends AppCompatActivity implements QRCode
 
     @Override
     public void onBarcodeAvailable() {
-
+        Intent confirmIntent = new Intent(getApplicationContext(), SelectBarcodeResultActivity.class);
+        confirmIntent.putExtra("EXP_ID", intent.getStringExtra("EXP_ID"));
+        confirmIntent.putExtra("EXP_TITLE", intent.getStringExtra("EXP_TITLE"));
+        confirmIntent.putExtra("EXP_TYPE", intent.getLongExtra("EXP_TYPE", -1));
+        startActivity(confirmIntent);
+        finish();
     }
 
     @Override

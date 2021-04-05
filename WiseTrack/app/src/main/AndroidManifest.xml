@@ -16,13 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
+        <activity android:name=".view.qrcodes.SelectBarcodeResultActivity"></activity>
+
         <service
-            android:name="com.faanggang.wisetrack.view.experiment.ViewExperimentActivity"
+            android:name=".view.experiment.ViewExperimentActivity"
             android:foregroundServiceType="location"
-            tools:ignore="Instantiatable,MissingClass">
-        </service>
-        <activity android:name=".view.trial.ExecuteMeasurementActivity"></activity>
-        <activity android:name=".view.qrcodes.QRTrialConfirmActivity"></activity>
+            tools:ignore="Instantiatable,MissingClass"></service>
+
+        <activity android:name=".view.trial.ExecuteMeasurementActivity" />
+        <activity android:name=".view.qrcodes.QRTrialConfirmActivity" />
         <activity android:name=".view.qrcodes.ViewQRCodeActivity" />
         <activity android:name=".view.qrcodes.CameraScannerActivity" />
         <activity android:name=".view.trial.ExecuteBinomialActivity" />
@@ -57,8 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.qrcodes.BarcodeRegisterActivity"/>
-
+        <activity android:name=".view.qrcodes.BarcodeRegisterActivity" />
     </application>
 
 </manifest>

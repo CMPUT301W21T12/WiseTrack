@@ -303,6 +303,9 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.register_barcode_option:
                 if (trialType !=3) {
                     Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
                     startActivity(qrIntent);
                 }else {
                     Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
