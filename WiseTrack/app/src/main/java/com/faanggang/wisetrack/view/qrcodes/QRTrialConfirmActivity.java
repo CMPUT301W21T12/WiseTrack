@@ -3,16 +3,24 @@ package com.faanggang.wisetrack.view.qrcodes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
+import com.faanggang.wisetrack.controllers.GeolocationManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.firestore.DocumentSnapshot;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class QRTrialConfirmActivity extends AppCompatActivity {
     private ExperimentManager experimentManager;
@@ -24,7 +32,8 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
     private Button cancel_button;
     private String expID;
     private long trialResult;
-
+    private Boolean geolocationNecessary;
+    private GeolocationManager geoManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +49,7 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
         cancel_button = findViewById(R.id.qr_trial_cancel);
         experimentManager = new ExperimentManager();
         trialController = new ExecuteTrialController(expID);
-
+        geoManager = GeolocationManager.getInstance(this);
         setTextDetails(expID, trialResult);
 
 
@@ -66,6 +75,21 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
 
 
     private void confirmTrial(){
+        Map<String, Object> data = new HashMap<>();
+        Location location = geoManager.getLastLocation();
+        if (geolocationNecessary && location != null){
+            data.put("geolocation", geoManager.getLastLocation());
+        } else if (geolocationNecessary && location == null) {
+            Toast.makeText(getApplicationContext(), "Location Services Not Enabled", Toast.LENGTH_SHORT).show();
+            finish();
+        } else{
+            data.put("geolocation", null);
+        }
+        data.put("result", trialResult);
+        data.put("date", new Date());
+        data.put("conductor id", WiseTrackApplication.getCurrentUser().getUserID());
+        trialController.executeTrial(data);
+        Toast.makeText(getApplicationContext(), "Trial Successfully Uploaded", Toast.LENGTH_SHORT).show();
         finish();
     }
     private void cancelTrial(){
@@ -93,8 +117,8 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
                 case 2:
                     trialResultView.setText("Result: " + String.valueOf(result));
                 }
-                String geolocation = doc.getBoolean("geolocation").toString();
-                geoLocationView.setText("GeoLocation Required: " + geolocation);
+                geolocationNecessary = doc.getBoolean("geolocation");
+                geoLocationView.setText("GeoLocation Required: " + geolocationNecessary.toString());
             }
         });
     }
