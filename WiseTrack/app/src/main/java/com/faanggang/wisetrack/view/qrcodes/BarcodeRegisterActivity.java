@@ -63,11 +63,12 @@ public class BarcodeRegisterActivity extends AppCompatActivity implements QRCode
 
 
     @Override
-    public void onBarcodeAvailable() {
+    public void onBarcodeAvailable(String barcode) {
         Intent confirmIntent = new Intent(getApplicationContext(), SelectBarcodeResultActivity.class);
         confirmIntent.putExtra("EXP_ID", intent.getStringExtra("EXP_ID"));
         confirmIntent.putExtra("EXP_TITLE", intent.getStringExtra("EXP_TITLE"));
         confirmIntent.putExtra("EXP_TYPE", intent.getLongExtra("EXP_TYPE", -1));
+        confirmIntent.putExtra("BARCODE", barcode);
         startActivity(confirmIntent);
         finish();
     }

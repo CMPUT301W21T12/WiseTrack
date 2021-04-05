@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.QRCodeManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 
 public class SelectBarcodeResultActivity extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class SelectBarcodeResultActivity extends AppCompatActivity {
         countResultView = findViewById(R.id.barcode_count_result);
         nnicResultView = findViewById(R.id.barcode_NNIC_result);
         dropdown = findViewById(R.id.barcode_binomial_result);
-
+        qrManager = new QRCodeManager();
         confirmButton = findViewById(R.id.barcode_confirm_button);
         cancelButton = findViewById(R.id.barcode_cancel_button);
         setText();
@@ -128,12 +129,12 @@ public class SelectBarcodeResultActivity extends AppCompatActivity {
                 trialResult = Long.parseLong(nnicResultView.getText().toString());
                 break;
         }
-
         if (trialResult<0){
-            Toast.makeText(getApplicationContext(), "Warning: No trial result selected!\n" +
-                    "Default: Invalid Input", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Invalid Selection!\n", Toast.LENGTH_SHORT).show();
         } else{
-
+            String expID = intent.getStringExtra("EXP_ID");
+            String barcode = intent.getStringExtra("BARCODE");
+            qrManager.addBarcode(expID, trialResult.intValue(), barcode, WiseTrackApplication.getCurrentUser().getUserID());
             finish();
         }
     }

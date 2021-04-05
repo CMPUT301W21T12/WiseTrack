@@ -33,7 +33,7 @@ public class QRCodeManager {
     }
 
     public interface barcodeRegisterListener {
-        void onBarcodeAvailable();
+        void onBarcodeAvailable(String code);
         void onBarcodeUnavailable();
     }
 
@@ -101,7 +101,11 @@ public class QRCodeManager {
                     DocumentSnapshot doc = task.getResult();
                     if (doc.exists()){
                         Boolean open = doc.getBoolean("isPublic");
-                        if (open || WiseTrackApplication.getCurrentUser().getUserID()==doc.getString("uID")){
+                        String onlineID = doc.getString("uID");
+                        String currentID = WiseTrackApplication.getCurrentUser().getUserID();
+                        Log.w("bruh", onlineID);
+                        Log.w("bruh", currentID);
+                        if (open || (onlineID.equals(currentID))){
                             String expID = doc.getString("expID");
                             int trialResult = doc.getLong("trialResult").intValue();
                             scanListener.onScanValid(expID, trialResult);
@@ -126,7 +130,7 @@ public class QRCodeManager {
                     if (doc.exists()){
                         barcodeListener.onBarcodeUnavailable();
                     } else{
-                        barcodeListener.onBarcodeAvailable();
+                        barcodeListener.onBarcodeAvailable(code);
                     }
                 } else {
                     Log.d("QR", "Failed with: ", task.getException());
@@ -134,7 +138,15 @@ public class QRCodeManager {
             });
     }
 
-
+    public void addBarcode(String expID, int trialResult, String id, String userID){
+        Map<String, Object> codeMap = new HashMap<>();
+        codeMap.put("expID", expID);
+        codeMap.put("trialResult", trialResult);
+        codeMap.put("isPublic", false);
+        codeMap.put("uID", userID);
+        DocumentReference newCode = db.collection("QRCodes").document(id);
+        newCode.set(codeMap);
+    }
 
     private String addQRCode(String expID, int trialResult){
         Map<String, Object> codeMap = new HashMap<>();
