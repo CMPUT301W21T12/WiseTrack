@@ -26,13 +26,18 @@ public class StatHistogramActivity extends AppCompatActivity {
 
         GraphView histogram = (GraphView) findViewById(R.id.stats_histogram);
 
-        int x,y;
+        double x,y;
         x = 0;
 
-        int bars = 7 ;
+        int bars = 100 ;
         for (int j = 0 ; j < bars; j++ ) {
-            x = j;
-            y = j;
+            if (j%2 ==0 ) {
+                y = Math.sin(j);
+            } else {
+                y = -Math.sin(j);
+            }
+
+            x =j;
             series.appendData(new DataPoint(x,y),true,100   );
         }
         histogram.addSeries(series);
