@@ -5,6 +5,8 @@ import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.view.MainMenuActivity;
+import com.faanggang.wisetrack.view.map.MapActivity;
 import com.faanggang.wisetrack.view.qrcodes.BarcodeRegisterActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
@@ -55,6 +57,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import org.osmdroid.views.MapView;
 
 public class ViewExperimentActivity extends AppCompatActivity
     implements EndExperimentFragment.OnFragmentInteractionListener,
@@ -261,7 +265,8 @@ public class ViewExperimentActivity extends AppCompatActivity
                 startActivity(statIntent);
                 return true;
             case R.id.geolocations_option:
-                Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
+                Intent geolocationIntent = new Intent(this, MapActivity.class);
+                startActivity(geolocationIntent);
                 return true;
             case R.id.execute_trials_option:
                 if (geolocationRequired) {
