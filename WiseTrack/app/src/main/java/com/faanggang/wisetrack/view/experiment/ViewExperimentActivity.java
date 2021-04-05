@@ -5,6 +5,7 @@ import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.view.qrcodes.BarcodeRegisterActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
@@ -296,6 +297,14 @@ public class ViewExperimentActivity extends AppCompatActivity
                     startActivity(qrIntent);
                 }
                 else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.register_barcode_option:
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
+                    startActivity(qrIntent);
+                }else {
                     Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
                 }
                 return true;

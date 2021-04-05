@@ -25,18 +25,29 @@ public class QRCodeManager {
     private FirebaseFirestore db;
 
     private codeScanListener scanListener;
-
+    private barcodeRegisterListener barcodeListener;
 
     public interface codeScanListener {
         void onScanValid(String expID, int trialResult);
         void onScanInvalid();
     }
+
+    public interface barcodeRegisterListener {
+        void onBarcodeAvailable();
+        void onBarcodeUnavailable();
+    }
+
+
     public QRCodeManager(){
         db = FirebaseFirestore.getInstance();
     }
     public QRCodeManager(codeScanListener listener){
         db = FirebaseFirestore.getInstance();
         this.scanListener = listener;
+    }
+    public QRCodeManager(barcodeRegisterListener listener){
+        db = FirebaseFirestore.getInstance();
+        this.barcodeListener = listener;
     }
 
     public Bitmap stringToBitmap(String str, int qrWidth, int qrHeight) {
@@ -106,6 +117,24 @@ public class QRCodeManager {
                 }
             });
     }
+
+    public void checkBarcode(String code){
+        db.collection("QRodes").document(code).get()
+            .addOnCompleteListener( task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    if (doc.exists()){
+                        barcodeListener.onBarcodeUnavailable();
+                    } else{
+                        barcodeListener.onBarcodeAvailable();
+                    }
+                } else {
+                    Log.d("QR", "Failed with: ", task.getException());
+                }
+            });
+    }
+
+
 
     private String addQRCode(String expID, int trialResult){
         Map<String, Object> codeMap = new HashMap<>();
