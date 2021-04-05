@@ -17,6 +17,7 @@ import androidx.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.controllers.TrialFetchManager;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,40 +38,42 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
     MapView map;
     MyLocationNewOverlay myLocationNewOverlay;
     TrialFetchManager trialFetchManager;
+    FirebaseFirestore firebaseFirestore;
+    GeolocationManager geolocationManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        geolocationManager = GeolocationManager.getInstance(this);
+        geolocationManager.setContext(this);
 
         Intent intent = getIntent();
-        String experimentId = intent.getStringExtra("");
+        String experimentId = intent.getStringExtra("EXP_ID");
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+        map = findViewById(R.id.mapview);
+        Configuration.getInstance().setUserAgentValue(this.getPackageName());
+
+        //map.getOverlays().add(this.myLocationNewOverlay);
+        //GeoPoint mL = myLocationNewOverlay.getMyLocation();
+        map.getController().setZoom(7.0);
+        if (geolocationManager.getLastLocation() != null) {
+            GeoPoint location = new GeoPoint(geolocationManager.getLastLocation().getLatitude(), geolocationManager.getLastLocation().getLongitude());
+            renderLocation(location);
+        } else {
+            map.scrollTo(0, 0);
         }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-            map = findViewById(R.id.mapview);
-            Configuration.getInstance().setUserAgentValue(this.getPackageName());
-
-            this.myLocationNewOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), map);
-            this.myLocationNewOverlay.enableMyLocation();
-
-            map.getOverlays().add(this.myLocationNewOverlay);
-            GeoPoint mL = myLocationNewOverlay.getMyLocation();
-            map.getController().setZoom(5.0);
-            getCurrentLocation();
-        }
-        trialFetchManager = new TrialFetchManager(new FirebaseFirestore, this);
-        trialFetchManager.fetchTrials("");
+        //trialFetchManager = new TrialFetchManager(firebaseFirestore, this);
+        //trialFetchManager.fetchTrials("");
     }
+
 
     public void placeTrials(ArrayList<Trial> trials) {
         for (Trial trial: trials) {
             Marker trialMarker = new Marker(map);
-            trialMarker.setPosition(trial.getTrialGeolocation());
+            //trialMarker.setPosition(trial.getTrialGeolocation());
             trialMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             map.getOverlays().add(trialMarker);
         }
@@ -79,40 +82,11 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
     // method adapted from https://stackoverflow.com/a/55389814
     // author: Rohit Singh
     // licensed under CC BY-SA 4.0
-    public void getCurrentLocation() {
 
-        FusedLocationProviderClient locationProviderClient = LocationServices.
-                getFusedLocationProviderClient(this);
-
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationProviderClient.getLastLocation()
-                .addOnSuccessListener(new OnSuccessListener<Location>() {
-
-                    @Override
-                    public void onSuccess(Location location) {
-
-                        Log.d("Location", location.toString());
-                        renderLocation(location);
-                    }
-                });
-
-    }
-
-    private void renderLocation(Location loc) {
-        map.getOverlays().add(this.myLocationNewOverlay);
-        map.getController().setCenter(new GeoPoint(loc.getLatitude(), loc.getLongitude()));
+    private void renderLocation(GeoPoint loc) {
+        map.getController().setCenter(loc);
         map.getController().setZoom(5.0);
-        map.getController().animateTo(new GeoPoint(loc.getLatitude(), loc.getLongitude()));
+        map.getController().animateTo(loc);
     }
 
     @Override

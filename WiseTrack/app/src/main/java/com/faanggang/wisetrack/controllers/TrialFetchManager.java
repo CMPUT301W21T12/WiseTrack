@@ -8,13 +8,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class TrialFetchManager {
     private TrialFetcher fetcher;
 
     private FirebaseFirestore db;
-    TrialFetchManager(FirebaseFirestore db, TrialFetcher fetcher) {
+    public TrialFetchManager(FirebaseFirestore db, TrialFetcher fetcher) {
         this.db = db;
         this.fetcher = fetcher;
     }
@@ -51,5 +52,6 @@ public class TrialFetchManager {
     }
 
     public Trial createTrial(int trialType, DocumentSnapshot snapshot) {
+        return new BinomialTrial(1, "text", "text", new Date());
     }
 }

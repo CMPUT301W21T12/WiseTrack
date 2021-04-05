@@ -27,7 +27,6 @@ import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.experiment.MyExperimentActivity;
 import com.faanggang.wisetrack.view.experiment.MySubscriptionActivity;
-import com.faanggang.wisetrack.view.map.MapActivity;
 import com.faanggang.wisetrack.view.publish.PublishExperiment1_Initialization;
 import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
 import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
@@ -111,15 +110,6 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenuActivity.this, MySubscriptionActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        final Button tempMapButton = findViewById(R.id.openMap_button);
-        tempMapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, MapActivity.class);
                 startActivity(intent);
             }
         });

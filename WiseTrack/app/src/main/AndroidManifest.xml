@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
+
         <activity android:name=".view.map.MapActivity"></activity>
         <activity android:name=".view.trial.ExecuteMeasurementActivity" />
         <activity android:name=".view.qrcodes.SelectBarcodeResultActivity"></activity>
@@ -51,6 +52,7 @@
         <activity
             android:name=".view.user.EditProfileActivity"
             android:parentActivityName=".view.user.ViewSelfActivity" />
+
         <activity android:name=".view.user.UserNameCreationActivity" />
         <activity android:name=".view.experiment.MyExperimentActivity" />
         <activity android:name=".view.experiment.ViewExperimentActivity" />
