@@ -81,12 +81,13 @@ public class SearchManager {
         ArrayList<Experiment> experiments = new ArrayList<>();
 
         for (DocumentSnapshot snapshot : documentSnapshots) {
-            if (snapshot.getString("name").toLowerCase(Locale.ENGLISH).contains(query)
+            if (snapshot.getBoolean("published") == true
+                && (snapshot.getString("name").toLowerCase(Locale.ENGLISH).contains(query)
                 || snapshot.getString("description").toLowerCase(Locale.ENGLISH).contains(query)
                 || (snapshot.getBoolean("open") == true && query.contains("open"))
                 || (snapshot.getBoolean("open") == false && query.contains("closed"))
                 || (snapshot.getString("username") != null
-                    && snapshot.getString("username").toLowerCase(Locale.ENGLISH).contains(query))){
+                    && snapshot.getString("username").toLowerCase(Locale.ENGLISH).contains(query)))){
                 experiments.add(createExperimentFromSnapshot(snapshot));
             }
         }
