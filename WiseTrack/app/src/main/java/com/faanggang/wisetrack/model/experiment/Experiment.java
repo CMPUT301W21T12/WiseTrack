@@ -14,10 +14,12 @@ public class Experiment {
      * @param geolocation: true = geolocation required, false = geolocation optional
      * @param date
      * @param uID: userID of the owner (the user publishing the experiment)
-     * @param expID: the firebase ID
+     * @param expID: the firebase ID of the current experiment
      * @param open: is the experiment open or closed/unpublished? Set TRUE upon creation of
      *            experiment
      * @param subscribers: list of user's that are subscribed to this experiment.
+     * @param published: automatically set true upon creation. When user clicks "unpublish", set to
+     *                 false
      */
     private String name;
     private String description;
@@ -30,6 +32,8 @@ public class Experiment {
     private String expID;
     private boolean open;
     private ArrayList<String> subscribers;
+    private String username = null;
+    private boolean published;
 
     public Experiment(String name, String description, String region,
                       int minTrials, int trialType, boolean geolocation, Date date,
@@ -43,6 +47,15 @@ public class Experiment {
         this.datetime = date;
         this.uID = uID;
         this.open = true;
+        this.published = true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getName() {
@@ -106,7 +119,7 @@ public class Experiment {
     }
 
     public void setOwnerID(String ownerID) {
-        this.uID = uID;
+        this.uID = ownerID;
     }
 
     public void setExpID(String id){ this.expID = id;}
@@ -118,5 +131,13 @@ public class Experiment {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 }

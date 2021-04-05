@@ -7,10 +7,58 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/stat_maximum"
+        android:layout_width="99dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="104dp"
+        android:text="Maximum: "
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/stat_maximum2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:text="Maximum value"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/stat_maximum"
+        app:layout_constraintStart_toEndOf="@+id/stat_maximum"
+        app:layout_constraintTop_toTopOf="@+id/stat_maximum" />
+
+    <TextView
+        android:id="@+id/stat_minimum2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="4dp"
+        android:text="minimum value"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/stat_minimum"
+        app:layout_constraintStart_toEndOf="@+id/stat_minimum"
+        app:layout_constraintTop_toTopOf="@+id/stat_minimum" />
+
+    <TextView
+        android:id="@+id/stat_minimum"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:text="Minimum: "
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/stat_maximum"
+        app:layout_constraintTop_toBottomOf="@+id/stat_maximum" />
+
+    <TextView
         android:id="@+id/stats_report_experiment_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="104dp"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="68dp"
         android:text="EXPERIMENT NAME"
         android:textSize="20dp"
@@ -22,15 +70,15 @@
         android:id="@+id/stats_mean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="34dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="432dp"
         android:text="Mean:"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stats_median" />
+        app:layout_constraintStart_toStartOf="@+id/stats_median"
+        app:layout_constraintTop_toBottomOf="@+id/stats_median"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/stats_mean2"
@@ -51,40 +99,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="108dp"
         android:layout_marginEnd="192dp"
         android:text="Median Value"
         android:textSize="20dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/stats_median"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toEndOf="@+id/stats_median"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/stats_median" />
 
     <TextView
         android:id="@+id/stats_median"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="304dp"
+        android:layout_marginTop="8dp"
         android:text="Median:"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.079"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stat_minimum" />
 
     <TextView
         android:id="@+id/stats_stdev"
         android:layout_width="186dp"
         android:layout_height="30dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="396dp"
         android:text="Standard Deviation: "
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/stats_median"
         app:layout_constraintTop_toBottomOf="@+id/stats_mean" />
 
@@ -96,8 +141,8 @@
         android:text="Quartiles: "
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/stats_stdev"
-        tools:layout_editor_absoluteX="34dp" />
+        app:layout_constraintStart_toStartOf="@+id/stats_median"
+        app:layout_constraintTop_toBottomOf="@+id/stats_stdev" />
 
     <TextView
         android:id="@+id/stat_quartiles2"
@@ -116,13 +161,14 @@
         android:id="@+id/stats_stdev2"
         android:layout_width="129dp"
         android:layout_height="30dp"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="360dp"
         android:text="stdev Value "
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/stats_stdev"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/stats_stdev"
         app:layout_constraintTop_toTopOf="@+id/stats_stdev"
         app:layout_constraintVertical_bias="0.0" />

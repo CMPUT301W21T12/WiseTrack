@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:id="@+id/experimenter_options">
+        <item
+            android:id="@+id/subscribe_option"
+            android:title="Subscribe"/>
+        <item
+            android:id="@+id/results_option"
+            android:title="View Experiment Results"/>
+        <item
+            android:id="@+id/geolocations_option"
+            android:title="View Geolocations"/>
+        <item
+            android:id="@+id/execute_trials_option"
+            android:title="Execute Trials"/>
+        <item
+            android:id="@+id/comment_option"
+            android:title="Comment"/>
+        <item
+            android:id="@+id/get_qr_option"
+            android:title="Get QR Codes" />
+        <item
+            android:id="@+id/register_barcode_option"
+            android:title="Register Barcode" />
+    </group>
+    <group android:id="@+id/owner_only_options">
+        <item
+            android:id="@+id/unpublish_option"
+            android:title="Unpublish"/>
+        <item
+            android:id="@+id/end_experiment_option"
+            android:title="End Current Experiment"/>
+        <item
+            android:id="@+id/view_trials_option"
+            android:title="View Trials"/>
+    </group>
+</menu>
