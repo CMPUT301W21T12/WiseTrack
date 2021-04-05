@@ -78,8 +78,23 @@ public class QRTrialConfirmActivity extends AppCompatActivity {
             DocumentSnapshot doc = task.getResult();
             if (doc.exists()){
                 expNameView.setText(doc.getString("name"));
-                trialResultView.setText((int) result);
-                geoLocationView.setText("GeoLocation Required: " + doc.getBoolean("geolocation").toString());
+                int trialType = doc.getLong("trialType").intValue();
+                switch (trialType){
+                case 0:
+                    trialResultView.setText("Result: Add 1 Count");
+                    break;
+                case 1:
+                    if (result!=0){
+                        trialResultView.setText("Result: Success");
+                    } else{
+                        trialResultView.setText("Result: Fail");
+                    }
+                    break;
+                case 2:
+                    trialResultView.setText("Result: " + String.valueOf(result));
+                }
+                String geolocation = doc.getBoolean("geolocation").toString();
+                geoLocationView.setText("GeoLocation Required: " + geolocation);
             }
         });
     }
