@@ -26,7 +26,7 @@ public class SelectBarcodeResultActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     private QRCodeManager qrManager;
     private Intent intent;
-    private int trialResult;
+    private Long trialResult;
     private Button confirmButton;
     private Button cancelButton;
     @Override
@@ -52,16 +52,16 @@ public class SelectBarcodeResultActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position).equals("")) {
-                    Toast.makeText(parent.getContext(), "Warning: No trial result selected!\n" +
-                            "Default: Invalid Input", Toast.LENGTH_SHORT).show();
+                    // nothing selected
+                    trialResult = -1L;  // set default value
                 } else {
                     String item = parent.getItemAtPosition(position).toString();
                     if (item.equals("Success")) {
                         Toast.makeText(parent.getContext(), "Selected: Success", Toast.LENGTH_SHORT).show();
-                        trialResult = 1;
+                        trialResult = 1L;
                     } else if (item.equals("Failure")) {
                         Toast.makeText(parent.getContext(), "Selected: Failure", Toast.LENGTH_SHORT).show();
-                        trialResult = 0;
+                        trialResult = 0L;
                     } else {
                         try {
                             throw new Exception("No valid spinner item selection detected.");
@@ -119,7 +119,23 @@ public class SelectBarcodeResultActivity extends AppCompatActivity {
     }
 
     private void confirmClick() {
-        finish();
+        Long trialType = intent.getLongExtra("EXP_TYPE", -1);
+        switch (trialType.intValue()) {
+            case 0:
+                trialResult = 1L;
+                break;
+            case 2:
+                trialResult = Long.parseLong(nnicResultView.getText().toString());
+                break;
+        }
+
+        if (trialResult<0){
+            Toast.makeText(getApplicationContext(), "Warning: No trial result selected!\n" +
+                    "Default: Invalid Input", Toast.LENGTH_SHORT).show();
+        } else{
+
+            finish();
+        }
     }
     private void cancelClick(){
         finish();
