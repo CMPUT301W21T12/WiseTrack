@@ -19,6 +19,13 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 public class StatHistogramActivity extends AppCompatActivity {
     private BarGraphSeries<DataPoint> series = new BarGraphSeries<>();
 
+    /**
+     * Grab trial data
+     * gather data
+     * draw colors
+     * display graph
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +61,13 @@ public class StatHistogramActivity extends AppCompatActivity {
         series.setSpacing(50);
 
     // draw values on top
-    //series.setValuesOnTopSize(50);
+       series.setValuesOnTopSize(50);
 
+    }
+    /**
+     * Query for Trial name and trial results
+     */
+    public void trialDataQuery() {
+        //
     }
 }
