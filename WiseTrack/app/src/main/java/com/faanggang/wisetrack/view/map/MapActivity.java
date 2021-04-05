@@ -61,10 +61,25 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
         map.getController().setZoom(7.0);
         if (geolocationManager.getLastLocation() != null) {
             GeoPoint location = new GeoPoint(geolocationManager.getLastLocation().getLatitude(), geolocationManager.getLastLocation().getLongitude());
+            GeoPoint location2 = new GeoPoint(geolocationManager.getLastLocation().getLatitude() +  10, geolocationManager.getLastLocation().getLongitude() + 10);
+
             renderLocation(location);
+            Marker currentLocationMarker = new Marker(map);
+            currentLocationMarker.setOnMarkerClickListener((marker, mapView) -> true);
+            Marker currentLocationMarker2 = new Marker(map);
+            currentLocationMarker2.setOnMarkerClickListener((marker, mapView) -> true);
+
+            currentLocationMarker.setPosition(location);
+            currentLocationMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            map.getOverlays().add(currentLocationMarker);
+            currentLocationMarker2.setPosition(location2);
+            currentLocationMarker2.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            map.getOverlays().add(currentLocationMarker2);
+
         } else {
             map.scrollTo(0, 0);
         }
+
         //trialFetchManager = new TrialFetchManager(firebaseFirestore, this);
         //trialFetchManager.fetchTrials("");
     }
