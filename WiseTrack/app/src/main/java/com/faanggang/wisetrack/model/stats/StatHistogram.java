@@ -11,11 +11,21 @@ public class StatHistogram {
 
     }
 
+    /**
+     * Grab data
+     * change value to whats needed
+     */
+    public void drawHistogramCount() { // time stamp
 
-    public void drawHistogram() {
-        /**
-         * display histogram
-         */
+    }
+    public void drawHistogramBinomial() { // success and failure
+
+    }
+    public void drawHistogramNNIC() { // time stamp
+
+    }
+    public void drawHistogramMeasurement() { //
+
     }
 
     public float[] getValues() {

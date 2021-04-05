@@ -2,6 +2,8 @@ package com.faanggang.wisetrack.controllers;
 
 import android.util.Log;
 
+import com.faanggang.wisetrack.model.stats.StatHistogram;
+import com.faanggang.wisetrack.model.stats.StatPlot;
 import com.faanggang.wisetrack.model.stats.StatReport;
 
 import java.util.Arrays;
@@ -27,8 +29,8 @@ import java.util.List;
 // add test for values
 public class StatManager {
     public StatReport currentTrialReport = new StatReport(0,100,50,50,39.52, Arrays.asList(12.5f,50f,87.5f));
-    //private StatHistogram currentTrialHistogram;
-    //private StatPlot currentTrialPlot;
+    private StatHistogram currentTrialHistogram;
+    private StatPlot currentTrialPlot;
     public StatManager () {
 
     }
@@ -63,11 +65,49 @@ public class StatManager {
     public float getIQR() {return currentTrialReport.getInterquartileRange();}
 
 
-    public void generateStatPlot() {// plots overtime * change return
+    public void generateStatPlot(List<Float> trialData, int trialType) {// plots overtime * change return
+        switch (trialType){
+            case 0: // count
+                currentTrialPlot.drawPlot();
+                break;
+            case 1: // binomial
+                currentTrialPlot.drawPlot();
+                break;
+            case 2: // NNIC
+                currentTrialPlot.drawPlot();
+                break;
+            case 3: // Measurement
+                currentTrialPlot.drawPlot();
+                break;
+            default:
+                Log.w("STSManager", "Plot: Error Trial Type");
 
+
+        }
     }
 
-    public void generateHistorgram() { // theres a library somewhere * change return
+    public void generateHistorgram(List<Float> trialData, int trialType) { // theres a library somewhere * change return
+        switch (trialType){
+            case 0: // count
+                currentTrialHistogram.drawHistogramCount();
+                break;
+            case 1: // binomial
+                currentTrialHistogram.drawHistogramBinomial();
+                break;
+            case 2: // NNIC
+                currentTrialHistogram.drawHistogramNNIC();
+                break;
+
+            case 3: // Measurement
+                currentTrialHistogram.drawHistogramMeasurement();
+                break;
+            default:
+                Log.w("STSManager", "Histogram: Error Trial Type");
+        }
+
+
+
+
 
     }
 

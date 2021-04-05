@@ -70,7 +70,6 @@ public class StatReportActivity extends AppCompatActivity {
             DocumentSnapshot docSnap = task.getResult();
             exprName.setText(docSnap.getString("name"));
         });
-
     }
 
     /**
