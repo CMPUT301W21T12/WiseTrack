@@ -1,5 +1,7 @@
 package com.faanggang.wisetrack.model.executeTrial;
 
+import android.location.Location;
+
 import java.util.Date;
 
 public class MeasurementTrial extends Trial {
@@ -11,7 +13,7 @@ public class MeasurementTrial extends Trial {
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public MeasurementTrial(float measurement, String trialGeolocation, String uID, Date date) {
+    public MeasurementTrial(float measurement, Location trialGeolocation, String uID, Date date) {
         super(trialGeolocation, uID, date);
         this.measurement = measurement;
     }

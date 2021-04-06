@@ -17,16 +17,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/textview_one_count"
         app:layout_constraintStart_toStartOf="@+id/textview_one_count" />
 
-    <EditText
-        android:id="@+id/trial_geolocation_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="20dp"
-        android:ems="15"
-        android:hint="Enter trial geolocation:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_one_count" />
 
     <Button
         android:id="@+id/button_cancel"

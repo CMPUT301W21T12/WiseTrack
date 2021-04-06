@@ -266,6 +266,7 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.geolocations_option:
                 Intent geolocationIntent = new Intent(this, MapActivity.class);
+                geolocationIntent.putExtra("EXP_ID", expID);
                 startActivity(geolocationIntent);
                 return true;
             case R.id.execute_trials_option:
@@ -323,23 +324,25 @@ public class ViewExperimentActivity extends AppCompatActivity
 
 
     private boolean selectExecute() {
+        Intent executeIntent;
+
         if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
-            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
+            executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
             executeIntent.putExtra("trialType", anotherTrialType);
-            startActivity(executeIntent);
-            return true;
+
         } else if (anotherTrialType == 1) {  // handle binomial trial
-            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
+            executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-            startActivity(executeIntent);
-            return true;
-        } else if (anotherTrialType == 3) {  // handle measurement trial
-            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
+        } else {  // handle measurement trial ( 3 is only option left )
+            executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-            startActivity(executeIntent);
-            return true;
      }
+        if (geolocationRequired) {
+            executeIntent.putExtra("GEOLOCATION", geolocationManager.getLastLocation());
+        }
+
+        startActivity(executeIntent);
         return true;
     }
 
