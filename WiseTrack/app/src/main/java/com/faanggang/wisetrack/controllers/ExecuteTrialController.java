@@ -40,7 +40,7 @@ public class ExecuteTrialController {
      */
     public Map createTrialDocument(CountTrial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("count", trial.getCount());
+        data.put("result", trial.getCount());
         data.put("geolocation", trial.getTrialGeolocation());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
