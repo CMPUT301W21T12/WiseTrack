@@ -96,7 +96,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
 
         if (v.getId() == R.id.button_save) {
-            // get spinner value
 
             String geolocation = trialGeolocation.getText().toString();
 

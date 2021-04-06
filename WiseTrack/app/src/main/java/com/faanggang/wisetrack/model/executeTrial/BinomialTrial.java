@@ -6,7 +6,7 @@ public class BinomialTrial extends Trial{
     private int trialResult;
 
     /**
-     * @param trialResult   : String indicating trial result - "Success"/"Failure"/Default "Unicorn"
+     * @param trialResult   : Integer indicating trial result - "success: 1"/"failure: 0"/"Default: -1"
      * @param trialGeolocation : string input of location for which current trial was conducted
      * @param uID              : user id of the trial conductor
      * @param date
