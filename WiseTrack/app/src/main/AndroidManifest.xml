@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.faanggang.wisetrack">
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -19,15 +19,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WiseTrack">
-
-        <activity android:name=".view.map.MapActivity"></activity>
+        <activity android:name=".view.trial.ViewTrialsActivity"></activity>
+        <activity android:name=".view.map.MapActivity" />
         <activity android:name=".view.trial.ExecuteMeasurementActivity" />
-        <activity android:name=".view.qrcodes.SelectBarcodeResultActivity"></activity>
+        <activity android:name=".view.qrcodes.SelectBarcodeResultActivity" />
 
         <service
             android:name=".view.experiment.ViewExperimentActivity"
             android:foregroundServiceType="location"
-            tools:ignore="Instantiatable,MissingClass"></service>
+            tools:ignore="Instantiatable,MissingClass" />
 
         <activity android:name=".view.qrcodes.QRTrialConfirmActivity" />
         <activity android:name=".view.qrcodes.ViewQRCodeActivity" />
@@ -52,7 +52,6 @@
         <activity
             android:name=".view.user.EditProfileActivity"
             android:parentActivityName=".view.user.ViewSelfActivity" />
-
         <activity android:name=".view.user.UserNameCreationActivity" />
         <activity android:name=".view.experiment.MyExperimentActivity" />
         <activity android:name=".view.experiment.ViewExperimentActivity" />
