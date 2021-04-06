@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TrialFetchManager {
     private TrialFetcher fetcher;
@@ -51,7 +52,11 @@ public class TrialFetchManager {
                                     if (task1.isSuccessful()) {
                                         ArrayList<Trial> trials = new ArrayList<>();
                                         for (DocumentSnapshot docSnapshot : task1.getResult().getDocuments()) {
-                                            GeoPoint geoPoint = docSnapshot.getGeoPoint("geolocation");
+                                            Object locationObj = docSnapshot.get("geolocation");
+                                            if (locationObj instanceof String || locationObj instanceof Map) {
+                                                continue;
+                                            }
+                                            GeoPoint geoPoint = (GeoPoint) locationObj;
                                             Location location = null;
                                             if (geoPoint != null) {
                                                 location = new Location("");
