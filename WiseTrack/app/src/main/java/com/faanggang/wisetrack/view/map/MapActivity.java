@@ -66,6 +66,9 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
         GeoPoint location = null;
         Marker currentLocationMarker = null;
         for (Trial trial: trials) {
+            if (trial.getTrialGeolocation() == null) {
+                continue;
+            }
             location = new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude());
             renderLocation(location);
             currentLocationMarker = new Marker(map);
