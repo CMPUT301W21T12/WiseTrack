@@ -17,6 +17,12 @@
         <item
             android:id="@+id/comment_option"
             android:title="Comment"/>
+        <item
+            android:id="@+id/get_qr_option"
+            android:title="Get QR Codes" />
+        <item
+            android:id="@+id/register_barcode_option"
+            android:title="Register Barcode" />
     </group>
     <group android:id="@+id/owner_only_options">
         <item

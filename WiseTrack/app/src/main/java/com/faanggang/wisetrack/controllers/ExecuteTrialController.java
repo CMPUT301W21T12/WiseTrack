@@ -40,24 +40,12 @@ public class ExecuteTrialController {
      */
     public Map createTrialDocument(CountTrial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("count", trial.getCount());
+        data.put("result", trial.getCount());
         data.put("geolocation", trial.getTrialGeolocation());
-        data.put("description", trial.getTrialDescription());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
         //data.put("trial id", trial.getTrialID());
 
-        // add non-empty trial description as keywords; expand search functionality
-        if (trial.getTrialDescription() != "") {
-            ArrayList<String> keywords = new ArrayList<>();
-            keywords.addAll(Arrays.asList(trial.getTrialDescription().split(" ")));
-
-            for (int i = 0; i < keywords.size(); ++i) {
-                keywords.set(i, keywords.get(i).toUpperCase());
-            }
-
-            data.put("keywords", keywords);
-        }
         return data;
     }
 
@@ -67,25 +55,12 @@ public class ExecuteTrialController {
      */
     public Map createTrialDocument(BinomialTrial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("success count", trial.getSuccess());
-        data.put("failure count", trial.getFailure());
+        data.put("result", trial.getTrialResult());
         data.put("geolocation", trial.getTrialGeolocation());
-        data.put("description", trial.getTrialDescription());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
         //data.put("trial id", trial.getTrialID());
 
-        // add non-empty trial description as keywords; expand search functionality
-        if (trial.getTrialDescription() != "") {
-            ArrayList<String> keywords = new ArrayList<>();
-            keywords.addAll(Arrays.asList(trial.getTrialDescription().split(" ")));
-
-            for (int i = 0; i < keywords.size(); ++i) {
-                keywords.set(i, keywords.get(i).toUpperCase());
-            }
-
-            data.put("keywords", keywords);
-        }
         return data;
     }
 
@@ -95,24 +70,12 @@ public class ExecuteTrialController {
      */
     public Map createTrialDocument(MeasurementTrial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("count", trial.getMeasurement());
+        data.put("result", trial.getMeasurement());
         data.put("geolocation", trial.getTrialGeolocation());
-        data.put("description", trial.getTrialDescription());
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
         //data.put("trial id", trial.getTrialID());
 
-        // add non-empty trial description as keywords; expand search functionality
-        if (trial.getTrialDescription() != "") {
-            ArrayList<String> keywords = new ArrayList<>();
-            keywords.addAll(Arrays.asList(trial.getTrialDescription().split(" ")));
-
-            for (int i = 0; i < keywords.size(); ++i) {
-                keywords.set(i, keywords.get(i).toUpperCase());
-            }
-
-            data.put("keywords", keywords);
-        }
         return data;
     }
 

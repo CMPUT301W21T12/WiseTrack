@@ -1,21 +1,36 @@
 package com.faanggang.wisetrack.view.experiment;
 
 
-
+import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
+import com.faanggang.wisetrack.view.MainMenuActivity;
+import com.faanggang.wisetrack.view.map.MapActivity;
+import com.faanggang.wisetrack.view.qrcodes.BarcodeRegisterActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
-
+import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
 import com.faanggang.wisetrack.controllers.SubscriptionManager;
-import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
+import com.faanggang.wisetrack.view.MainActivity;
+import com.faanggang.wisetrack.view.comment.ViewAllCommentActivity;
+import com.faanggang.wisetrack.view.qrcodes.ViewQRCodeActivity;
+import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
+import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,19 +42,27 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import org.osmdroid.views.MapView;
+
 public class ViewExperimentActivity extends AppCompatActivity
-    implements EndExperimentConfirmFragment.OnFragmentInteractionListener {
+    implements EndExperimentFragment.OnFragmentInteractionListener,
+        UnpublishExperimentFragment.OnFragmentInteractionListener {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private TextView expNameView;
     private TextView expDescriptionView;
@@ -55,8 +78,12 @@ public class ViewExperimentActivity extends AppCompatActivity
     private UserManager userManager;
     private SubscriptionManager subManager;
     private boolean geolocationRequired;
-
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
+    private GeolocationManager geolocationManager;
     private int anotherTrialType;
+    private Location location;
+    private boolean startedFetching;
 
     public int getAnotherTrialType() {
         return anotherTrialType;
@@ -90,6 +117,31 @@ public class ViewExperimentActivity extends AppCompatActivity
         expStatusView = findViewById(R.id.view_status);
         expTrialTypeView = findViewById(R.id.view_trial_type);
         setText();
+        geolocationManager = GeolocationManager.getInstance(this);
+        geolocationManager.setContext(this);
+        startedFetching = false;
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            if (!geolocationManager.isActivated()) {
+                geolocationManager.startLocationUpdates();
+            }
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                Log.w("Geolocation is ", location.toString());
+                                ViewExperimentActivity.this.location = location;
+                            } else {
+                                Log.w("Geolocation is", "null");
+                            }
+                        }
+                    });
+        }
 
         expOwnerView.setOnClickListener(new View.OnClickListener() {
 
@@ -161,6 +213,12 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        geolocationManager.stopLocationUpdate();
+    }
+
     private void warnGeolocation(){
         Toast.makeText(this, "Warning: This experiment requires geolocation!",Toast.LENGTH_LONG).show();
     }
@@ -188,12 +246,16 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
+
+                UnpublishExperimentFragment unpublish_frag = new UnpublishExperimentFragment();
+                unpublish_frag.show(getSupportFragmentManager(), "UNPUBLISH_EXPERIMENT");
+
                 return true;
             case R.id.end_experiment_option:
                 Toast.makeText(this, "End experiment option selected", Toast.LENGTH_SHORT).show();
 
-                EndExperimentConfirmFragment frag = new EndExperimentConfirmFragment();
-                frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
+                EndExperimentFragment end_frag = new EndExperimentFragment();
+                end_frag.show(getSupportFragmentManager(), "END_EXPERIMENT");
 
                 return true;
             case R.id.results_option:  // For statistics
@@ -202,18 +264,24 @@ public class ViewExperimentActivity extends AppCompatActivity
                 startActivity(statIntent);
                 return true;
             case R.id.geolocations_option:
-                Toast.makeText(this, "View geolocation option selected", Toast.LENGTH_SHORT).show();
+                Intent geolocationIntent = new Intent(this, MapActivity.class);
+                startActivity(geolocationIntent);
                 return true;
             case R.id.execute_trials_option:
                 if (geolocationRequired) {
                     if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+                            != PackageManager.PERMISSION_GRANTED
+                            ||  ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "Please allow this app to access Geolocation to proceed", Toast.LENGTH_SHORT).show();
+                    } else if (geolocationManager.getLastLocation() == null) {
+                        Toast.makeText(this, "Getting user location...", Toast.LENGTH_SHORT).show();
                     } else {
                         selectExecute();
                     }
                 } else {
                     selectExecute();
+
                 }
                 return true;
             case R.id.comment_option:
@@ -223,6 +291,29 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.get_qr_option:
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), ViewQRCodeActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                    startActivity(qrIntent);
+                }
+                else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            case R.id.register_barcode_option:
+                if (trialType !=3) {
+                    Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
+                    qrIntent.putExtra("EXP_ID", expID);
+                    qrIntent.putExtra("EXP_TYPE", trialType);
+                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                    startActivity(qrIntent);
+                }else {
+                    Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return super.onContextItemSelected(item);
@@ -279,5 +370,27 @@ public class ViewExperimentActivity extends AppCompatActivity
         // Go back to main
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onUnpublishExperimentOk() {
+        DocumentReference experiment = db.collection("Experiments").document(expID);
+
+        experiment
+                .update("published", false)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("UNPUBLISH_EXPERIMENT", "Experiment " + expID + " successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("UNPUBLISH_EXPERIMENT", "Error updating document", e);
+
+                        // ADD AN ERROR FRAGMENT HERE
+                    }
+                });
     }
 }
