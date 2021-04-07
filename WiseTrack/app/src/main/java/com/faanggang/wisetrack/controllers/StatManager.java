@@ -28,7 +28,7 @@ import java.util.List;
 
 // add test for values
 public class StatManager {
-    public StatReport currentTrialReport = new StatReport(0,100,50,50,39.52, Arrays.asList(12.5f,50f,87.5f));
+    public StatReport currentTrialReport = new StatReport();
     private StatHistogram currentTrialHistogram;
     private StatPlot currentTrialPlot;
     public StatManager () {
