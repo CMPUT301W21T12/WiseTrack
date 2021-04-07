@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.view.trial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +22,8 @@ import java.util.Map;
 public class ExecuteCountActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "Snippets";
     private EditText trialData;
-    private EditText trialGeolocation;
     private TextView oneCount;
+    private Location geolocation;
 
     int trialType;
 
@@ -37,11 +38,15 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
         Bundle extras = getIntent().getExtras();
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
+        if (extras.get("GEOLOCATION") != null) {
+            geolocation = (Location) extras.get("GEOLOCATION");
+        } else {
+            geolocation = null;
+        }
 
         oneCount = findViewById(R.id.textview_one_count);
         trialData = findViewById(R.id.trial_data_input);
         // hardcoded address for now; will implement android map fragment later
-        trialGeolocation = findViewById(R.id.trial_geolocation_input);
 
         Button cancelButton = findViewById(R.id.button_cancel);
         Button saveButton = findViewById(R.id.button_save);
@@ -64,7 +69,7 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
             if (trialType == 2) {
                 count = Integer.parseInt(trialData.getText().toString());
             }
-            String geolocation = trialGeolocation.getText().toString();
+
 
             CountTrial currentTrial = new CountTrial(count, geolocation, mAuth.getUid(), new Date());
 

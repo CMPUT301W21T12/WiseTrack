@@ -1,5 +1,7 @@
 package com.faanggang.wisetrack.model.executeTrial;
 
+import android.location.Location;
+
 import java.util.Date;
 
 public class CountTrial extends Trial{
@@ -10,7 +12,7 @@ public class CountTrial extends Trial{
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public CountTrial(int count, String trialGeolocation, String uID, Date date) {
+    public CountTrial(int count, Location trialGeolocation, String uID, Date date) {
         super(trialGeolocation, uID, date);
         this.count = count;
     }

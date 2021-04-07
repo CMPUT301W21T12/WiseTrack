@@ -1,9 +1,11 @@
 package com.faanggang.wisetrack.model.executeTrial;
 
+import android.location.Location;
+
 import java.util.Date;
 
 public abstract class Trial {
-    private String trialGeolocation;
+    private Location trialGeolocation;
     private String experimenterID;
     private Date datetime;
     private String trialID;  // trial document ID in firebase
@@ -13,17 +15,17 @@ public abstract class Trial {
      * @param uID: user id of the trial conductor
      * @param date
      */
-    public Trial(String trialGeolocation, String uID, Date date) {
+    public Trial(Location trialGeolocation, String uID, Date date) {
         this.trialGeolocation = trialGeolocation;
         this.experimenterID = uID;
         this.datetime = date;
     }
 
-    public String getTrialGeolocation() {
+    public Location getTrialGeolocation() {
         return trialGeolocation;
     }
 
-    public void setTrialGeolocation(String trialGeolocation) {
+    public void setTrialGeolocation(Location trialGeolocation) {
         this.trialGeolocation = trialGeolocation;
     }
 

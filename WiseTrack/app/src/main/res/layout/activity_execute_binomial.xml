@@ -34,17 +34,6 @@
         app:layout_constraintStart_toStartOf="@+id/spinner_select_trial_result"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/trial_geolocation_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="152dp"
-        android:ems="15"
-        android:hint="Enter trial geolocation:"
-        app:layout_constraintStart_toStartOf="@+id/spinner_select_trial_result"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/button_cancel"
         android:layout_width="wrap_content"
