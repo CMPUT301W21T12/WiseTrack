@@ -10,6 +10,7 @@ import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,9 @@ public class TrialFetchManager {
     }
 
     /**
-     * This method fetches trials of a given experiment from the Cloud Firestore.
+     * This method fetches trial documents that belong to a given experiment document from the Cloud Firestore.
+     * This method does not return anything. It instead calls on an interface method implemented
+     * by the Object that is receiving the data.
      * @param expID
      *     expID is the ID of the experiment that you are fetching its trials from.
      */
@@ -80,9 +83,7 @@ public class TrialFetchManager {
 
 
     public void fetchTrialType(String expID){
-        db.collection("Experiments")
-                .document(expID)
-                .get()
+        db.collection("Experiments").document(expID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         trialType = task.getResult().getLong("trialType").intValue();
@@ -92,26 +93,40 @@ public class TrialFetchManager {
                 });
     }
 
+
     public void fetchTrials(String expID){
-        db.collection("Experiments")
-                .document(expID)
-                .collection("Trials")
-                .get()
-                .addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        ArrayList<Trial> trials = new ArrayList<>();
-                        fetchTrialType(expID);
-                        for (DocumentSnapshot docSnapshot : task1.getResult().getDocuments()) {
-                            Log.w("TRIALS", docSnapshot.getString("result"));
-                            trials.add(createTrial(
-                                    trialType,
-                                    docSnapshot.getDouble("result"),
-                                    docSnapshot.getString("geolocation"),
-                                    docSnapshot.getString("conductor id"),
-                                    docSnapshot.getDate("date"))
-                            );
+        db.collection("Experiments").document(expID).collection("Trials")
+        .orderBy("date", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.e("", String.valueOf(task.getResult().size()));
+                        if (task.getResult().size() != 0) {
+                            ArrayList<Trial> trials = new ArrayList<>();
+                            this.fetchTrialType(expID);
+                            List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();
+                            for (DocumentSnapshot docSnapshot : docSnapList) {
+                                // fetch geolocation field data
+                                GeoPoint location = docSnapshot.getGeoPoint("geolocation");
+                                // create a Location object
+                                Location geolocation = new Location("");
+                                if (location != null) {
+                                    double lat = location.getLatitude();
+                                    double lon = location.getLongitude();
+                                    geolocation.setLatitude(lat);
+                                    geolocation.setLongitude(lon);
+                                } else {
+                                    geolocation = null;
+                                }
+
+                                trials.add(this.createTrial(
+                                        trialType,
+                                        docSnapshot.getDouble("result"),
+                                        geolocation,
+                                        docSnapshot.getString("conductor id"),
+                                        docSnapshot.getDate("date"))
+                                );
+                            }
+                            fetcher.onSuccessfulFetch(trials);
                         }
-                        fetcher.onSuccessfulFetch(trials);
                     } else {
                         Log.w("TRIAL","DID NOT FIND");
                     }
