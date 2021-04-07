@@ -1,5 +1,6 @@
 package com.faanggang.wisetrack.controllers;
 
+import android.location.Location;
 import android.util.Log;
 
 import com.faanggang.wisetrack.model.executeTrial.BinomialTrial;
@@ -8,10 +9,13 @@ import com.faanggang.wisetrack.model.executeTrial.MeasurementTrial;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TrialFetchManager {
     private TrialFetcher fetcher;
@@ -47,11 +51,22 @@ public class TrialFetchManager {
                                     if (task1.isSuccessful()) {
                                         ArrayList<Trial> trials = new ArrayList<>();
                                         for (DocumentSnapshot docSnapshot : task1.getResult().getDocuments()) {
-                                            Log.w("TRIALS", docSnapshot.getString("result"));
+                                            Object locationObj = docSnapshot.get("geolocation");
+                                            if (locationObj instanceof String || locationObj instanceof Map) {
+                                                continue;
+                                            }
+                                            GeoPoint geoPoint = (GeoPoint) locationObj;
+                                            Location location = null;
+                                            if (geoPoint != null) {
+                                                location = new Location("");
+                                                location.setLatitude(geoPoint.getLatitude());
+                                                location.setLongitude(geoPoint.getLongitude());
+                                            }
                                             trials.add(createTrial(
                                                     trialType,
                                                     docSnapshot.getDouble("result"),
                                                     docSnapshot.getString("geolocation"),
+                                                    location,
                                                     docSnapshot.getString("conductor id"),
                                                     docSnapshot.getDate("date"))
                                             );
@@ -103,8 +118,7 @@ public class TrialFetchManager {
                 });
     }
 
-
-    public Trial createTrial(int trialType, double trialResult, String trialGeolocation, String conductorID, Date date) {
+    public Trial createTrial(int trialType, double trialResult, Location trialGeolocation, String conductorID, Date date) {
         Trial trial;
         if ((trialType == 0)||(trialType == 2)) {  // count and NNIC type trials
             trial = new CountTrial(trialResult, trialGeolocation, conductorID, date, trialType);

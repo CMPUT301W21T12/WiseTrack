@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +18,18 @@ import com.faanggang.wisetrack.R;
  */
 public class PublishExperiment1_Initialization extends AppCompatActivity {
 
+    // get fields from the xml/ui display
     private EditText inputName;
     private EditText inputDescription;
     private EditText inputRegion;
     private EditText inputMinTrials;
     private Button nextButton;
+
+    // to put in Intent Extra for the next activity
+    private String name;
+    private String description;
+    private String region;
+    private String minTrials;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,34 +40,58 @@ public class PublishExperiment1_Initialization extends AppCompatActivity {
         inputDescription = findViewById(R.id.description_input);
         inputRegion = findViewById(R.id.region_input);
         inputMinTrials = findViewById(R.id.minTrials_input);
-
         nextButton = findViewById(R.id.choose_test_type_button);
 
-        // Attaching OnClick listener to the submit button
-        nextButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                String name = inputName.getText().toString();
-                String description = inputDescription.getText().toString();
-                String region = inputRegion.getText().toString();
-                int minTrials = Integer.parseInt(inputMinTrials.getText().toString());
-
-                Intent intent;
-
-                intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_TrialType.class);
-
-                intent.putExtra("EXTRA_NAME", name);
-                intent.putExtra("EXTRA_DESCRIPTION", description);
-                intent.putExtra("EXTRA_REGION", region);
-                intent.putExtra("EXTRA_MIN_TRIALS", minTrials);
-
-                startActivity(intent);
-
-            }
-        });
-
+        inputName.addTextChangedListener(inputTextWatcher);
+        inputDescription.addTextChangedListener(inputTextWatcher);
+        inputRegion.addTextChangedListener(inputTextWatcher);
+        inputMinTrials.addTextChangedListener(inputTextWatcher);
     }
+
+    private TextWatcher inputTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            name = inputName.getText().toString();
+            description = inputDescription.getText().toString();
+            region = inputRegion.getText().toString();
+            minTrials = inputMinTrials.getText().toString();
+
+            // if non of the fields are empty, then enable the Button to be clicked on
+            nextButton.setEnabled(!name.isEmpty() && !description.isEmpty() && !region.isEmpty()
+                    && !minTrials.isEmpty());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            // Attaching OnClick listener to the submit button
+            nextButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+
+                    int intMinTrials = Integer.parseInt(minTrials);
+
+                    Intent intent;
+
+                    intent = new Intent(PublishExperiment1_Initialization.this, PublishExperiment2_TrialType.class);
+
+                    intent.putExtra("EXTRA_NAME", name);
+                    intent.putExtra("EXTRA_DESCRIPTION", description);
+                    intent.putExtra("EXTRA_REGION", region);
+                    intent.putExtra("EXTRA_MIN_TRIALS", intMinTrials);
+
+                    startActivity(intent);
+
+                }
+            });
+        }
+    };
+
 
 }

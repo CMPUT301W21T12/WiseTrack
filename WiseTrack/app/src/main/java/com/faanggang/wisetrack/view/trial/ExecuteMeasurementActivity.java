@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.view.trial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +21,7 @@ import java.util.Map;
 public class ExecuteMeasurementActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "Snippets";
     private EditText trialData;
-    private EditText trialGeolocation;
-
+    private Location geolocation;
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
 
@@ -31,13 +31,15 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
         setContentView(R.layout.activity_execute_measurement);
 
         Bundle extras = getIntent().getExtras();
-
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
+        if (extras.get("GEOLOCATION") != null) {
+            geolocation = (Location) extras.get("GEOLOCATION");
+        } else {
+            geolocation = null;
+        }
 
         trialData = findViewById(R.id.trial_data_input);
-        // hardcoded address for now; will implement android map fragment later
-        trialGeolocation = findViewById(R.id.trial_geolocation_input);
 
         Button cancelButton = findViewById(R.id.button_cancel);
         Button saveButton = findViewById(R.id.button_save);
@@ -56,7 +58,6 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
                 // measurement field not empty
                 data = Float.parseFloat(trialData.getText().toString());
             }
-            String geolocation = trialGeolocation.getText().toString();
 
             MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, mAuth.getUid(), new Date(), 3);
 

@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +43,11 @@ public class ExecuteTrialController {
         Map<String, Object> data = new HashMap<>();
         data.put("result", (int)trial.getTrialResult());
         data.put("geolocation", trial.getTrialGeolocation());
+        if (trial.getTrialGeolocation() == null) {
+            data.put("geolocation", null);
+        } else {
+            data.put("geolocation", new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude()));
+        }
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
         //data.put("trial id", trial.getTrialID());
@@ -57,6 +63,11 @@ public class ExecuteTrialController {
         Map<String, Object> data = new HashMap<>();
         data.put("result", (int)trial.getTrialResult());
         data.put("geolocation", trial.getTrialGeolocation());
+        if (trial.getTrialGeolocation() == null) {
+            data.put("geolocation", null);
+        } else {
+            data.put("geolocation", new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude()));
+        }
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
         //data.put("trial id", trial.getTrialID());
@@ -72,6 +83,11 @@ public class ExecuteTrialController {
         Map<String, Object> data = new HashMap<>();
         data.put("result", (float)trial.getMeasurement());
         data.put("geolocation", trial.getTrialGeolocation());
+        if (trial.getTrialGeolocation() == null) {
+            data.put("geolocation", null);
+        } else {
+            data.put("geolocation", new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude()));
+        }
         data.put("date", trial.getDatetime());
         data.put("conductor id", trial.getExperimenterID());
         //data.put("trial id", trial.getTrialID());

@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.view.trial;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +25,8 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
     private int trialResult;
     private static final String TAG = "Snippets";
     private Spinner dropdown;
-    private EditText trialGeolocation;
     ArrayAdapter<String> adapter;
-
+    private Location geolocation;
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
 
@@ -36,10 +36,13 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_execute_binomial);
 
         Bundle extras = getIntent().getExtras();
-
         executeTrialController = new ExecuteTrialController(extras.getString("EXP_ID"));
         mAuth = FirebaseAuth.getInstance();
-
+        if (extras.get("GEOLOCATION") != null) {
+            geolocation = (Location) extras.get("GEOLOCATION");
+        } else {
+            geolocation = null;
+        }
         // get the spinner
         dropdown = findViewById(R.id.spinner_select_trial_result);
         // create string adapter for the spinner and populate it
@@ -83,7 +86,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
         });
 
         // hardcoded address for now; will implement android map fragment later
-        trialGeolocation = findViewById(R.id.trial_geolocation_input);
 
         Button cancelButton = findViewById(R.id.button_cancel);
         Button saveButton = findViewById(R.id.button_save);
@@ -96,8 +98,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
 
         if (v.getId() == R.id.button_save) {
-
-            String geolocation = trialGeolocation.getText().toString();
 
             BinomialTrial currentTrial = new BinomialTrial(trialResult, geolocation, mAuth.getUid(), new Date(), 1);
 
