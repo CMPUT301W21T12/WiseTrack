@@ -18,11 +18,14 @@ import com.faanggang.wisetrack.R;
  */
 public class PublishExperiment1_Initialization extends AppCompatActivity {
 
+    // get fields from the xml/ui display
     private EditText inputName;
     private EditText inputDescription;
     private EditText inputRegion;
     private EditText inputMinTrials;
     private Button nextButton;
+
+    // to put in Intent Extra for the next activity
     private String name;
     private String description;
     private String region;
@@ -43,9 +46,6 @@ public class PublishExperiment1_Initialization extends AppCompatActivity {
         inputDescription.addTextChangedListener(inputTextWatcher);
         inputRegion.addTextChangedListener(inputTextWatcher);
         inputMinTrials.addTextChangedListener(inputTextWatcher);
-
-
-
     }
 
     private TextWatcher inputTextWatcher = new TextWatcher() {
@@ -61,6 +61,7 @@ public class PublishExperiment1_Initialization extends AppCompatActivity {
             region = inputRegion.getText().toString();
             minTrials = inputMinTrials.getText().toString();
 
+            // if non of the fields are empty, then enable the Button to be clicked on
             nextButton.setEnabled(!name.isEmpty() && !description.isEmpty() && !region.isEmpty()
                     && !minTrials.isEmpty());
         }
