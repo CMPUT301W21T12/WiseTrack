@@ -37,11 +37,9 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.1'
     implementation "androidx.activity:activity:1.2.0"
     implementation "androidx.fragment:fragment:1.3.0"
-<<<<<<< HEAD
     implementation 'com.jjoe64:graphview:4.2.2'
-=======
+
     implementation 'com.google.android.gms:play-services-location:18.0.0'
->>>>>>> a8234d6008043fafaab62561f047f7411ec70e52
 
     testImplementation 'junit:junit:4.+'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.1'

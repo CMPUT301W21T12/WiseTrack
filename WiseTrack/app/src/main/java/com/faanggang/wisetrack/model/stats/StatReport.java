@@ -1,6 +1,7 @@
 package com.faanggang.wisetrack.model.stats;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class StatReport {
           this.mean = 0;
           this.median = 0;
           this.stdev = 0;
-          this.quartiles = new ArrayList<Float>();
+          this.quartiles = new ArrayList<Float>(Arrays.asList(0f,0f,0f));
      }
 
      /**
