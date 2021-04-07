@@ -292,11 +292,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 startActivity(intent);
                 return true;
             case R.id.view_trials_option:
-                Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
-
                 Intent viewTrialIntent = new Intent(this, ViewTrialsActivity.class);
                 viewTrialIntent.putExtra("EXP_ID", expID);
                 startActivity(viewTrialIntent);
+                Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.get_qr_option:
                 if (trialType !=3) {
