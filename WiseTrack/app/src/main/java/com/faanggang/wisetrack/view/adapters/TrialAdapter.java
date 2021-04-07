@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,7 +62,7 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         int trialType = trials.get(position).getTrialType();
         double trialResult = trials.get(position).getTrialResult();
-        String trialResultView = "?";
+        String trialResultView = "TRIAL RESULT";  // default TextView
         if ((trialType == 0)||((trialType == 2))) {  // count or NNIC trials
             trialResultView = Integer.toString((int)trialResult);  // casting trial result to its proper data type
         } else if (trialType == 1) {  // binomial trials
@@ -73,11 +74,10 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 trialResultView = "Invalid";
             }
         } else if (trialType == 3) {  // measurement trials
-            df.setRoundingMode(RoundingMode.UP);
+            //df.setRoundingMode(RoundingMode.UP);
             trialResultView = Float.toString(Float.parseFloat(df.format((float)trialResult)));
         }
         item.getResultTextView().setText(trialResultView);
-
         item.getDateTextView().setText(getDateString(trials.get(position).getDatetime()));
 
     }

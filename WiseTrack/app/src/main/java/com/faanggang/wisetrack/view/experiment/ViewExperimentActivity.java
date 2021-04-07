@@ -295,6 +295,7 @@ public class ViewExperimentActivity extends AppCompatActivity
             case R.id.view_trials_option:
                 Intent viewTrialIntent = new Intent(this, ViewTrialsActivity.class);
                 viewTrialIntent.putExtra("EXP_ID", expID);
+                viewTrialIntent.putExtra("EXP_TYPE", trialType);
                 startActivity(viewTrialIntent);
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
@@ -338,10 +339,11 @@ public class ViewExperimentActivity extends AppCompatActivity
         } else if (anotherTrialType == 1) {  // handle binomial trial
             executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-        } else {  // handle measurement trial ( 3 is only option left )
+        } else {  // handle measurement trial (3 is only option left)
             executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-     }
+        }
+
         if (geolocationRequired) {
             executeIntent.putExtra("GEOLOCATION", geolocationManager.getLastLocation());
         }

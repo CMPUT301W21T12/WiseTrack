@@ -33,55 +33,9 @@ public class TrialFetchManager {
     }
 
     /**
-     * This method fetches trial documents that belong to a given experiment document from the Cloud Firestore.
-     * This method does not return anything. It instead calls on an interface method implemented
-     * by the Object that is receiving the data.
-     * @param expID
-     *     expID is the ID of the experiment that you are fetching its trials from.
+     * This helper method fetches trial type from the given experiment document.
+     * @param expID: ID of the experiment that you are fetching its trials from.
      */
-    /*public void fetchTrials(String expID){
-        db.collection("Experiments")
-                .document(expID)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()){
-                        int trialType = task.getResult().getLong("trialType").intValue();
-                        db.collection("Experiments")
-                                .document(expID)
-                                .collection("Trials")
-                                .get()
-                                .addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        ArrayList<Trial> trials = new ArrayList<>();
-                                        for (DocumentSnapshot docSnapshot : task1.getResult().getDocuments()) {
-                                            Object locationObj = docSnapshot.get("geolocation");
-                                            if (locationObj instanceof String || locationObj instanceof Map) {
-                                                continue;
-                                            }
-                                            GeoPoint geoPoint = (GeoPoint) locationObj;
-                                            Location location = null;
-                                            if (geoPoint != null) {
-                                                location = new Location("");
-                                                location.setLatitude(geoPoint.getLatitude());
-                                                location.setLongitude(geoPoint.getLongitude());
-                                            }
-                                            trials.add(createTrial(
-                                                    trialType,
-                                                    docSnapshot.getDouble("result"),
-                                                    docSnapshot.getString("geolocation"),
-                                                    location,
-                                                    docSnapshot.getString("conductor id"),
-                                                    docSnapshot.getDate("date"))
-                                            );
-                                        }
-                                        fetcher.onSuccessfulFetch(trials);
-                                    }
-                                });
-                    }
-                });
-    }*/
-
-
     public void fetchTrialType(String expID){
         db.collection("Experiments").document(expID).get()
                 .addOnCompleteListener(task -> {
@@ -93,7 +47,12 @@ public class TrialFetchManager {
                 });
     }
 
-
+    /**
+     * This method fetches trial documents that belong to a given experiment document from the Cloud Firestore.
+     * This method does not return anything. It instead calls on an interface method implemented
+     * by the Object that is receiving the data.
+     * @param expID: ID of the experiment that you are fetching its trials from.
+     */
     public void fetchTrials(String expID){
         db.collection("Experiments").document(expID).collection("Trials")
         .orderBy("date", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
@@ -117,13 +76,12 @@ public class TrialFetchManager {
                                     geolocation = null;
                                 }
 
-                                trials.add(this.createTrial(
-                                        trialType,
-                                        docSnapshot.getDouble("result"),
+                                trials.add(new Trial(
                                         geolocation,
                                         docSnapshot.getString("conductor id"),
-                                        docSnapshot.getDate("date"))
-                                );
+                                        docSnapshot.getDate("date"),
+                                        docSnapshot.getDouble("result"),
+                                        trialType));
                             }
                             fetcher.onSuccessfulFetch(trials);
                         }
@@ -133,7 +91,7 @@ public class TrialFetchManager {
                 });
     }
 
-    public Trial createTrial(int trialType, double trialResult, Location trialGeolocation, String conductorID, Date date) {
+    /*public Trial createTrial(int trialType, double trialResult, Location trialGeolocation, String conductorID, Date date) {
         Trial trial;
         if ((trialType == 0)||(trialType == 2)) {  // count and NNIC type trials
             trial = new CountTrial(trialResult, trialGeolocation, conductorID, date, trialType);
@@ -145,5 +103,5 @@ public class TrialFetchManager {
             trial = null;  // this might not be necessary
         }
         return trial;
-    }
+    }*/
 }

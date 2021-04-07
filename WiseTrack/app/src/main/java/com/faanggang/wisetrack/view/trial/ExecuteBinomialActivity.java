@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.model.executeTrial.BinomialTrial;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
+import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
@@ -80,7 +81,6 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(parent.getContext(), "Warning: No trial result selected!", Toast.LENGTH_SHORT).show();
                 // invokes automatic callback interface
             }
         });
@@ -99,7 +99,7 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
 
         if (v.getId() == R.id.button_save) {
 
-            BinomialTrial currentTrial = new BinomialTrial(trialResult, geolocation, mAuth.getUid(), new Date(), 1);
+            Trial currentTrial = new Trial(geolocation, mAuth.getUid(), new Date(), trialResult, 1);
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

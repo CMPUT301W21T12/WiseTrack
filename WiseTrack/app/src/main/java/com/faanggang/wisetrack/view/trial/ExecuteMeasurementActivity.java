@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
 import com.faanggang.wisetrack.model.executeTrial.MeasurementTrial;
+import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
@@ -50,16 +51,18 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View v) {
-        float data = 0;
+        float trialResult = 0;
 
         // null value handling
         if (v.getId() == R.id.button_save) {
             if (trialData.getText() != null) {
                 // measurement field not empty
-                data = Float.parseFloat(trialData.getText().toString());
+                trialResult = Float.parseFloat(trialData.getText().toString());
+            } else {
+                Toast.makeText(this, "No trial data input found", Toast.LENGTH_SHORT).show();
             }
 
-            MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, mAuth.getUid(), new Date(), 3);
+            Trial currentTrial = new Trial(geolocation, mAuth.getUid(), new Date(), trialResult, 3);
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.faanggang.wisetrack.model.executeTrial.BinomialTrial;
 import com.faanggang.wisetrack.model.executeTrial.CountTrial;
 import com.faanggang.wisetrack.model.executeTrial.MeasurementTrial;
+import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -36,52 +37,12 @@ public class ExecuteTrialController {
     }
 
     /**
-     * @param trial: count OR non-negative integer count type trial
+     * @param trial: current trial to be inserted into Cloud Firebase
      * @return data: hashmap trial object ready to be inserted
      */
-    public Map createTrialDocument(CountTrial trial) {
+    public Map createTrialDocument(Trial trial) {
         Map<String, Object> data = new HashMap<>();
-        data.put("result", (int)trial.getTrialResult());
-        data.put("geolocation", trial.getTrialGeolocation());
-        if (trial.getTrialGeolocation() == null) {
-            data.put("geolocation", null);
-        } else {
-            data.put("geolocation", new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude()));
-        }
-        data.put("date", trial.getDatetime());
-        data.put("conductor id", trial.getExperimenterID());
-        //data.put("trial id", trial.getTrialID());
-
-        return data;
-    }
-
-    /**
-     * @param trial: binomial type trial
-     * @return data: hashmap trial object ready to be inserted
-     */
-    public Map createTrialDocument(BinomialTrial trial) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("result", (int)trial.getTrialResult());
-        data.put("geolocation", trial.getTrialGeolocation());
-        if (trial.getTrialGeolocation() == null) {
-            data.put("geolocation", null);
-        } else {
-            data.put("geolocation", new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude()));
-        }
-        data.put("date", trial.getDatetime());
-        data.put("conductor id", trial.getExperimenterID());
-        //data.put("trial id", trial.getTrialID());
-
-        return data;
-    }
-
-    /**
-     * @param trial: measurement type trial
-     * @return data: hashmap trial object ready to be inserted
-     */
-    public Map createTrialDocument(MeasurementTrial trial) {
-        Map<String, Object> data = new HashMap<>();
-        data.put("result", (float)trial.getMeasurement());
+        data.put("result", trial.getTrialResult());
         data.put("geolocation", trial.getTrialGeolocation());
         if (trial.getTrialGeolocation() == null) {
             data.put("geolocation", null);
