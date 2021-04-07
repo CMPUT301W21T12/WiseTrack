@@ -18,21 +18,21 @@ import java.util.List;
 
 public class TrialFetchManager {
     private TrialFetcher fetcher;
-
     private FirebaseFirestore db;
-    public TrialFetchManager(FirebaseFirestore db, TrialFetcher fetcher) {
-        this.db = db;
+
+    public TrialFetchManager(TrialFetcher fetcher) {
+        this.db = FirebaseFirestore.getInstance();
         this.fetcher = fetcher;
     }
 
     public interface TrialFetcher {
-        public void onSuccessfulFetch(ArrayList<Trial> trials);
+        void onSuccessfulFetch(ArrayList<Trial> trials);
     }
 
     /**
-     * This method queries the Cloud Firestore to find experiments that have been subscribed to by a specific user.
+     * This method fetches trials of a given experiment from the Cloud Firestore.
      * @param expID
-     * expID is the ID of the experiment that you are adding to.
+     *     expID is the ID of the experiment that you are fetching its trials from.
      */
     public void fetchTrials(String expID){
         db.collection("Experiments")
@@ -52,7 +52,7 @@ public class TrialFetchManager {
                                             Log.w("TRIALS", docSnapshot.getString("result"));
                                             trials.add(createTrial(
                                                     trialType,
-                                                    docSnapshot.getLong("result"),
+                                                    docSnapshot.getDouble("result"),
                                                     docSnapshot.getString("geolocation"),
                                                     docSnapshot.getString("conductor id"),
                                                     docSnapshot.getDate("date"))
@@ -65,14 +65,14 @@ public class TrialFetchManager {
                 });
     }
 
-    public Trial createTrial(int trialType, float trialResult, String trialGeolocation, String conductorID, Date date) {
+    public Trial createTrial(int trialType, double trialResult, String trialGeolocation, String conductorID, Date date) {
         Trial trial;
         if ((trialType == 0)||(trialType == 2)) {  // count and NNIC type trials
-            trial = new CountTrial((int)trialResult, trialGeolocation, conductorID, date);
+            trial = new CountTrial(trialResult, trialGeolocation, conductorID, date, trialType);
         } else if (trialType == 1) {
-            trial = new BinomialTrial((int)trialResult, trialGeolocation, conductorID, date);
+            trial = new BinomialTrial(trialResult, trialGeolocation, conductorID, date, trialType);
         } else if (trialType == 3) {
-            trial = new MeasurementTrial(trialResult, trialGeolocation, conductorID, date);
+            trial = new MeasurementTrial(trialResult, trialGeolocation, conductorID, date, trialType);
         } else {
             trial = null;  // this might not be necessary
         }

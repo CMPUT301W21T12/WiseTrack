@@ -99,7 +99,7 @@ public class ExecuteBinomialActivity extends AppCompatActivity implements View.O
 
             String geolocation = trialGeolocation.getText().toString();
 
-            BinomialTrial currentTrial = new BinomialTrial(trialResult, geolocation, mAuth.getUid(), new Date());
+            BinomialTrial currentTrial = new BinomialTrial(trialResult, geolocation, mAuth.getUid(), new Date(), 1);
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

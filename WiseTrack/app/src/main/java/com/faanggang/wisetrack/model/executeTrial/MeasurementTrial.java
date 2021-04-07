@@ -3,7 +3,7 @@ package com.faanggang.wisetrack.model.executeTrial;
 import java.util.Date;
 
 public class MeasurementTrial extends Trial {
-    private float measurement;
+    private double measurement;
 
     /**
      * @param measurement     : the trial result
@@ -11,12 +11,12 @@ public class MeasurementTrial extends Trial {
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public MeasurementTrial(float measurement, String trialGeolocation, String uID, Date date) {
-        super(trialGeolocation, uID, date);
-        this.measurement = measurement;
+    public MeasurementTrial(double measurement, String trialGeolocation, String uID, Date date, int trialType) {
+        super(trialGeolocation, uID, date, measurement, trialType);
+        //this.measurement = measurement;
     }
 
-    public float getMeasurement() {
+    public double getMeasurement() {
         return measurement;
     }
 

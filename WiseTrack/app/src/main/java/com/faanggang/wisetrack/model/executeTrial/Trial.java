@@ -7,16 +7,20 @@ public abstract class Trial {
     private String experimenterID;
     private Date datetime;
     private String trialID;  // trial document ID in firebase
+    private double trialResult;
+    private int trialType;
 
     /**
      * @param trialGeolocation: string input of location for which current trial was conducted
      * @param uID: user id of the trial conductor
      * @param date
      */
-    public Trial(String trialGeolocation, String uID, Date date) {
+    public Trial(String trialGeolocation, String uID, Date date, double trialResult, int trialType) {
         this.trialGeolocation = trialGeolocation;
         this.experimenterID = uID;
         this.datetime = date;
+        this.trialResult = trialResult;
+        this.trialType = trialType;
     }
 
     public String getTrialGeolocation() {
@@ -49,5 +53,21 @@ public abstract class Trial {
 
     public void setDatetime(Date datetime) {
         this.datetime = datetime;
+    }
+
+    public double getTrialResult() {
+        return trialResult;
+    }
+
+    public void setTrialResult(double trialResult) {
+        this.trialResult = trialResult;
+    }
+
+    public int getTrialType() {
+        return trialType;
+    }
+
+    public void setTrialType(int trialType) {
+        this.trialType = trialType;
     }
 }

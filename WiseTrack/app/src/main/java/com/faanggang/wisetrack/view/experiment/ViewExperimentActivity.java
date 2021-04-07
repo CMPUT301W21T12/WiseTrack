@@ -25,6 +25,7 @@ import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
+import com.faanggang.wisetrack.view.trial.ViewTrialsActivity;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -292,6 +293,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.view_trials_option:
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
+
+                Intent viewTrialIntent = new Intent(this, ViewTrialsActivity.class);
+                viewTrialIntent.putExtra("EXP_ID", expID);
+                startActivity(viewTrialIntent);
                 return true;
             case R.id.get_qr_option:
                 if (trialType !=3) {

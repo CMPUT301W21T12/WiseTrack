@@ -60,13 +60,13 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_save) {
-            int count = 1;  // default set to one count
+            int trialResult = 1;  // default set to one count
             if (trialType == 2) {
-                count = Integer.parseInt(trialData.getText().toString());
+                trialResult = Integer.parseInt(trialData.getText().toString());
             }
             String geolocation = trialGeolocation.getText().toString();
 
-            CountTrial currentTrial = new CountTrial(count, geolocation, mAuth.getUid(), new Date());
+            CountTrial currentTrial = new CountTrial(trialResult, geolocation, mAuth.getUid(), new Date(), trialType);
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

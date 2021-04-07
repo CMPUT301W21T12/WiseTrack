@@ -3,7 +3,7 @@ package com.faanggang.wisetrack.model.executeTrial;
 import java.util.Date;
 
 public class BinomialTrial extends Trial{
-    private int trialResult;
+    private double trialResult;
 
     /**
      * @param trialResult   : Integer indicating trial result - "success: 1"/"failure: 0"/"Default: -1"
@@ -11,12 +11,12 @@ public class BinomialTrial extends Trial{
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public BinomialTrial(int trialResult, String trialGeolocation, String uID, Date date) {
-        super(trialGeolocation, uID, date);
-        this.trialResult = trialResult;
+    public BinomialTrial(double trialResult, String trialGeolocation, String uID, Date date, int trialType) {
+        super(trialGeolocation, uID, date, trialResult, trialType);
+        //this.trialResult = trialResult;
     }
 
-    public int getTrialResult() {
+    public double getTrialResult() {
         return trialResult;
     }
 

@@ -58,7 +58,7 @@ public class ExecuteMeasurementActivity extends AppCompatActivity implements Vie
             }
             String geolocation = trialGeolocation.getText().toString();
 
-            MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, mAuth.getUid(), new Date());
+            MeasurementTrial currentTrial = new MeasurementTrial(data, geolocation, mAuth.getUid(), new Date(), 3);
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

@@ -3,23 +3,23 @@ package com.faanggang.wisetrack.model.executeTrial;
 import java.util.Date;
 
 public class CountTrial extends Trial{
-    private int count;
+    private double trialResult;
     /**
-     * @param count: current trial test result - count type or non-negative
+     * @param trialResult: current trial test result - count type or non-negative
      * @param trialGeolocation : string input of location for which current trial was conducted
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public CountTrial(int count, String trialGeolocation, String uID, Date date) {
-        super(trialGeolocation, uID, date);
-        this.count = count;
+    public CountTrial(double trialResult, String trialGeolocation, String uID, Date date, int trialType) {
+        super(trialGeolocation, uID, date, trialResult, trialType);
+        //this.trialResult = trialResult;
     }
 
-    public int getCount() {
-        return count;
+    public double getTrialResult() {
+        return trialResult;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setTrialResult(double trialResult) {
+        this.trialResult = trialResult;
     }
 }
