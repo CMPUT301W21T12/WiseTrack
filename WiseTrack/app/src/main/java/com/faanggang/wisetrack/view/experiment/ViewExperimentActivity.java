@@ -177,13 +177,21 @@ public class ViewExperimentActivity extends AppCompatActivity
             expRegionView.setText(docSnap.getString("region"));
             expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
             geolocationRequired = docSnap.getBoolean("geolocation");
+
+            String published;
+            if(docSnap.getBoolean("published"))
+                published = "Published";
+            else
+                published = "Unpublished";
+
             if (docSnap.getBoolean("open")) {
-                expStatusView.setText("Open");
+
+                expStatusView.setText("Open + " + published);
                 if (docSnap.getBoolean("geolocation")){
                     warnGeolocation();
                 }
             } else {
-                expStatusView.setText("Closed");
+                expStatusView.setText("Closed + " + published);
             }
 
             trialType = docSnap.getLong("trialType");
