@@ -80,6 +80,8 @@ public class ViewQRCodeActivity extends AppCompatActivity {
                 break;
             case 2: // NNIC
                 qrDescription1.setText("Input Number Below");
+                qrDescription2.setVisibility(View.GONE);
+                qrImage2.setVisibility(View.GONE);
                 NNICinput.setText("0");
                 break;
         }
