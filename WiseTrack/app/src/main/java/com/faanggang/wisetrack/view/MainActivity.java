@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.controllers.QRCodeManager;
 import com.faanggang.wisetrack.controllers.UserManager;
-import com.faanggang.wisetrack.controllers.WifiConnectionManager;
+import com.faanggang.wisetrack.controllers.ConnectionManager;
 import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.view.user.UserNameCreationActivity;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,27 +53,22 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // gets current user from Firebase Authentication
         currentUser = mAuth.getCurrentUser();
-        WifiConnectionManager wifiConMgr = new WifiConnectionManager(this);
-        wifiConMgr.getInternetConnection();
     }
 
     // method for menu button click
     public void menuClick(View view) {
-        if (WiseTrackApplication.getWifiConnection()) {
-            Toast.makeText(getApplicationContext(), "Internet is connected!", Toast.LENGTH_LONG).show();
+        if(currentUser == null) {
+            //direct new user to username creation activity
+            Intent intent = new Intent(this, UserNameCreationActivity.class);
+            startActivity(intent);
+
         }
-//        if(currentUser == null) {
-//            //direct new user to username creation activity
-//            Intent intent = new Intent(this, UserNameCreationActivity.class);
-//            startActivity(intent);
-//
-//        }
-//        else {
-//            // user is a existing user
-//            Log.w("EXISTING USERID", currentUser.getUid());
-//            userManager.storeCurrentUser(currentUser.getUid(), userManager);
-//            Intent intent = new Intent(this, MainMenuActivity.class);
-//            startActivity(intent);
-//        }
+        else {
+            // user is a existing user
+            Log.w("EXISTING USERID", currentUser.getUid());
+            userManager.storeCurrentUser(currentUser.getUid(), userManager);
+            Intent intent = new Intent(this, MainMenuActivity.class);
+            startActivity(intent);
+        }
     }
 }
