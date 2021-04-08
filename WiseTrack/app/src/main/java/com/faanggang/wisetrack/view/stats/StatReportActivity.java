@@ -3,14 +3,21 @@ package com.faanggang.wisetrack.view.stats;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExperimentManager;
 import com.faanggang.wisetrack.controllers.StatManager;
 import com.faanggang.wisetrack.model.experiment.Searcher;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,10 +67,9 @@ public class StatReportActivity extends AppCompatActivity {
         expID = getIntent().getStringExtra("EXP_ID");
 
         experimentQuery();
-        //trialDataQuery();
-        statManager.generateStatReport(trialData);
+        trialDataQuery();
+        Log.i("Stat Report123123", String.valueOf(statManager.getMax()) + String.valueOf(statManager.getMin()) + String.valueOf(statManager.getQuartiles()) + String.valueOf(statManager.getMean()) );
         setTextView();
-
     }
 
     /**
@@ -101,30 +107,33 @@ public class StatReportActivity extends AppCompatActivity {
      */
     public void trialDataQuery() {
         trialData.clear();
-        db.collection("Experiments").document(expID).collection("Trials")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                        float resultValue = 0f;
-                        Timestamp dateStamp = null;
-                        for (DocumentSnapshot doc : documents) {
-                            resultValue = doc.getLong("result").floatValue(); // this might not be consistent with measurement.
-                            Log.i("LOGS Result Value", String.valueOf(resultValue));
-                            dateStamp = doc.getTimestamp("date");
+        Task<QuerySnapshot> task = db.getInstance().collection("Experiments").document(expID).collection("Trials").get();
+        task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                float resultValue = 0f;
+                Timestamp dateStamp = null;
+                for (DocumentSnapshot doc : documents) {
+                    resultValue = doc.getLong("result").floatValue();
+                    dateStamp = doc.getTimestamp("date");
 
-                            trialData.add(resultValue);
-                            trialStamps.add(dateStamp);
-                            //searcher.onSearchSuccess(trialData);
-                        }
+                    trialData.add(resultValue);
+                    trialStamps.add(dateStamp);
+                }
+                Log.i("TrialData", trialData.toString());
+                statManager.generateStatReport(trialData);
+            }
+        });
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("Stats Report", "Trial Data NOT FOUND.");
+            }
+        });
 
 
 
-                    } else {
-                        Log.w("STATS REPORT", "TRIAL NOT FOUND");
-                    }
-                });
-        Log.i("LOG trialData Firebase", trialData.toString());
     }
 
     /**
@@ -135,6 +144,7 @@ public class StatReportActivity extends AppCompatActivity {
      *  Quartiles
      */
     public void setTextView() {
+        Log.i("Stat Report", String.valueOf(statManager.getMax()) + String.valueOf(statManager.getMin()) + String.valueOf(statManager.getQuartiles()) + String.valueOf(statManager.getMean()) );
         statMinimum.setText(String.valueOf(statManager.getMin()));
         statMaximum.setText(String.valueOf(statManager.getMax()));
         statMean.setText(String.valueOf(statManager.getMean()));

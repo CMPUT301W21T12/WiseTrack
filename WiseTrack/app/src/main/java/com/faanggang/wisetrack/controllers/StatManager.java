@@ -48,6 +48,7 @@ public class StatManager {
             currentTrialReport.setInterquartileRange(currentTrialReport.calculateInterquartileRange(trialData));
             currentTrialReport.setMaximum(currentTrialReport.calculateMax(trialData));
             currentTrialReport.setMinimum(currentTrialReport.calculateMin(trialData));
+            Log.i("Stat Manager", String.valueOf(currentTrialReport.getMaximum()) + String.valueOf(currentTrialReport.getMinimum()) + String.valueOf(currentTrialReport.getQuartiles()) + String.valueOf(currentTrialReport.getMean()) );
         }
 
 

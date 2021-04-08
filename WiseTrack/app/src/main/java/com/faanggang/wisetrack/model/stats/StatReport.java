@@ -169,7 +169,7 @@ public class StatReport {
           List<Float> quartiles = new ArrayList<Float>();
 
           quartiles = calculateQuartiles(trialTests);
-          interquartileRange = quartiles.get(3) - quartiles.get(0);
+          interquartileRange = quartiles.get(2) - quartiles.get(0);
 
           return interquartileRange;
      }
