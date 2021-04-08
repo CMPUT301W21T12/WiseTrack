@@ -34,6 +34,10 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
+
+/**
+ * MapActivity renders the map for the user
+ */
 public class MapActivity extends AppCompatActivity implements TrialFetchManager.TrialFetcher {
     MapView map;
     MyLocationNewOverlay myLocationNewOverlay;
@@ -48,56 +52,50 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
         firebaseFirestore = FirebaseFirestore.getInstance();
         geolocationManager = GeolocationManager.getInstance(this);
         geolocationManager.setContext(this);
+        TrialFetchManager trialFetchManager = new TrialFetchManager(firebaseFirestore, this);
 
-        Intent intent = getIntent();
-        String experimentId = intent.getStringExtra("EXP_ID");
 
+        Bundle intent = getIntent().getExtras();
+        String experimentId = intent.getString("EXP_ID");
+        trialFetchManager.fetchTrials(experimentId);
 
         map = findViewById(R.id.mapview);
         Configuration.getInstance().setUserAgentValue(this.getPackageName());
 
-        //map.getOverlays().add(this.myLocationNewOverlay);
-        //GeoPoint mL = myLocationNewOverlay.getMyLocation();
         map.getController().setZoom(7.0);
-        if (geolocationManager.getLastLocation() != null) {
-            GeoPoint location = new GeoPoint(geolocationManager.getLastLocation().getLatitude(), geolocationManager.getLastLocation().getLongitude());
-            GeoPoint location2 = new GeoPoint(geolocationManager.getLastLocation().getLatitude() +  10, geolocationManager.getLastLocation().getLongitude() + 10);
+    }
 
-            renderLocation(location);
-            Marker currentLocationMarker = new Marker(map);
+
+    /**
+     * placeTrials places the given trials on the map created by the activity.
+     * @param trials
+     * trials are the trials whose locations ought to be placed
+     */
+    public void placeTrials(ArrayList<Trial> trials) {
+        GeoPoint location = null;
+        Marker currentLocationMarker = null;
+        for (Trial trial: trials) {
+            if (trial.getTrialGeolocation() == null) {
+                continue;
+            }
+            location = new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude());
+            currentLocationMarker = new Marker(map);
             currentLocationMarker.setOnMarkerClickListener((marker, mapView) -> true);
-            Marker currentLocationMarker2 = new Marker(map);
-            currentLocationMarker2.setOnMarkerClickListener((marker, mapView) -> true);
-
             currentLocationMarker.setPosition(location);
             currentLocationMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             map.getOverlays().add(currentLocationMarker);
-            currentLocationMarker2.setPosition(location2);
-            currentLocationMarker2.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            map.getOverlays().add(currentLocationMarker2);
-
-        } else {
-            map.scrollTo(0, 0);
         }
-
-        //trialFetchManager = new TrialFetchManager(firebaseFirestore, this);
-        //trialFetchManager.fetchTrials("");
-    }
-
-
-    public void placeTrials(ArrayList<Trial> trials) {
-        for (Trial trial: trials) {
-            Marker trialMarker = new Marker(map);
-            //trialMarker.setPosition(trial.getTrialGeolocation());
-            trialMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            map.getOverlays().add(trialMarker);
+        if (currentLocationMarker != null) {
+           renderLocation(location);
         }
     }
 
-    // method adapted from https://stackoverflow.com/a/55389814
-    // author: Rohit Singh
-    // licensed under CC BY-SA 4.0
 
+    /**
+     * renderLocation focuses the camera on a given GeoPoint
+     * @param loc
+     * loc is the GeoPoint to be focused on
+     */
     private void renderLocation(GeoPoint loc) {
         map.getController().setCenter(loc);
         map.getController().setZoom(5.0);

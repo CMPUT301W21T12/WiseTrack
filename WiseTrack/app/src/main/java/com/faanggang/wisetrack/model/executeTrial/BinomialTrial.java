@@ -1,5 +1,7 @@
 package com.faanggang.wisetrack.model.executeTrial;
 
+import android.location.Location;
+
 import java.util.Date;
 
 public class BinomialTrial extends Trial{
@@ -11,7 +13,7 @@ public class BinomialTrial extends Trial{
      * @param uID              : user id of the trial conductor
      * @param date
      */
-    public BinomialTrial(int trialResult, String trialGeolocation, String uID, Date date) {
+    public BinomialTrial(int trialResult, Location trialGeolocation, String uID, Date date) {
         super(trialGeolocation, uID, date);
         this.trialResult = trialResult;
     }

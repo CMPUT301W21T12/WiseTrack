@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.UserManager;
@@ -125,8 +126,13 @@ public class MainMenuActivity extends AppCompatActivity {
         scanQRCodeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, CameraScannerActivity.class);
-                startActivity(intent);
+                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(MainMenuActivity.this, CameraScannerActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please Allow Camera Permissions", Toast.LENGTH_SHORT);
+                }
+
             }
         });
     }

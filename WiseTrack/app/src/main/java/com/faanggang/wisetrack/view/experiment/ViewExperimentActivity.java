@@ -8,6 +8,7 @@ import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.view.MainMenuActivity;
 import com.faanggang.wisetrack.view.map.MapActivity;
 import com.faanggang.wisetrack.view.qrcodes.BarcodeRegisterActivity;
+import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
@@ -265,6 +266,7 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.geolocations_option:
                 Intent geolocationIntent = new Intent(this, MapActivity.class);
+                geolocationIntent.putExtra("EXP_ID", expID);
                 startActivity(geolocationIntent);
                 return true;
             case R.id.execute_trials_option:
@@ -306,11 +308,15 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.register_barcode_option:
                 if (trialType !=3) {
-                    Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
-                    qrIntent.putExtra("EXP_ID", expID);
-                    qrIntent.putExtra("EXP_TYPE", trialType);
-                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
-                    startActivity(qrIntent);
+                    if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
+                        qrIntent.putExtra("EXP_ID", expID);
+                        qrIntent.putExtra("EXP_TYPE", trialType);
+                        qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                        startActivity(qrIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please Allow Camera Permissions", Toast.LENGTH_SHORT);
+                    }
                 }else {
                     Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
                 }
@@ -322,23 +328,25 @@ public class ViewExperimentActivity extends AppCompatActivity
 
 
     private boolean selectExecute() {
+        Intent executeIntent;
+
         if (anotherTrialType == 0 || anotherTrialType == 2) {  // handle both count and non-negative integer count trial
-            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
+            executeIntent = new Intent(ViewExperimentActivity.this, ExecuteCountActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
             executeIntent.putExtra("trialType", anotherTrialType);
-            startActivity(executeIntent);
-            return true;
+
         } else if (anotherTrialType == 1) {  // handle binomial trial
-            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
+            executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-            startActivity(executeIntent);
-            return true;
-        } else if (anotherTrialType == 3) {  // handle measurement trial
-            Intent executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
+        } else {  // handle measurement trial ( 3 is only option left )
+            executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-            startActivity(executeIntent);
-            return true;
      }
+        if (geolocationRequired) {
+            executeIntent.putExtra("GEOLOCATION", geolocationManager.getLastLocation());
+        }
+
+        startActivity(executeIntent);
         return true;
     }
 
