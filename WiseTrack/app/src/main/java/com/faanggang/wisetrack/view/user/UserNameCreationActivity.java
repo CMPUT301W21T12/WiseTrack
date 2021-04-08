@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.faanggang.wisetrack.controllers.ConnectionManager;
 import com.faanggang.wisetrack.controllers.UserManager;
 import com.faanggang.wisetrack.view.MainMenuActivity;
 import com.faanggang.wisetrack.R;
@@ -29,12 +30,15 @@ import java.util.regex.Pattern;
 public class UserNameCreationActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     UserManager userManager = new UserManager(db);
+    ConnectionManager wifiConMgr = new ConnectionManager(this);
+    private boolean networkConnected;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.username_creation);
+
 
         EditText editUserName = findViewById(R.id.editUserName);
 
@@ -43,37 +47,42 @@ public class UserNameCreationActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = editUserName.getText().toString();
-                if (detectSpecial(username)) {
-                    Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
+                networkConnected = wifiConMgr.getInternetConnection();
+                if (!networkConnected) {
+                    Toast.makeText(getApplicationContext(),"Please connect to internet to create a new username", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    CollectionReference usersRef = db.collection("Users");
-                    // query for all user document with the username input by the new user
-                    usersRef.whereEqualTo("userName", username)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d("test2", "task is successful");
-                                        // username entered by user is unique and does not exists
-                                        if (task.getResult().size() == 0) {
-                                            userManager.createNewUser(userManager, username);
-                                            Log.d("Username creation", "Username created");
-                                            Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
-                                            startActivity(intent);
+                    String username = editUserName.getText().toString();
+                    if (detectSpecial(username)) {
+                        Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
+                    } else {
+                        CollectionReference usersRef = db.collection("Users");
+                        // query for all user document with the username input by the new user
+                        usersRef.whereEqualTo("userName", username)
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("test2", "task is successful");
+                                            // username entered by user is unique and does not exists
+                                            if (task.getResult().size() == 0) {
+                                                userManager.createNewUser(userManager, username);
+                                                Log.d("Username creation", "Username created");
+                                                Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
+                                                startActivity(intent);
+                                            } else {
+                                                //document exists with the user entered username
+                                                Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
+                                                Log.d("username creation", "Username already exists error");
+                                            }
                                         } else {
-                                            //document exists with the user entered username
-                                            Toast.makeText(getApplicationContext(), "This username already exists", Toast.LENGTH_LONG).show();
-                                            Log.d("username creation", "Username already exists error");
+                                            // error retrieving document
+                                            Log.d("username creation:", "error getting document");
                                         }
-                                    } else {
-                                        // error retrieving document
-                                        Log.d("username creation:", "error getting document");
                                     }
-                                }
-                            });
+                                });
+                    }
                 }
             }
         });

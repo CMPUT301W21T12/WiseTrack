@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.controllers.QRCodeManager;
 import com.faanggang.wisetrack.controllers.UserManager;
+import com.faanggang.wisetrack.controllers.ConnectionManager;
+import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.view.user.UserNameCreationActivity;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
