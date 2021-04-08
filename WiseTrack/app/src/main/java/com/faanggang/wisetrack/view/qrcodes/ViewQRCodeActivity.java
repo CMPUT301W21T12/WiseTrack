@@ -7,12 +7,17 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.QRCodeManager;
+
+import org.w3c.dom.Text;
 
 public class ViewQRCodeActivity extends AppCompatActivity {
     private TextView qrDescription1;
@@ -22,6 +27,8 @@ public class ViewQRCodeActivity extends AppCompatActivity {
     private ImageView qrImage2;
     private QRCodeManager qrCodeManager;
     private Intent intent;
+    private Button NNICButton;
+    private TextView NNICinput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +40,26 @@ public class ViewQRCodeActivity extends AppCompatActivity {
         qrDescription2 = findViewById(R.id.qr_description2);
         qrImage1 = findViewById(R.id.qr_code1);
         qrImage2 = findViewById(R.id.qr_code2);
+        NNICButton = findViewById(R.id.qr_NNIC_num_button);
+        NNICinput = findViewById(R.id.qr_NNIC_input);
         intent = getIntent();
         setQRCodes(intent.getLongExtra("EXP_TYPE", 0), intent.getStringExtra("EXP_ID"));
         setText();
+        NNICButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                    int input = Integer.parseInt(NNICinput.getText().toString());
+                    if (input >=0) {
+                        setQRCodesNNIC(input, intent.getStringExtra("EXP_ID"));
+                    } else{
+                        Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT);
+                    }
+                } catch(Exception e){
+                    Toast.makeText(getApplicationContext(), "Invalid Input", Toast.LENGTH_SHORT);
+                }
+            }
+        });
     }
 
 
@@ -45,13 +69,20 @@ public class ViewQRCodeActivity extends AppCompatActivity {
         switch (type.intValue()){
             case 0: // counts
                 qrDescription1.setText("Add to Count");
+                NNICButton.setVisibility(View.GONE);
+                NNICinput.setVisibility(View.GONE);
                 break;
             case 1: // binomial
                 qrDescription1.setText("Add Success");
                 qrDescription2.setText("Add Failure");
+                NNICButton.setVisibility(View.GONE);
+                NNICinput.setVisibility(View.GONE);
                 break;
             case 2: // NNIC
-                qrDescription1.setText("idk");
+                qrDescription1.setText("Input Number Below");
+                qrDescription2.setVisibility(View.GONE);
+                qrImage2.setVisibility(View.GONE);
+                NNICinput.setText("0");
                 break;
         }
     }
@@ -65,11 +96,12 @@ public class ViewQRCodeActivity extends AppCompatActivity {
                 qrCodeManager.requestCodesForExperiment(expID, 0, qrImage1);
                 qrCodeManager.requestCodesForExperiment(expID, 1, qrImage2);
                 break;
-            case 2: // NNIC
-                break;
+
         }
     }
-
+    private void setQRCodesNNIC(int result, String expID){
+        qrCodeManager.requestCodesForExperiment(expID, result, qrImage1);
+    }
 
 
 }
