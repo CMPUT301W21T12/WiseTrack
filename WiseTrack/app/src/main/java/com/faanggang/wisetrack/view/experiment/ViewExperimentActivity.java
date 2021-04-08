@@ -196,13 +196,13 @@ public class ViewExperimentActivity extends AppCompatActivity
             trialType_str = "Count";
             anotherTrialType = 0;
         } else if (trialType == 1) {
-            trialType_str = "Binomial trials";
+            trialType_str = "Binomial";
             anotherTrialType = 1;
         } else if (trialType == 2) {
-            trialType_str = "Non-negative integer counts";
+            trialType_str = "Non-negative Integer";
             anotherTrialType = 2;
         } else if (trialType == 3) {
-            trialType_str = "Measurement trials";
+            trialType_str = "Measurement";
             anotherTrialType = 3;
         } else {
             trialType_str = "Unknown Unicorn";
@@ -237,13 +237,13 @@ public class ViewExperimentActivity extends AppCompatActivity
             trialType_str = "Count";
             anotherTrialType = 0;
         } else if (trialType == 1) {
-            trialType_str = "Binomial trials";
+            trialType_str = "Binomial";
             anotherTrialType = 1;
         } else if (trialType == 2) {
-            trialType_str = "Non-negative integer counts";
+            trialType_str = "Non-Negative Integer";
             anotherTrialType = 2;
         } else if (trialType == 3) {
-            trialType_str = "Measurement trials";
+            trialType_str = "Measurement";
             anotherTrialType = 3;
         } else {
             trialType_str = "Unknown Unicorn";
