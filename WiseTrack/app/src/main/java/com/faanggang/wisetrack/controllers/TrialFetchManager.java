@@ -28,8 +28,6 @@ public class TrialFetchManager {
 
     /**
      * This constructor initializes instance variables via dependency injection.
-     * @param db
-     * FirebaseFirestore to be initialized
      * @param fetcher
      * fetcher to be initialized
      */
