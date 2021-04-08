@@ -47,6 +47,8 @@ public class ViewOtherActivity extends AppCompatActivity {
 
         Button editButton = findViewById(R.id.view_editProfile);
         editButton.setVisibility(View.GONE);
+        Button userIDButton = findViewById(R.id.get_UserID_Button);
+        userIDButton.setVisibility(View.GONE);
     }
 
     public void setText(DocumentSnapshot docSnap) {
