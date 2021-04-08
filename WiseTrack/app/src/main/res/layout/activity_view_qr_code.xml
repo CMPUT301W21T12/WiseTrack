@@ -49,5 +49,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="375dp" />
 
+    <EditText
+        android:id="@+id/qr_NNIC_input"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="156dp"
+        android:layout_marginBottom="241dp"
+        android:ems="10"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/qr_NNIC_num_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="181dp"
+        android:text="Button" />
+
 
 </RelativeLayout>
