@@ -1,9 +1,10 @@
 package com.faanggang.wisetrack.view.adapters;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,16 +19,14 @@ import org.w3c.dom.Text;
 /**
  * Custom RecyclerView item (i.e. RecyclerView.ViewHolder) class with basic TextView getters for trials.
  */
-public class TrialItemView extends RecyclerView.ViewHolder implements View.OnClickListener{
-    private TextView resultTextView;
-    private TextView trialConductorTextView;
-    private TextView dateTextView;
-    private Context context;
-    private OnTrialItemClickListener onTrialItemClickListener;
+public class TrialItemView extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private final TextView resultTextView;
+    private final TextView trialConductorTextView;
+    private final TextView dateTextView;
+    private final OnTrialItemClickListener onTrialItemClickListener;
 
     public TrialItemView(@NonNull View itemView, Context context, OnTrialItemClickListener onTrialItemClickListener) {
         super(itemView);
-        this.context = context;
         this.onTrialItemClickListener = onTrialItemClickListener;
         itemView.setClickable(true);
         itemView.setOnClickListener(this);
@@ -39,11 +38,11 @@ public class TrialItemView extends RecyclerView.ViewHolder implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        onTrialItemClickListener.onItemClick(getAdapterPosition());
+        onTrialItemClickListener.onItemClick(getAdapterPosition(), v);
     }
 
     public interface OnTrialItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position, View view);
     }
 
     public TextView getResultTextView() {
