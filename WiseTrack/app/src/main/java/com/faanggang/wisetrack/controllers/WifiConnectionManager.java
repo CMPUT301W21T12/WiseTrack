@@ -3,6 +3,7 @@ package com.faanggang.wisetrack.controllers;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import com.faanggang.wisetrack.model.WiseTrackApplication;
 
@@ -13,7 +14,7 @@ public class WifiConnectionManager {
         this.context = context;
     }
 
-    public boolean getInternetConnection() {
+    public void getInternetConnection() {
         boolean internetConnection;
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         // If wifi is turned on
@@ -36,6 +37,12 @@ public class WifiConnectionManager {
             internetConnection = false; // Wifi is turned off
         }
 
-        return internetConnection;
+        WiseTrackApplication.setInternetConnection(internetConnection);
+        if (WiseTrackApplication.getWifiConnection()) {
+            Log.w("Connection:", "connected");
+        }
+        else {
+            Log.w("Connection:", "not connected");
+        }
     }
 }

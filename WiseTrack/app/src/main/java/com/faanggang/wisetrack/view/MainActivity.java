@@ -54,12 +54,13 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         // gets current user from Firebase Authentication
         currentUser = mAuth.getCurrentUser();
+        WifiConnectionManager wifiConMgr = new WifiConnectionManager(this);
+        wifiConMgr.getInternetConnection();
     }
 
     // method for menu button click
     public void menuClick(View view) {
-        WifiConnectionManager wifiConMgr = new WifiConnectionManager(this);
-        if (wifiConMgr.getInternetConnection()) {
+        if (WiseTrackApplication.getWifiConnection()) {
             Toast.makeText(getApplicationContext(), "Internet is connected!", Toast.LENGTH_LONG).show();
         }
 //        if(currentUser == null) {
