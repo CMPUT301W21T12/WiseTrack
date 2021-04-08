@@ -78,4 +78,15 @@ public class ExperimentTest {
         assertEquals(false, experiment.isOpen());
     }
 
+    @Test
+    public void checkPublished(){
+        // experiment.open should be true upon creation
+        assertEquals(true, experiment.isPublished());
+
+        // now try changing it to false
+        experiment.setPublished(false);
+
+        assertEquals(false, experiment.isPublished());
+    }
+
 }
