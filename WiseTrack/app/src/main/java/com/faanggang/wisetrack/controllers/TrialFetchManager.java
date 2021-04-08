@@ -19,15 +19,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class controls fetching of trials.
+ */
 public class TrialFetchManager {
     private TrialFetcher fetcher;
-
     private FirebaseFirestore db;
+
+    /**
+     * This constructor initializes instance variables via dependency injection.
+     * @param db
+     * FirebaseFirestore to be initialized
+     * @param fetcher
+     * fetcher to be initialized
+     */
     public TrialFetchManager(FirebaseFirestore db, TrialFetcher fetcher) {
         this.db = db;
         this.fetcher = fetcher;
     }
 
+    /**
+     * This interface is to be implemented by classes that use this class to fetch so as to
+     * allow for asyncronous updating.
+     */
     public interface TrialFetcher {
         public void onSuccessfulFetch(ArrayList<Trial> trials);
     }
@@ -78,6 +92,20 @@ public class TrialFetchManager {
                 });
     }
 
+    /**
+     * createTrial creates a trial with the given arguments of the type dictated by trialType
+     * @param trialType
+     * trialType dictates the kind of trial that this is
+     * @param trialResult
+     * trialResult is the value associated to that trial
+     * @param trialGeolocation
+     * trialGeolocation is where the trial occurred. It is null if geolocation is not required
+     * @param conductorID
+     * conductorID is the UUID of the user who conducted the experiment
+     * @param date
+     * date is that Date associaetd with the experiment
+     * @return
+     */
     public Trial createTrial(int trialType, float trialResult, Location trialGeolocation, String conductorID, Date date) {
         Trial trial;
         if ((trialType == 0)||(trialType == 2)) {  // count and NNIC type trials
