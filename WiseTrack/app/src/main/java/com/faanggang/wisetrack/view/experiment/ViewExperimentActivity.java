@@ -86,7 +86,7 @@ public class ViewExperimentActivity extends AppCompatActivity
     private int anotherTrialType;
     private Location location;
     private boolean startedFetching;
-
+    private Experiment experiment;
     public int getAnotherTrialType() {
         return anotherTrialType;
     }
@@ -109,6 +109,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         experimentManager = new ExperimentManager();
         subManager = new SubscriptionManager();
         userManager = new UserManager(FirebaseFirestore.getInstance());
+        experiment = (Experiment) getIntent().getSerializableExtra("EXP_OBJ");
         expID = getIntent().getStringExtra("EXP_ID");
         setContentView(R.layout.view_experiment_detail);
         expNameView = findViewById(R.id.view_experimentName);
@@ -170,58 +171,109 @@ public class ViewExperimentActivity extends AppCompatActivity
     }
 
     private void setText(){
-        experimentManager.getExperimentInfo(expID, task->{
-            DocumentSnapshot docSnap = task.getResult();
-            expNameView.setText(docSnap.getString("name"));
-            expDescriptionView.setText(docSnap.getString("description"));
-            expRegionView.setText(docSnap.getString("region"));
-            expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
-            geolocationRequired = docSnap.getBoolean("geolocation");
-
-            String published;
-            if(docSnap.getBoolean("published"))
-                published = "Published";
-            else
-                published = "Unpublished";
-
-            if (docSnap.getBoolean("open")) {
-
-                expStatusView.setText("Open + " + published);
-                if (docSnap.getBoolean("geolocation")){
-                    warnGeolocation();
-                }
-            } else {
-                expStatusView.setText("Closed + " + published);
-            }
-
-            trialType = docSnap.getLong("trialType");
-            String trialType_str;
-            if (trialType == 0) {
-                trialType_str = "Count";
-                anotherTrialType = 0;
-            } else if (trialType == 1) {
-                trialType_str = "Binomial trials";
-                anotherTrialType = 1;
-            } else if (trialType == 2) {
-                trialType_str = "Non-negative integer counts";
-                anotherTrialType = 2;
-            } else if (trialType == 3) {
-                trialType_str = "Measurement trials";
-                anotherTrialType = 3;
-            } else {
-                trialType_str = "Unknown Unicorn";
-                anotherTrialType = -1;  // invalid
-            }
-            expTrialTypeView.setText(trialType_str);
-            userID = docSnap.getString("uID");
-            userManager.getUserInfo(docSnap.getString("uID"), task2->{
-                expOwnerView.setText(task2.getResult().getString("userName"));
-
-            });
-
-        });
-
+        if (experiment != null){
+            setTextWithObject();
+        } else {
+            setTextWithFirebase();
+        }
     }
+
+    private void setTextWithObject(){
+        expNameView.setText(experiment.getName());
+        expDescriptionView.setText(experiment.getDescription());
+        expRegionView.setText(experiment.getRegion());
+        expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
+        geolocationRequired = experiment.getGeolocation();
+
+        String published;
+        if (experiment.isPublished())
+            published = "Published";
+        else
+            published = "Unpublished";
+
+        if (experiment.isOpen()) {
+            expStatusView.setText("Open + " + published);
+            if (geolocationRequired) warnGeolocation();
+        } else {
+            expStatusView.setText("Closed + " + published);
+        }
+        trialType = (long) experiment.getTrialType();
+        String trialType_str;
+        if (trialType == 0) {
+            trialType_str = "Count";
+            anotherTrialType = 0;
+        } else if (trialType == 1) {
+            trialType_str = "Binomial";
+            anotherTrialType = 1;
+        } else if (trialType == 2) {
+            trialType_str = "Non-negative Integer";
+            anotherTrialType = 2;
+        } else if (trialType == 3) {
+            trialType_str = "Measurement";
+            anotherTrialType = 3;
+        } else {
+            trialType_str = "Unknown Unicorn";
+            anotherTrialType = -1;  // invalid
+        }
+        expTrialTypeView.setText(trialType_str);
+        userID = experiment.getOwnerID();
+        if (experiment.getUsername() != null){
+            expOwnerView.setText(experiment.getUsername());
+        } else {
+
+            userManager.getUserInfo(userID, task2 -> {
+                expOwnerView.setText(task2.getResult().getString("userName"));
+            });
+        }
+    }
+    private void setTextWithFirebase(){
+        expNameView.setText(experiment.getName());
+        expDescriptionView.setText(experiment.getDescription());
+        expRegionView.setText(experiment.getRegion());
+        expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
+        geolocationRequired = experiment.getGeolocation();
+
+        String published;
+        if (experiment.isPublished())
+            published = "Published";
+        else
+            published = "Unpublished";
+
+        if (experiment.isOpen()) {
+            expStatusView.setText("Open + " + published);
+            if (geolocationRequired) warnGeolocation();
+        } else {
+            expStatusView.setText("Closed + " + published);
+        }
+        trialType = (long) experiment.getTrialType();
+        String trialType_str;
+        if (trialType == 0) {
+            trialType_str = "Count";
+            anotherTrialType = 0;
+        } else if (trialType == 1) {
+            trialType_str = "Binomial";
+            anotherTrialType = 1;
+        } else if (trialType == 2) {
+            trialType_str = "Non-Negative Integer";
+            anotherTrialType = 2;
+        } else if (trialType == 3) {
+            trialType_str = "Measurement";
+            anotherTrialType = 3;
+        } else {
+            trialType_str = "Unknown Unicorn";
+            anotherTrialType = -1;  // invalid
+        }
+        expTrialTypeView.setText(trialType_str);
+        if (experiment.getUsername() != null){
+            expOwnerView.setText(experiment.getUsername());
+        } else {
+            userID = experiment.getOwnerID();
+            userManager.getUserInfo(userID, task2->{
+                expOwnerView.setText(task2.getResult().getString("userName"));
+            });
+        }
+    }
+
 
     @Override
     protected void onPause() {
@@ -367,9 +419,9 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     @Override
     public void onEndExperimentOk(){
-        DocumentReference experiment = db.collection("Experiments").document(expID);
+        DocumentReference experimentDB = db.collection("Experiments").document(expID);
 
-        experiment
+        experimentDB
                 .update("open", false)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -387,8 +439,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 });
 
         // Update the "OPEN" keyword to "CLOSED"
-        experiment.update("keywords", FieldValue.arrayRemove("OPEN"));
-        experiment.update("keywords", FieldValue.arrayUnion("CLOSED"));
+        experimentDB.update("keywords", FieldValue.arrayRemove("OPEN"));
+        experimentDB.update("keywords", FieldValue.arrayUnion("CLOSED"));
+
+        experiment.setOpen(false);
 
         // Go back to main
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
@@ -397,9 +451,9 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     @Override
     public void onUnpublishExperimentOk() {
-        DocumentReference experiment = db.collection("Experiments").document(expID);
+        DocumentReference experimentDB = db.collection("Experiments").document(expID);
 
-        experiment
+        experimentDB
                 .update("published", false)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -415,5 +469,7 @@ public class ViewExperimentActivity extends AppCompatActivity
                         // ADD AN ERROR FRAGMENT HERE
                     }
                 });
+
+        experiment.setPublished(false);
     }
 }
