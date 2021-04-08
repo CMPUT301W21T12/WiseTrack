@@ -4,9 +4,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.faanggang.wisetrack.model.executeTrial.BinomialTrial;
-import com.faanggang.wisetrack.model.executeTrial.CountTrial;
-import com.faanggang.wisetrack.model.executeTrial.MeasurementTrial;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,8 +12,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -23,12 +23,14 @@ public class TrialItemView extends RecyclerView.ViewHolder implements View.OnCli
     private TextView trialConductorTextView;
     private TextView dateTextView;
     private Context context;
+    private OnTrialItemClickListener onTrialItemClickListener;
 
-    public TrialItemView(@NonNull View itemView, Context context) {
+    public TrialItemView(@NonNull View itemView, Context context, OnTrialItemClickListener onTrialItemClickListener) {
         super(itemView);
+        this.context = context;
+        this.onTrialItemClickListener = onTrialItemClickListener;
         itemView.setClickable(true);
         itemView.setOnClickListener(this);
-        this.context = context;
 
         resultTextView = itemView.findViewById(R.id.textview_trial_row_item_resultValue);
         trialConductorTextView = itemView.findViewById(R.id.textview_trial_row_item_usernameValue);
@@ -37,8 +39,11 @@ public class TrialItemView extends RecyclerView.ViewHolder implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(context, ViewTrialsActivity.class);
-        context.startActivity(intent);
+        onTrialItemClickListener.onItemClick(getAdapterPosition());
+    }
+
+    public interface OnTrialItemClickListener {
+        void onItemClick(int position);
     }
 
     public TextView getResultTextView() {

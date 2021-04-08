@@ -31,13 +31,15 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private ArrayList<Trial> trials;
     private Context context;
     private UserManager userManager;
+    private TrialItemView.OnTrialItemClickListener OnTrialItemClickListener;
 
     private static final DecimalFormat df = new DecimalFormat("0.00");
 
-    public TrialAdapter(ArrayList<Trial> trials, Context context) {
+    public TrialAdapter(ArrayList<Trial> trials, Context context, TrialItemView.OnTrialItemClickListener onTrialItemClickListener) {
         this.trials = trials;
         this.context = context;
         this.userManager = new UserManager(FirebaseFirestore.getInstance());
+        this.OnTrialItemClickListener = onTrialItemClickListener;
     }
 
     @NonNull
@@ -45,7 +47,7 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public TrialItemView onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_trial,
                 parent, false);
-        return new TrialItemView(view, context);
+        return new TrialItemView(view, context, OnTrialItemClickListener);
     }
 
     public String getDateString(Date date) {
@@ -80,7 +82,6 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         item.getResultTextView().setText(trialResultView);
         item.getDateTextView().setText(getDateString(trials.get(position).getDatetime()));
-
     }
 
     @Override

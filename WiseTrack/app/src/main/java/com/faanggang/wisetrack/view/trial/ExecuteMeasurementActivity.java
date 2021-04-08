@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
-import com.faanggang.wisetrack.model.executeTrial.MeasurementTrial;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.auth.FirebaseAuth;
 
