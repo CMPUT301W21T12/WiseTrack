@@ -8,6 +8,7 @@ import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.view.MainMenuActivity;
 import com.faanggang.wisetrack.view.map.MapActivity;
 import com.faanggang.wisetrack.view.qrcodes.BarcodeRegisterActivity;
+import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
@@ -308,11 +309,15 @@ public class ViewExperimentActivity extends AppCompatActivity
                 return true;
             case R.id.register_barcode_option:
                 if (trialType !=3) {
-                    Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
-                    qrIntent.putExtra("EXP_ID", expID);
-                    qrIntent.putExtra("EXP_TYPE", trialType);
-                    qrIntent.putExtra("EXP_TITLE",expNameView.getText());
-                    startActivity(qrIntent);
+                    if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                        Intent qrIntent = new Intent(getApplicationContext(), BarcodeRegisterActivity.class);
+                        qrIntent.putExtra("EXP_ID", expID);
+                        qrIntent.putExtra("EXP_TYPE", trialType);
+                        qrIntent.putExtra("EXP_TITLE",expNameView.getText());
+                        startActivity(qrIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please Allow Camera Permissions", Toast.LENGTH_SHORT);
+                    }
                 }else {
                     Toast.makeText(this, "No QR Codes for Measurement Experiments", Toast.LENGTH_SHORT).show();
                 }
