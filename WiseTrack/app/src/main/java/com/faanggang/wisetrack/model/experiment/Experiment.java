@@ -1,9 +1,10 @@
 package com.faanggang.wisetrack.model.experiment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Experiment {
+public class Experiment implements Serializable {
     /**
      * @param name
      * @param description
