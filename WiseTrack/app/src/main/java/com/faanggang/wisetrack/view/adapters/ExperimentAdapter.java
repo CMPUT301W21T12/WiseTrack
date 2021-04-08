@@ -60,7 +60,7 @@ public class ExperimentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         item.getOwnerTextView().setText(experiments.get(position).getUsername());
         item.getDescriptionTextView().setText(experiments.get(position).getDescription());
         item.getDateTextView().setText(getDateString(experiments.get(position).getDate()));
-
+        item.setExperiment(experiments.get(position));
         if (experiments.get(position).isOpen()) {
             item.getStatusTextView().setText(R.string.search_item_Open);
             item.setStatusColor(true);

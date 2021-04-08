@@ -86,7 +86,7 @@ public class ViewExperimentActivity extends AppCompatActivity
     private int anotherTrialType;
     private Location location;
     private boolean startedFetching;
-
+    private Experiment experiment;
     public int getAnotherTrialType() {
         return anotherTrialType;
     }
@@ -109,6 +109,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         experimentManager = new ExperimentManager();
         subManager = new SubscriptionManager();
         userManager = new UserManager(FirebaseFirestore.getInstance());
+        experiment = (Experiment) getIntent().getSerializableExtra("EXP_OBJ");
         expID = getIntent().getStringExtra("EXP_ID");
         setContentView(R.layout.view_experiment_detail);
         expNameView = findViewById(R.id.view_experimentName);
@@ -170,50 +171,95 @@ public class ViewExperimentActivity extends AppCompatActivity
     }
 
     private void setText(){
-        experimentManager.getExperimentInfo(expID, task->{
-            DocumentSnapshot docSnap = task.getResult();
-            expNameView.setText(docSnap.getString("name"));
-            expDescriptionView.setText(docSnap.getString("description"));
-            expRegionView.setText(docSnap.getString("region"));
-            expMinTrialsView.setText(docSnap.getLong("minTrials").toString());
-            geolocationRequired = docSnap.getBoolean("geolocation");
-            if (docSnap.getBoolean("open")) {
-                expStatusView.setText("Open");
-                if (docSnap.getBoolean("geolocation")){
-                    warnGeolocation();
-                }
-            } else {
-                expStatusView.setText("Closed");
-            }
-
-            trialType = docSnap.getLong("trialType");
-            String trialType_str;
-            if (trialType == 0) {
-                trialType_str = "Count";
-                anotherTrialType = 0;
-            } else if (trialType == 1) {
-                trialType_str = "Binomial trials";
-                anotherTrialType = 1;
-            } else if (trialType == 2) {
-                trialType_str = "Non-negative integer counts";
-                anotherTrialType = 2;
-            } else if (trialType == 3) {
-                trialType_str = "Measurement trials";
-                anotherTrialType = 3;
-            } else {
-                trialType_str = "Unknown Unicorn";
-                anotherTrialType = -1;  // invalid
-            }
-            expTrialTypeView.setText(trialType_str);
-            userID = docSnap.getString("uID");
-            userManager.getUserInfo(docSnap.getString("uID"), task2->{
-                expOwnerView.setText(task2.getResult().getString("userName"));
-
-            });
-
-        });
-
+        if (experiment != null){
+            setTextWithObject();
+        } else {
+            setTextWithFirebase();
+        }
     }
+
+    private void setTextWithObject(){
+        expNameView.setText(experiment.getName());
+        expDescriptionView.setText(experiment.getDescription());
+        expRegionView.setText(experiment.getRegion());
+        expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
+        geolocationRequired = experiment.getGeolocation();
+        if (experiment.isOpen()) {
+            expStatusView.setText("Open");
+            if (geolocationRequired) warnGeolocation();
+        } else {
+            expStatusView.setText("Closed");
+        }
+        trialType = (long) experiment.getTrialType();
+        String trialType_str;
+        if (trialType == 0) {
+            trialType_str = "Count";
+            anotherTrialType = 0;
+        } else if (trialType == 1) {
+            trialType_str = "Binomial";
+            anotherTrialType = 1;
+        } else if (trialType == 2) {
+            trialType_str = "Non-negative Integer";
+            anotherTrialType = 2;
+        } else if (trialType == 3) {
+            trialType_str = "Measurement";
+            anotherTrialType = 3;
+        } else {
+            trialType_str = "Unknown Unicorn";
+            anotherTrialType = -1;  // invalid
+        }
+        expTrialTypeView.setText(trialType_str);
+        userID = experiment.getOwnerID();
+        if (experiment.getUsername() != null){
+            expOwnerView.setText(experiment.getUsername());
+        } else {
+
+            userManager.getUserInfo(userID, task2 -> {
+                expOwnerView.setText(task2.getResult().getString("userName"));
+            });
+        }
+    }
+    private void setTextWithFirebase(){
+        expNameView.setText(experiment.getName());
+        expDescriptionView.setText(experiment.getDescription());
+        expRegionView.setText(experiment.getRegion());
+        expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
+        geolocationRequired = experiment.getGeolocation();
+        if (experiment.isOpen()) {
+            expStatusView.setText("Open");
+            if (geolocationRequired) warnGeolocation();
+        } else {
+            expStatusView.setText("Closed");
+        }
+        trialType = (long) experiment.getTrialType();
+        String trialType_str;
+        if (trialType == 0) {
+            trialType_str = "Count";
+            anotherTrialType = 0;
+        } else if (trialType == 1) {
+            trialType_str = "Binomial";
+            anotherTrialType = 1;
+        } else if (trialType == 2) {
+            trialType_str = "Non-Negative Integer";
+            anotherTrialType = 2;
+        } else if (trialType == 3) {
+            trialType_str = "Measurement";
+            anotherTrialType = 3;
+        } else {
+            trialType_str = "Unknown Unicorn";
+            anotherTrialType = -1;  // invalid
+        }
+        expTrialTypeView.setText(trialType_str);
+        if (experiment.getUsername() != null){
+            expOwnerView.setText(experiment.getUsername());
+        } else {
+            userID = experiment.getOwnerID();
+            userManager.getUserInfo(userID, task2->{
+                expOwnerView.setText(task2.getResult().getString("userName"));
+            });
+        }
+    }
+
 
     @Override
     protected void onPause() {
