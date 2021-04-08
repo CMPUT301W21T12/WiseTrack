@@ -63,8 +63,10 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         int trialType = trials.get(position).getTrialType();
         double trialResult = trials.get(position).getTrialResult();
         String trialResultView = "TRIAL RESULT";  // default TextView
+
         if ((trialType == 0)||((trialType == 2))) {  // count or NNIC trials
-            trialResultView = Integer.toString((int)trialResult);  // casting trial result to its proper data type
+            // casting trial result to its proper data type
+            trialResultView = Integer.toString((int)trialResult);
         } else if (trialType == 1) {  // binomial trials
             if ((int)trialResult == 0) {
                 trialResultView = "Failure";
@@ -74,7 +76,6 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 trialResultView = "Invalid";
             }
         } else if (trialType == 3) {  // measurement trials
-            //df.setRoundingMode(RoundingMode.UP);
             trialResultView = Float.toString(Float.parseFloat(df.format((float)trialResult)));
         }
         item.getResultTextView().setText(trialResultView);
