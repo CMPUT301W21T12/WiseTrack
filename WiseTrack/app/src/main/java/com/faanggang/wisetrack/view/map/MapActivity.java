@@ -34,6 +34,10 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
+
+/**
+ * MapActivity renders the map for the user
+ */
 public class MapActivity extends AppCompatActivity implements TrialFetchManager.TrialFetcher {
     MapView map;
     MyLocationNewOverlay myLocationNewOverlay;
@@ -62,6 +66,11 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
     }
 
 
+    /**
+     * placeTrials places the given trials on the map created by the activity.
+     * @param trials
+     * trials are the trials whose locations ought to be placed
+     */
     public void placeTrials(ArrayList<Trial> trials) {
         GeoPoint location = null;
         Marker currentLocationMarker = null;
@@ -70,7 +79,6 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
                 continue;
             }
             location = new GeoPoint(trial.getTrialGeolocation().getLatitude(), trial.getTrialGeolocation().getLongitude());
-            renderLocation(location);
             currentLocationMarker = new Marker(map);
             currentLocationMarker.setOnMarkerClickListener((marker, mapView) -> true);
             currentLocationMarker.setPosition(location);
@@ -78,16 +86,16 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
             map.getOverlays().add(currentLocationMarker);
         }
         if (currentLocationMarker != null) {
-            map.getController().setCenter(location);
-            map.getController().setZoom(5.0);
-            map.getController().animateTo(location);
+           renderLocation(location);
         }
     }
 
-    // method adapted from https://stackoverflow.com/a/55389814
-    // author: Rohit Singh
-    // licensed under CC BY-SA 4.0
 
+    /**
+     * renderLocation focuses the camera on a given GeoPoint
+     * @param loc
+     * loc is the GeoPoint to be focused on
+     */
     private void renderLocation(GeoPoint loc) {
         map.getController().setCenter(loc);
         map.getController().setZoom(5.0);
