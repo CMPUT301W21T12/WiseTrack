@@ -12,8 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.faanggang.wisetrack.R;
-import com.faanggang.wisetrack.model.executeTrial.CountTrial;
 import com.faanggang.wisetrack.controllers.ExecuteTrialController;
+import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Date;
@@ -25,7 +25,7 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     private TextView oneCount;
     private Location geolocation;
 
-    int trialType;
+    private int trialType;
 
     private FirebaseAuth mAuth;
     private ExecuteTrialController executeTrialController;
@@ -65,13 +65,12 @@ public class ExecuteCountActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.button_save) {
-            int count = 1;  // default set to one count
+            int trialResult = 1;  // default set to one count
             if (trialType == 2) {
-                count = Integer.parseInt(trialData.getText().toString());
+                trialResult = Integer.parseInt(trialData.getText().toString());
             }
 
-
-            CountTrial currentTrial = new CountTrial(count, geolocation, mAuth.getUid(), new Date());
+            Trial currentTrial = new Trial(geolocation, mAuth.getUid(), new Date(), trialResult, trialType);
 
             // create and store current trial into firebase
             Map<String, Object> TrialHashMap = executeTrialController.createTrialDocument(currentTrial);

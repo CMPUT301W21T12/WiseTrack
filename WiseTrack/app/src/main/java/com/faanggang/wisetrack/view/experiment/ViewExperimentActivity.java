@@ -26,6 +26,7 @@ import com.faanggang.wisetrack.view.stats.ViewExperimentResultsActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteCountActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteMeasurementActivity;
+import com.faanggang.wisetrack.view.trial.ViewTrialsActivity;
 import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -293,6 +294,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 startActivity(intent);
                 return true;
             case R.id.view_trials_option:
+                Intent viewTrialIntent = new Intent(this, ViewTrialsActivity.class);
+                viewTrialIntent.putExtra("EXP_ID", expID);
+                viewTrialIntent.putExtra("EXP_TYPE", trialType);
+                startActivity(viewTrialIntent);
                 Toast.makeText(this, "View trials option selected", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.get_qr_option:
@@ -339,10 +344,11 @@ public class ViewExperimentActivity extends AppCompatActivity
         } else if (anotherTrialType == 1) {  // handle binomial trial
             executeIntent = new Intent(ViewExperimentActivity.this, ExecuteBinomialActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-        } else {  // handle measurement trial ( 3 is only option left )
+        } else {  // handle measurement trial (3 is only option left)
             executeIntent = new Intent(ViewExperimentActivity.this, ExecuteMeasurementActivity.class);
             executeIntent.putExtra("EXP_ID", expID);
-     }
+        }
+
         if (geolocationRequired) {
             executeIntent.putExtra("GEOLOCATION", geolocationManager.getLastLocation());
         }

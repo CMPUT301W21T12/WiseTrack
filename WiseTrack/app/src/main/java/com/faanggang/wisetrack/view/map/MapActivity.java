@@ -52,7 +52,7 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
         firebaseFirestore = FirebaseFirestore.getInstance();
         geolocationManager = GeolocationManager.getInstance(this);
         geolocationManager.setContext(this);
-        TrialFetchManager trialFetchManager = new TrialFetchManager(firebaseFirestore, this);
+        TrialFetchManager trialFetchManager = new TrialFetchManager(this);
 
 
         Bundle intent = getIntent().getExtras();

@@ -15,6 +15,9 @@
     <string name="search_item_Owner">owner</string>
     <string name="search_item_Open">open</string>
     <string name="search_item_Closed">closed</string>
+    <string name="trial_item_Date">date</string>
+    <string name="trial_item_conductor">by</string>
+
 
     <string-array name="binomial_result_items">
         <item>""</item>
