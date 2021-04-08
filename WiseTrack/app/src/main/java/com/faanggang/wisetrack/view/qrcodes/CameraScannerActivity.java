@@ -20,7 +20,12 @@ import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.QRCodeManager;
 import com.google.zxing.Result;
 
-//https://github.com/yuriy-budiyev/code-scanner
+/**
+ * This code follows the documentation for the codeScanner library very closely. Only the base functionality for using the camera and scanning is used.
+ * All subsequent activity involving QR code handling is code specific to this application.
+ * Source: https://github.com/yuriy-budiyev/code-scanner
+ * License: MIT
+ */
 public class CameraScannerActivity extends AppCompatActivity implements QRCodeManager.codeScanListener {
     private CodeScanner codeScanner;
     private QRCodeManager qrManager;
