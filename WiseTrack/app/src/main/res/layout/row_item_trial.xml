@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,67 +10,73 @@
     android:paddingBottom="15dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/textview_trial_result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:text="Trial result:"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
         <TextView
             android:id="@+id/textview_trial_row_item_resultValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text=""
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
+            android:text=""
             android:textColor="@color/black"
-            android:layout_gravity="center"/>
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/textview_trial_conductor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/trial_item_conductor"
-            android:textColor="@color/secondary_text"/>
+            android:textColor="@color/secondary_text" />
+
         <TextView
             android:id="@+id/textview_trial_row_item_usernameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="17sp"
-            android:text=""
             android:layout_gravity="center"
-            android:textColor="@color/darker_primary_text" />
+            android:layout_marginLeft="10dp"
+            android:text=""
+            android:textColor="@color/darker_primary_text"
+            android:textSize="17sp" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/textview_trial_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
             android:text="@string/trial_item_Date"
-            android:textColor="@color/secondary_text"/>
+            android:textColor="@color/secondary_text"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/textview_trial_row_item_dateValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textSize="17sp"
             android:layout_gravity="center"
-            android:textColor="@color/darker_primary_text" />
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/darker_primary_text"
+            android:textSize="17sp" />
     </LinearLayout>
 
 </LinearLayout>
