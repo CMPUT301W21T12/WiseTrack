@@ -83,11 +83,6 @@ public class ViewTrialsActivity extends AppCompatActivity implements TrialFetchM
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.view_profile_option:
-                Toast.makeText(this, "view user profile option selected", Toast.LENGTH_SHORT).show();
-                //Intent viewUserIntent = new Intent(this, ViewOtherActivity.class);
-                //viewUserIntent.putExtra("UID")
-                return true;
             case R.id.block_user_option:
                 blockUserController = new BlockUserController();
                 try {

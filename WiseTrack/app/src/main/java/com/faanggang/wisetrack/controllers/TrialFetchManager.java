@@ -95,37 +95,6 @@ public class TrialFetchManager {
      * by the Object that is receiving the data.
      * @param expID: ID of the experiment that you are fetching its trials from.
      */
-    /*public void fetchTrials(String expID){
-        db.collection("Experiments").document(expID).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int trialType = task.getResult().getLong("trialType").intValue();
-
-                        db.collection("Experiments").document(expID).collection("Trials")
-                                .orderBy("date", Query.Direction.DESCENDING)
-                                .get().addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                Log.e("", String.valueOf(task1.getResult().size()));
-                                if (task1.getResult().size() != 0) {
-                                    ArrayList<Trial> trials = new ArrayList<>();
-                                    List<DocumentSnapshot> docSnapList = task1.getResult().getDocuments();
-                                    for (DocumentSnapshot docSnapshot : docSnapList) {
-                                        Location geolocation = createLocationFromSnapshot(docSnapshot);
-                                        Trial trial = createTrialFromSnapshot(docSnapshot, geolocation, trialType);
-                                        trials.add(trial);
-                                    }
-                                    fetcher.onSuccessfulFetch(trials);
-                                }
-                            } else {
-                                Log.w("TRIAL","DID NOT FIND");
-                            }
-                        });
-                    } else {
-                        Log.w("EXPERIMENT","DID NOT FIND");
-                    }
-                });
-    }*/
-
     public void fetchUnblockedUserTrials(String expID) {
         db.collection("Experiments").document(expID).get()
                 .addOnCompleteListener(task -> {
