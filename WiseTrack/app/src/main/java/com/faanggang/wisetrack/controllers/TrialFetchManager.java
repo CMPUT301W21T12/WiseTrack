@@ -1,15 +1,21 @@
 package com.faanggang.wisetrack.controllers;
 
 import android.location.Location;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.faanggang.wisetrack.model.executeTrial.Trial;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -96,7 +102,8 @@ public class TrialFetchManager {
                         int trialType = task.getResult().getLong("trialType").intValue();
 
                         db.collection("Experiments").document(expID).collection("Trials")
-                                .orderBy("date", Query.Direction.DESCENDING).get().addOnCompleteListener(task1 -> {
+                                .orderBy("date", Query.Direction.DESCENDING)
+                                .get().addOnCompleteListener(task1 -> {
                             if (task1.isSuccessful()) {
                                 Log.e("", String.valueOf(task1.getResult().size()));
                                 if (task1.getResult().size() != 0) {
