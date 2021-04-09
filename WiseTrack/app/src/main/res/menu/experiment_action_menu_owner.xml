@@ -12,11 +12,14 @@
             android:id="@+id/geolocations_option"
             android:title="View Geolocations"/>
         <item
-            android:id="@+id/execute_trials_option"
-            android:title="Execute Trials"/>
-        <item
             android:id="@+id/comment_option"
             android:title="Comment"/>
+    </group>
+
+    <group android:id="@+id/trial_related_options">
+        <item
+            android:id="@+id/execute_trials_option"
+            android:title="Execute Trials"/>
         <item
             android:id="@+id/get_qr_option"
             android:title="Get QR Codes" />
@@ -24,15 +27,27 @@
             android:id="@+id/register_barcode_option"
             android:title="Register Barcode" />
     </group>
-    <group android:id="@+id/owner_only_options">
-        <item
-            android:id="@+id/unpublish_option"
-            android:title="Unpublish"/>
-        <item
-            android:id="@+id/end_experiment_option"
-            android:title="End Current Experiment"/>
+
+    <group android:id="@+id/owner_view_trials">
         <item
             android:id="@+id/view_trials_option"
             android:title="View Trials"/>
     </group>
+
+    <group android:id="@+id/owner_end_experiment">
+        <item
+            android:id="@+id/end_experiment_option"
+            android:title="End Current Experiment"/>
+    </group>
+
+    <group android:id="@+id/owner_unpublish">
+        <item
+            android:id="@+id/unpublish_option"
+            android:title="Unpublish"/>
+    </group>
+
+
+
+
+
 </menu>
