@@ -68,6 +68,7 @@ public class SearchManager {
                 snapshot.getDate("datetime"),
                 snapshot.getString("uID"));
         experiment.setExpID(snapshot.getId());
+        experiment.setOpen(snapshot.getBoolean("open"));
         if (snapshot.getString("username") != null) {
             experiment.setUsername(snapshot.getString("username"));
         } else {
