@@ -25,7 +25,6 @@ public class MyExperimentActivity extends AppCompatActivity implements Searcher 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.w("EXPERIMENT","We got here");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_my_experiments);
         expManager = new ExperimentManager(this);
