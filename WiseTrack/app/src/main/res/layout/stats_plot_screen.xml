@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/plot_trial_name2"
+        android:id="@+id/plot_trial_type"
         android:layout_width="151dp"
         android:layout_height="15dp"
         android:text="TRIALTYPE"

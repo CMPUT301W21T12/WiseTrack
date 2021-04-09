@@ -6,9 +6,10 @@ import android.util.Log;
 import com.faanggang.wisetrack.model.stats.StatHistogram;
 import com.faanggang.wisetrack.model.stats.StatPlot;
 import com.faanggang.wisetrack.model.stats.StatReport;
+import com.faanggang.wisetrack.model.stats.TrialSearcher;
+import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.series.DataPoint;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +36,14 @@ public class StatManager {
     public StatReport currentTrialReport = new StatReport();
     private StatHistogram currentTrialHistogram = new StatHistogram();
     private StatPlot currentTrialPlot = new StatPlot();
-    public StatManager () {
+
+    private TrialSearcher listener;
+
+    public StatManager() {
+
+    }
+    public StatManager (TrialSearcher listener) {
+        this.listener = listener;
 
     }
     /**
@@ -119,13 +127,13 @@ public class StatManager {
     public List<DataPoint> generateStatPlot(List<Float> trialData, List<Timestamp> timeStamps, int trialType) {// plots overtime * change return
         switch (trialType){
             case 0: // count
-                return currentTrialPlot.drawPlotCount(trialData);
+                return currentTrialPlot.drawPlotCount(trialData, timeStamps);
             case 1: // binomial
-                return currentTrialPlot.drawPlotBinomial(trialData);
+                return currentTrialPlot.drawPlotBinomial(trialData, timeStamps);
             case 2: // NNIC
-                return currentTrialPlot.drawPlotNNIC(trialData);
+                return currentTrialPlot.drawPlotNNIC(trialData, timeStamps);
             case 3: // Measurement
-                return currentTrialPlot.drawPlotMeasurement(trialData);
+                return currentTrialPlot.drawPlotMeasurement(trialData, timeStamps);
             default:
                 Log.w("STSManager", "Plot: Error Trial Type");
                 return null;

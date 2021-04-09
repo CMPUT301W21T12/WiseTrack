@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.model.stats;
 
 import android.util.Log;
 
+import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class StatPlot {
      * Y: Total Count value
      * @param trialData
      */
-    public List<DataPoint> drawPlotCount(List<Float> trialData) {
+    public List<DataPoint> drawPlotCount(List<Float> trialData, List<Timestamp> timeStamp) {
         List<DataPoint> dataPointList = new ArrayList<>();
         DataPoint dataPoint = new DataPoint(1,trialData.size()); // see how this goes when you play with it.
 
@@ -39,7 +40,7 @@ public class StatPlot {
      * Y: Value of each X(n)
      * @param trialData
      */
-    public List<DataPoint>  drawPlotBinomial(List<Float> trialData) {
+    public List<DataPoint>  drawPlotBinomial(List<Float> trialData, List<Timestamp> timeStamp) {
         double success,failure;
         success = 0;
         failure = 0;
@@ -66,7 +67,7 @@ public class StatPlot {
      * Y: # of appearances of respective x value
      * @param trialData
      */
-    public List<DataPoint>  drawPlotNNIC(List<Float> trialData) {
+    public List<DataPoint>  drawPlotNNIC(List<Float> trialData, List<Timestamp> timeStamp) {
         List<DataPoint> dataPointList = new ArrayList<>();
         Log.i("results log inner NNIC", trialData.toString());
         DataPoint dataPoint = new DataPoint(0,0);
@@ -104,7 +105,7 @@ public class StatPlot {
      * Y: Total occurence of a measurement within the x to x+1 from trial results.
      * @param trialData
      */
-    public List<DataPoint>  drawPlotMeasurement(List<Float> trialData) { // similar to NNIC just correct the range of floating point values.
+    public List<DataPoint>  drawPlotMeasurement(List<Float> trialData, List<Timestamp> timeStamp) { // similar to NNIC just correct the range of floating point values.
         List<DataPoint> dataPointList = new ArrayList<>();
         DataPoint dataPoint = new DataPoint(0,0);
         int upperBound = 1;

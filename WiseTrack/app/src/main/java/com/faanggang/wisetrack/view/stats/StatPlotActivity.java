@@ -4,6 +4,7 @@ package com.faanggang.wisetrack.view.stats;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +17,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +34,7 @@ import java.util.List;
  * https://github.com/jjoe64/GraphView/wiki/Documentation
  */
 public class StatPlotActivity extends AppCompatActivity {
-    private LineGraphSeries<DataPoint> series;
+    private LineGraphSeries<DataPoint> series = new LineGraphSeries<>();
     private ExperimentManager experimentManager;
     private String expID;
     private StatManager statManager = new StatManager();
@@ -58,17 +63,30 @@ public class StatPlotActivity extends AppCompatActivity {
 
         experimentManager = new ExperimentManager();
         expID = getIntent().getStringExtra("EXP_ID");
-        exprName = findViewById(R.id.histogram_trial_name);
-        exprTrialType = findViewById(R.id.histogram_trial_type);
+        exprName = findViewById(R.id.plot_trial_name);
+        exprTrialType = findViewById(R.id.plot_trial_type);
         GraphView plot = (GraphView) findViewById(R.id.stats_plot);
-
 
         experimentQuery();
         trialDataQuery();
+        //lineBounds(plot);
+        //lineStyling();
+    }
+    /**
+     * Line styling
+     */
+    public void lineStyling() {
+
+    }
+
+    /**
+     * line bounds
+     * add data points to the plot
+     * indicate bounds
+     */
+    public void lineBounds(GraphView plot) {
         double x,y;
         x = 0;
-
-        series = new LineGraphSeries<>();
 
         int points = 500;
         for (int j = 0 ; j < points ; j++) {
@@ -76,11 +94,8 @@ public class StatPlotActivity extends AppCompatActivity {
             y = Math.sin(x);
             series.appendData(new DataPoint(x,y),true,100   );
         }
-
         plot.addSeries(series);
-
     }
-
     /**
      * Query for a Experiment's name and trial type
      */
@@ -108,7 +123,12 @@ public class StatPlotActivity extends AppCompatActivity {
      */
     public void trialDataQuery() {
         trialData.clear();
-        Task<QuerySnapshot> task = db.getInstance().collection("Experiments").document(expID).collection("Trials").orderBy("date").get();
+        Task<QuerySnapshot> task = db.getInstance()
+                .collection("Experiments")
+                .document(expID)
+                .collection("Trials")
+                .orderBy("datetime", Query.Direction.ASCENDING)
+                .get();
         task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -117,29 +137,29 @@ public class StatPlotActivity extends AppCompatActivity {
                 Timestamp dateStamp = null;
                 for (DocumentSnapshot doc : documents) {
                     resultValue = doc.getLong("result").floatValue();
-                    dateStamp = doc.getTimestamp("date");
-
+                    dateStamp = doc.getTimestamp("datetime");
                     trialData.add(resultValue);
                     trialStamp.add(dateStamp);
-                    Log.i("results log ONE", String.valueOf(resultValue) + "::" + String.valueOf(trialType));
+                    Log.i("Log ONE", resultValue + "::" + dateStamp + "::" + trialType);
                 }
                 double x,y;
                 x = 0;
                 y = 0;
-                Log.i("results log TWO", trialData.toString() + "::" + String.valueOf(trialType));
-                dataPointList = statManager.generateStatHistogram(trialData,trialType);
-                Log.i("results log THREE", trialData.toString() + "::" + String.valueOf(trialType));
+                Log.i("log TWO", trialData.toString() + "::" + trialType);
+                dataPointList = statManager.generateStatPlot(trialData, trialStamp, trialType);
+                Log.i("log THREE", trialData.toString() + "::" + trialType);
                 for (int j = 0 ; j < dataPointList.size(); j ++ ) {
                     y= dataPointList.get(j).getY();
                     x= dataPointList.get(j).getX();;
                     series.appendData(new DataPoint(x,y),true,100);
                 }
+
             }
         });
         task.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.w("Stats Histogram Activity: ", "Trial Data NOT FOUND.");
+                Log.w("Stats Plot Activity: ", "Trial Data NOT FOUND.");
             }
         });
     }

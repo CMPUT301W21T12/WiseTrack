@@ -90,16 +90,17 @@ public class StatHistogramActivity extends AppCompatActivity {
 
     /**
      *  Modifies the bounds of the graph view
+     *  bug makes the bound but it goes negative :(
      * @param histogram
      */
     public void histogramBounds(GraphView histogram){
         histogram.getViewport().setYAxisBoundsManual(true);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setMinY(0);
-        histogram.getViewport().setMaxY(10);
+        histogram.getViewport().setMaxY(2);
 
         histogram.getViewport().setMinX(0);
-        histogram.getViewport().setMaxX(6);
+        histogram.getViewport().setMaxX(100);
         histogram.addSeries(series);
     }
 
@@ -138,13 +139,9 @@ public class StatHistogramActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
                 float resultValue = 0f;
-                Timestamp dateStamp = null;
                 for (DocumentSnapshot doc : documents) {
                     resultValue = doc.getLong("result").floatValue();
-                    dateStamp = doc.getTimestamp("date");
-
                     trialData.add(resultValue);
-                    trialStamp.add(dateStamp);
                     Log.i("results log ONE", String.valueOf(resultValue) + "::" + String.valueOf(trialType));
                 }
                 double x,y;
@@ -182,7 +179,7 @@ public class StatHistogramActivity extends AppCompatActivity {
                 return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
-        //series.setSpacing(5);
+        series.setSpacing(88);
         series.setValuesOnTopSize(45);
 
 

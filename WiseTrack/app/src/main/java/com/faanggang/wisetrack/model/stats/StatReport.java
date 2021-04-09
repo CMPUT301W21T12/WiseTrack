@@ -1,5 +1,7 @@
 package com.faanggang.wisetrack.model.stats;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -69,6 +71,7 @@ public class StatReport {
       * @return Mean
       */
      public float calculateMean(List<Float> trialTests) {
+          mean = 0;
           for (int index = 0; index < trialTests.size(); index ++ ) {
                mean += trialTests.get(index);
           }
@@ -108,13 +111,12 @@ public class StatReport {
       * @return Standard deviation of a trial
       */
      public double calculateStdev(List<Float> trialTests) {
-          mean = calculateMean(trialTests);
           double sum = 0;
+          float currentMean = calculateMean(trialTests);
           for (int index = 0 ; index < trialTests.size(); index++) {
-               sum += Math.pow((trialTests.get(index) - mean),2);
+               sum += Math.pow((trialTests.get(index) - currentMean),2);
           }
           stdev = Math.sqrt(sum/(trialTests.size()-1));
-
 
           return stdev;
      }
