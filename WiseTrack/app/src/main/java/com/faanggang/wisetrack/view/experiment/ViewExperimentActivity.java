@@ -62,6 +62,8 @@ import androidx.core.content.ContextCompat;
 
 import org.osmdroid.views.MapView;
 
+import java.util.ArrayList;
+
 public class ViewExperimentActivity extends AppCompatActivity
     implements EndExperimentFragment.OnFragmentInteractionListener,
         UnpublishExperimentFragment.OnFragmentInteractionListener {
@@ -174,7 +176,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         if (experiment != null){
             setTextWithObject();
         } else {
-            setTextWithFirebase();
+            Toast.makeText(getApplicationContext(), "Error fetching data", Toast.LENGTH_SHORT);
         }
     }
 
@@ -191,6 +193,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         else
             published = "Unpublished";
 
+        subManager.getSubscriptions(WiseTrackApplication.getCurrentUser().getUserID());
         if (experiment.isOpen()) {
             expStatusView.setText("Open + " + published);
             if (geolocationRequired) warnGeolocation();
@@ -226,53 +229,8 @@ public class ViewExperimentActivity extends AppCompatActivity
             });
         }
     }
-    private void setTextWithFirebase(){
-        expNameView.setText(experiment.getName());
-        expDescriptionView.setText(experiment.getDescription());
-        expRegionView.setText(experiment.getRegion());
-        expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
-        geolocationRequired = experiment.getGeolocation();
 
-        String published;
-        if (experiment.isPublished())
-            published = "Published";
-        else
-            published = "Unpublished";
 
-        if (experiment.isOpen()) {
-            expStatusView.setText("Open + " + published);
-            if (geolocationRequired) warnGeolocation();
-        } else {
-            expStatusView.setText("Closed + " + published);
-        }
-        trialType = (long) experiment.getTrialType();
-        String trialType_str;
-        if (trialType == 0) {
-            trialType_str = "Count";
-            anotherTrialType = 0;
-        } else if (trialType == 1) {
-            trialType_str = "Binomial";
-            anotherTrialType = 1;
-        } else if (trialType == 2) {
-            trialType_str = "Non-Negative Integer";
-            anotherTrialType = 2;
-        } else if (trialType == 3) {
-            trialType_str = "Measurement";
-            anotherTrialType = 3;
-        } else {
-            trialType_str = "Unknown Unicorn";
-            anotherTrialType = -1;  // invalid
-        }
-        expTrialTypeView.setText(trialType_str);
-        if (experiment.getUsername() != null){
-            expOwnerView.setText(experiment.getUsername());
-        } else {
-            userID = experiment.getOwnerID();
-            userManager.getUserInfo(userID, task2->{
-                expOwnerView.setText(task2.getResult().getString("userName"));
-            });
-        }
-    }
 
 
     @Override
@@ -288,7 +246,12 @@ public class ViewExperimentActivity extends AppCompatActivity
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+
         getMenuInflater().inflate(R.menu.experiment_action_menu_owner, menu);
+
+        MenuItem subButton = menu.findItem(R.id.subscribe_option);
+        if (WiseTrackApplication.getUserSubscriptions().contains(expID)) subButton.setTitle("Unsubscribe");
+        else subButton.setTitle("Subscribe");
 
         boolean open = experiment.isOpen();
         boolean published = experiment.isPublished();
@@ -326,7 +289,17 @@ public class ViewExperimentActivity extends AppCompatActivity
         // check which item was clicked
         switch (item.getItemId()) {
             case R.id.subscribe_option:
-                subManager.addSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
+                if (WiseTrackApplication.getUserSubscriptions().contains(expID)) {
+                    subManager.removeSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
+                    ArrayList<String> subs = WiseTrackApplication.getUserSubscriptions();
+                    subs.remove(expID);
+                    WiseTrackApplication.setUserSubscriptions(subs);
+                } else {
+                    subManager.addSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
+                    ArrayList<String> subs = WiseTrackApplication.getUserSubscriptions();
+                    subs.add(expID);
+                    WiseTrackApplication.setUserSubscriptions(subs);
+                }
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();
@@ -500,4 +473,6 @@ public class ViewExperimentActivity extends AppCompatActivity
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
         startActivity(intent);
     }
+
+
 }
