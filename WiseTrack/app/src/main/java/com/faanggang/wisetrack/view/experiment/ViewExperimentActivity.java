@@ -438,6 +438,12 @@ public class ViewExperimentActivity extends AppCompatActivity
         experimentDB.update("keywords", FieldValue.arrayUnion("CLOSED"));
 
         experiment.setOpen(false);
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Successfully ended the experiment.",
+                Toast.LENGTH_SHORT);
+
+        toast.show();
     }
 
     @Override
@@ -464,14 +470,10 @@ public class ViewExperimentActivity extends AppCompatActivity
         experiment.setPublished(false);
 
         Toast toast = Toast.makeText(getApplicationContext(),
-                "Successfully unpublished the experiment.\nGoing back to main...",
+                "Successfully unpublished the experiment.",
                 Toast.LENGTH_SHORT);
 
         toast.show();
-
-        // Go back to main
-        Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
 
