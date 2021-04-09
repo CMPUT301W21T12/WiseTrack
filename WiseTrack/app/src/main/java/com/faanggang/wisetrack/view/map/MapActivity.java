@@ -57,7 +57,7 @@ public class MapActivity extends AppCompatActivity implements TrialFetchManager.
 
         Bundle intent = getIntent().getExtras();
         String experimentId = intent.getString("EXP_ID");
-        trialFetchManager.fetchTrials(experimentId);
+        trialFetchManager.fetchUnblockedUserTrials(experimentId);
 
         map = findViewById(R.id.mapview);
         Configuration.getInstance().setUserAgentValue(this.getPackageName());
