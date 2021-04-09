@@ -3,7 +3,6 @@ package com.faanggang.wisetrack.view.experiment;
 
 import com.faanggang.wisetrack.controllers.GeolocationManager;
 import com.faanggang.wisetrack.model.experiment.Experiment;
-import com.faanggang.wisetrack.model.experiment.Searcher;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.view.MainMenuActivity;
@@ -51,10 +50,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -190,7 +187,6 @@ public class ViewExperimentActivity extends AppCompatActivity
         expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
         geolocationRequired = experiment.getGeolocation();
 
-
         String published;
         if (experiment.isPublished())
             published = "Published";
@@ -250,20 +246,43 @@ public class ViewExperimentActivity extends AppCompatActivity
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+
         getMenuInflater().inflate(R.menu.experiment_action_menu_owner, menu);
+
         MenuItem subButton = menu.findItem(R.id.subscribe_option);
         if (WiseTrackApplication.getUserSubscriptions().contains(expID)) subButton.setTitle("Unsubscribe");
         else subButton.setTitle("Subscribe");
+
+        boolean open = experiment.isOpen();
+        boolean published = experiment.isPublished();
+
         // determine which options should be displayed based on whether the current experimenter is the owner
         if (getOwnerID().equals(WiseTrackApplication.getCurrentUser().getUserID())) {
-            menu.setGroupVisible(R.id.owner_only_options, true);
+
+            menu.setGroupVisible(R.id.owner_view_trials, true);
+
+            if(published)
+                menu.setGroupVisible(R.id.owner_unpublish, true);
+            else
+                menu.setGroupVisible(R.id.owner_unpublish, false);
+
+            if(open)
+                menu.setGroupVisible(R.id.owner_end_experiment, true);
+            else
+                menu.setGroupVisible(R.id.owner_end_experiment, false);
+
         } else if (!getOwnerID().equals(WiseTrackApplication.getCurrentUser().getUserID())) {
-            menu.setGroupVisible(R.id.owner_only_options, false);
+            menu.setGroupVisible(R.id.owner_view_trials, false);
+            menu.setGroupVisible(R.id.owner_end_experiment, false);
+            menu.setGroupVisible(R.id.owner_unpublish, false);
         }
         menu.setGroupVisible(R.id.experimenter_options, true);
+
+        if(open)
+            menu.setGroupVisible(R.id.trial_related_options, true);
+        else
+            menu.setGroupVisible(R.id.trial_related_options, false);
     }
-
-
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -420,9 +439,11 @@ public class ViewExperimentActivity extends AppCompatActivity
 
         experiment.setOpen(false);
 
-        // Go back to main
-        Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
-        startActivity(intent);
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Successfully ended the experiment.",
+                Toast.LENGTH_SHORT);
+
+        toast.show();
     }
 
     @Override
@@ -447,6 +468,12 @@ public class ViewExperimentActivity extends AppCompatActivity
                 });
 
         experiment.setPublished(false);
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Successfully unpublished the experiment.",
+                Toast.LENGTH_SHORT);
+
+        toast.show();
     }
 
 
