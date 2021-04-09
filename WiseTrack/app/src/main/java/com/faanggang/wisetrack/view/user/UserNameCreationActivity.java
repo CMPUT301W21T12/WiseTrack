@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.view.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -55,8 +56,8 @@ public class UserNameCreationActivity extends AppCompatActivity {
                     if (detectSpecial(username)) {
                         Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
                     }
-                    else if (username.length() > 20) {
-                        Toast.makeText(getApplicationContext(), "Username cannot contain more than 20 characters", Toast.LENGTH_LONG).show();
+                    else if (username.length() > 13) {
+                        Toast.makeText(getApplicationContext(), "Username cannot contain more than 13 characters", Toast.LENGTH_LONG).show();
                     }
                     else {
                         CollectionReference usersRef = db.collection("Users");
@@ -73,6 +74,7 @@ public class UserNameCreationActivity extends AppCompatActivity {
                                                 userManager.createNewUser(userManager, username);
                                                 Log.d("Username creation", "Username created");
                                                 Intent intent = new Intent(UserNameCreationActivity.this, MainMenuActivity.class);
+                                                SystemClock.sleep(100);
                                                 startActivity(intent);
                                             } else {
                                                 //document exists with the user entered username

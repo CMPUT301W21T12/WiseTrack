@@ -10,7 +10,6 @@ public class WiseTrackApplication extends Application {
 
     transient private static Users currentUser = null;
     transient private static Experiment currentExperiment = null;
-    transient private static boolean internetConnection;
 
     public static void setCurrentUser(Users user) {
         currentUser = user;
@@ -18,14 +17,5 @@ public class WiseTrackApplication extends Application {
 
     public static Users getCurrentUser() {
         return currentUser;
-    }
-
-
-    public static boolean getWifiConnection() {
-        return internetConnection;
-    }
-
-    public static void setInternetConnection(boolean connection) {
-        internetConnection = connection;
     }
 }
