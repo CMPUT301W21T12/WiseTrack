@@ -52,7 +52,7 @@ public class TrialFetchManager {
      * information
      * @param trialType
      * trial type of the current trial
-     * @return
+     * @return trial based off snapshot info
      */
     public Trial createTrialFromSnapshot(DocumentSnapshot snapshot, Location geolocation, int trialType) {
         Trial trial;
@@ -70,7 +70,7 @@ public class TrialFetchManager {
      * This method creates the trial Location object from the document snapshot.
      * @param snapshot
      * a document snapshot of the current experiment document fetched from Cloud Firebase
-     * @return
+     * @return location of the snapshot
      */
     public Location createLocationFromSnapshot(DocumentSnapshot snapshot) {
         // fetch geolocation field data
@@ -93,7 +93,7 @@ public class TrialFetchManager {
      * Cloud Firestore.
      * This method does not return anything. It instead calls on an interface method implemented
      * by the Object that is receiving the data.
-     * @param expID: ID of the experiment that you are fetching its trials from.
+     * @param expID ID of the experiment that you are fetching its trials from.
      */
     public void fetchUnblockedUserTrials(String expID) {
         db.collection("Experiments").document(expID).get()

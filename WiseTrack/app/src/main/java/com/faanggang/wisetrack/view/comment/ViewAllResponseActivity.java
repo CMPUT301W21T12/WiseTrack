@@ -66,7 +66,7 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
 
     /**
      * This method takes the results of a Firebase Query and adds them to the list of responses to display.
-     * @param results: List of responses that match the query criteria.
+     * @param results List of responses that match the query criteria.
      */
     @Override
     public void onResponsesFound(ArrayList<Response> results) {
@@ -77,7 +77,7 @@ public class ViewAllResponseActivity extends AppCompatActivity implements Commen
 
     /**
      * This method calls a manager to uploads a response to the Firestore and updates the current list to display immediate changes.
-     * @param response: A response to upload to Firestore and display.
+     * @param response A response to upload to Firestore and display.
      */
     @Override
     public void addResponseOkPressed(Response response){

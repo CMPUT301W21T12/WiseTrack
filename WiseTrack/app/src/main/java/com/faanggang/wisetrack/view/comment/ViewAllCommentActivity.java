@@ -54,7 +54,7 @@ public class ViewAllCommentActivity extends AppCompatActivity implements Comment
     }
     /**
      * This method takes the results of a Firebase Query and adds them to the list of comments to display.
-     * @param results: List of comments that match the query criteria.
+     * @param results List of comments that match the query criteria.
      */
     @Override
     public void onExpCommentsFound(ArrayList<Comment> results) {
@@ -64,7 +64,7 @@ public class ViewAllCommentActivity extends AppCompatActivity implements Comment
     }
     /**
      * This method calls the manager to upload a comment to the Firestore and updates the current list to display immediate changes.
-     * @param comment: A comment to upload to Firestore and display.
+     * @param comment A comment to upload to Firestore and display.
      */
     @Override
     public void addCommentOkPressed(Comment comment){

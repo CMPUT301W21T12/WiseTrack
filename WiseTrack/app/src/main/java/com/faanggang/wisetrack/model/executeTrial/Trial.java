@@ -13,11 +13,11 @@ public class Trial {
     private int trialType;
 
     /**
-     * @param trialGeolocation: Location object representing the geolocation for which current trial was conducted
-     * @param uID: user id of the trial conductor
-     * @param date: datetime of current trial conduction
-     * @param trialResult: result of current trial
-     * @param trialType: trial type of current trial: 0 - count | 1 - binomial | 2 - NNIC | 3 - measurement
+     * @param trialGeolocation Location object representing the geolocation for which current trial was conducted
+     * @param uID user id of the trial conductor
+     * @param date datetime of current trial conduction
+     * @param trialResult result of current trial
+     * @param trialType trial type of current trial: 0 - count | 1 - binomial | 2 - NNIC | 3 - measurement
      *                 NOTE: NNIC = Non-Negative Integer Count
      */
     public Trial(Location trialGeolocation, String uID, Date date, double trialResult, int trialType) {
