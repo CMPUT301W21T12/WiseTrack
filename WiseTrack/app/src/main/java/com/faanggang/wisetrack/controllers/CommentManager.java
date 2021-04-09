@@ -1,6 +1,5 @@
 package com.faanggang.wisetrack.controllers;
 
-import android.util.Log;
 
 import com.faanggang.wisetrack.model.comment.Comment;
 import com.faanggang.wisetrack.model.comment.Response;
@@ -114,7 +113,6 @@ public class CommentManager {
         db.collection("Comments").document(commentID).collection("Responses")
         .orderBy("datetime", Query.Direction.DESCENDING).get().addOnCompleteListener(task->{
             if (task.isSuccessful()) {
-                Log.e("", String.valueOf(task.getResult().size()));
                 if (task.getResult().size() != 0){
                     ArrayList<Response> results = new ArrayList<Response>();
                     List<DocumentSnapshot> docSnapList = task.getResult().getDocuments();

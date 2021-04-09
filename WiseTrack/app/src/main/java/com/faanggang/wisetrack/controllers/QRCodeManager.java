@@ -132,8 +132,6 @@ public class QRCodeManager {
                         Boolean open = doc.getBoolean("isPublic");
                         String onlineID = doc.getString("uID");
                         String currentID = WiseTrackApplication.getCurrentUser().getUserID();
-                        Log.w("bruh", onlineID);
-                        Log.w("bruh", currentID);
                         if (open || (onlineID.equals(currentID))){
                             String expID = doc.getString("expID");
                             int trialResult = doc.getLong("trialResult").intValue();
