@@ -39,7 +39,6 @@ public class UserNameCreationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.username_creation);
 
-
         EditText editUserName = findViewById(R.id.editUserName);
 
         Button confirmButton = findViewById(R.id.userNameConfirmButton);

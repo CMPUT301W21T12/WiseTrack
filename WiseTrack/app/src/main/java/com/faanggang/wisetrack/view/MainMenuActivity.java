@@ -61,8 +61,13 @@ public class MainMenuActivity extends AppCompatActivity {
 
         geolocationManager = GeolocationManager.getInstance(this);
         geolocationManager.setContext(this);
-        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, 100);
+        if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, 2);
+        } else if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
         }
 
         final Button viewProfileButton = findViewById(R.id.menuProfile_Button);
@@ -115,12 +120,6 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            geolocationManager.startLocationUpdates();
-        } else {
-            geolocationManager.promptPermissions(this);
-        }
-
         final Button scanQRCodeButton = (Button) findViewById(R.id.menuScanQR_button);
 
         scanQRCodeButton.setOnClickListener(new View.OnClickListener() {
@@ -137,18 +136,14 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
-    // adapted from code found https://developer.android.com/training/permissions/requesting
-    // which is licensed under Apache 2.0
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    geolocationManager.startLocationUpdates();
-                }
-                return;
+        if (requestCode == 1 || requestCode == 3) {
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                geolocationManager.startLocationUpdates();
+            }
         }
     }
 

@@ -184,11 +184,18 @@ public class ViewExperimentActivity extends AppCompatActivity
         expRegionView.setText(experiment.getRegion());
         expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
         geolocationRequired = experiment.getGeolocation();
+
+        String published;
+        if (experiment.isPublished())
+            published = "Published";
+        else
+            published = "Unpublished";
+
         if (experiment.isOpen()) {
-            expStatusView.setText("Open");
+            expStatusView.setText("Open + " + published);
             if (geolocationRequired) warnGeolocation();
         } else {
-            expStatusView.setText("Closed");
+            expStatusView.setText("Closed + " + published);
         }
         trialType = (long) experiment.getTrialType();
         String trialType_str;
@@ -225,11 +232,18 @@ public class ViewExperimentActivity extends AppCompatActivity
         expRegionView.setText(experiment.getRegion());
         expMinTrialsView.setText(String.valueOf(experiment.getMinTrials()));
         geolocationRequired = experiment.getGeolocation();
+
+        String published;
+        if (experiment.isPublished())
+            published = "Published";
+        else
+            published = "Unpublished";
+
         if (experiment.isOpen()) {
-            expStatusView.setText("Open");
+            expStatusView.setText("Open + " + published);
             if (geolocationRequired) warnGeolocation();
         } else {
-            expStatusView.setText("Closed");
+            expStatusView.setText("Closed + " + published);
         }
         trialType = (long) experiment.getTrialType();
         String trialType_str;
@@ -405,9 +419,9 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     @Override
     public void onEndExperimentOk(){
-        DocumentReference experiment = db.collection("Experiments").document(expID);
+        DocumentReference experimentDB = db.collection("Experiments").document(expID);
 
-        experiment
+        experimentDB
                 .update("open", false)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -425,8 +439,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 });
 
         // Update the "OPEN" keyword to "CLOSED"
-        experiment.update("keywords", FieldValue.arrayRemove("OPEN"));
-        experiment.update("keywords", FieldValue.arrayUnion("CLOSED"));
+        experimentDB.update("keywords", FieldValue.arrayRemove("OPEN"));
+        experimentDB.update("keywords", FieldValue.arrayUnion("CLOSED"));
+
+        experiment.setOpen(false);
 
         // Go back to main
         Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
@@ -435,9 +451,9 @@ public class ViewExperimentActivity extends AppCompatActivity
 
     @Override
     public void onUnpublishExperimentOk() {
-        DocumentReference experiment = db.collection("Experiments").document(expID);
+        DocumentReference experimentDB = db.collection("Experiments").document(expID);
 
-        experiment
+        experimentDB
                 .update("published", false)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -453,5 +469,7 @@ public class ViewExperimentActivity extends AppCompatActivity
                         // ADD AN ERROR FRAGMENT HERE
                     }
                 });
+
+        experiment.setPublished(false);
     }
 }

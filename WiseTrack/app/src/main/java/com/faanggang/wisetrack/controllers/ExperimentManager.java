@@ -66,6 +66,7 @@ public class ExperimentManager {
                                     doc.getString("uID")
                             );
                             e.setOpen(doc.getBoolean("open"));
+                            e.setPublished(doc.getBoolean("published"));
                             e.setExpID(doc.getId());
                             if (doc.getString("username") != null) {
                                 e.setUsername(doc.getString("username"));
