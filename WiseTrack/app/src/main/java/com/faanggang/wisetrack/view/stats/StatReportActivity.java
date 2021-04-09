@@ -30,12 +30,9 @@ import java.util.List;
 public class StatReportActivity extends AppCompatActivity {
     private StatManager statManager = new StatManager();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private Searcher searcher;
     private String expID;
-    private String trialID;
     private ExperimentManager experimentManager;
     private Long trialType = -1L;  // integer indicator of trial type
-    private int anotherTrialType;
     private TextView exprName; // Extracted from experiment.name from firebase
     private TextView statMean;
     private TextView statMedian;
@@ -44,11 +41,11 @@ public class StatReportActivity extends AppCompatActivity {
     private TextView statMinimum;
     private TextView statMaximum;
 
-    private List<Float> trialData = new ArrayList<Float>();// why is it still saying "Attempt to invoke virtual method 'void com.faanggang.wisetrack.controllers.StatManager.generateStatReport(java.util.List)' on a null object reference" :(
+    private List<Float> trialData = new ArrayList<Float>();
     private List<Timestamp> trialTimeStamp = new ArrayList<Timestamp>();
     private List<Date> dateStamp = new ArrayList<>();
     /**
-     * 42f , 3f, 4f, 7f, 18f, 21f, 26f, 44f, 69f, 10f IDK WHY EVERYHING POINTS TO NULL :(
+     * 42f , 3f, 4f, 7f, 18f, 21f, 26f, 44f, 69f, 10f
      * Initialize all private names
      * Gather data from firebase
      * Set text to all TextViews
@@ -69,8 +66,6 @@ public class StatReportActivity extends AppCompatActivity {
 
         experimentQuery();
         trialDataQuery(); // MAYBE FIX LATER IDK not cohesive
-
-
     }
 
     /**
@@ -81,32 +76,12 @@ public class StatReportActivity extends AppCompatActivity {
             DocumentSnapshot docSnap = task.getResult();
             exprName.setText(docSnap.getString("name"));
             trialType = docSnap.getLong("trialType");
-            String trialType_str;
-            if (trialType == 0) {
-                trialType_str = "Count";
-                anotherTrialType = 0;
-            } else if (trialType == 1) {
-                trialType_str = "Binomial trials";
-                anotherTrialType = 1;
-            } else if (trialType == 2) {
-                trialType_str = "Non-negative integer counts";
-                anotherTrialType = 2;
-            } else if (trialType == 3) {
-                trialType_str = "Measurement trials";
-                anotherTrialType = 3;
-            } else {
-                trialType_str = "Unknown Unicorn";
-                anotherTrialType = -1;  // invalid
-            }
         });
-
-
-
     }
 
     /**
      * Query for Trial's data
-     * generates Stat report :(
+     * generates Stat report
      * Sets the textviews
      */
     public void trialDataQuery() {
@@ -121,17 +96,9 @@ public class StatReportActivity extends AppCompatActivity {
                 Date trialDate = null;
                 for (DocumentSnapshot doc : documents) {
                     resultValue = doc.getLong("result").floatValue();
-                    trialStamp = doc.getTimestamp("date");
-
-                    trialDate = trialStamp.toDate();
                     trialData.add(resultValue);
-                    trialTimeStamp.add(trialStamp);
-                    dateStamp.add(trialDate);
-
                 }
                 Log.i("TrialData", trialData.toString());
-                Log.i("StampData", trialTimeStamp.toString());
-                Log.i("TimeStamps", dateStamp.toString());
                 statManager.generateStatReport(trialData);
                 setTextView();
             }
@@ -157,7 +124,7 @@ public class StatReportActivity extends AppCompatActivity {
         statMaximum.setText(String.valueOf(statManager.getMax()));
         statMean.setText(String.valueOf(statManager.getMean()));
         statMedian.setText(String.valueOf(statManager.getMedian()));
-        statStdev.setText(String.valueOf(anotherTrialType)); //statManager.getStdev()
+        statStdev.setText(String.valueOf(statManager.getStdev()));
 
         String quartileString = "";
         List<Float> quartile = statManager.getQuartiles();
@@ -170,5 +137,4 @@ public class StatReportActivity extends AppCompatActivity {
         }
         statQuartile.setText(quartileString);
     }
-
 }

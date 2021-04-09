@@ -73,8 +73,6 @@ public class StatReport {
                mean += trialTests.get(index);
           }
           mean = mean/trialTests.size();
-
-
           return mean;
      }
 

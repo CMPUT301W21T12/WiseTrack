@@ -56,7 +56,10 @@ public class StatHistogramActivity extends AppCompatActivity {
     private List<DataPoint> dataPointList = new ArrayList<>();
 
     /**
-     * STUFF
+     * Queries experiment name and trial type
+     * Queries trial results
+     * Passes over to stats manager to create usable dataPointList
+     * Creates Bar graph through graphview methods
      * @param savedInstanceState
      */
     @Override
@@ -71,24 +74,22 @@ public class StatHistogramActivity extends AppCompatActivity {
         exprTrialType = findViewById(R.id.histogram_trial_type);
 
         GraphView histogram = (GraphView) findViewById(R.id.stats_histogram);
-
-
         experimentQuery();
         trialDataQuery();
         histogramBounds(histogram);
+        histogramStyling();
         series.setOnDataPointTapListener(new OnDataPointTapListener() {
             @Override
             public void onTap(Series series, DataPointInterface dataPoint) {
                 Toast.makeText(StatHistogramActivity.this, "Data Point clicked: (" +dataPoint.getX() + ", " + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
             }
         });
-        
 
     }
 
 
     /**
-     *  Bounds go negative ?>??
+     *  Modifies the bounds of the graph view
      * @param histogram
      */
     public void histogramBounds(GraphView histogram){
@@ -100,12 +101,10 @@ public class StatHistogramActivity extends AppCompatActivity {
         histogram.getViewport().setMinX(0);
         histogram.getViewport().setMaxX(6);
         histogram.addSeries(series);
-        histogramStyling();
     }
 
     /**
-     * Query for a Experiment's name
-     * ** ADD TEXTVIEW FOR CLASS TYPE LATER
+     * Query for a Experiment's name and trial type
      */
     public void experimentQuery() {
         experimentManager.getExperimentInfo(expID, task->{
@@ -164,7 +163,7 @@ public class StatHistogramActivity extends AppCompatActivity {
         task.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.w("Stats Report", "Trial Data NOT FOUND.");
+                Log.w("Stats Histogram Activity: ", "Trial Data NOT FOUND.");
             }
         });
     }

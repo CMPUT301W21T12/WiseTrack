@@ -8,6 +8,7 @@ import com.faanggang.wisetrack.model.stats.StatPlot;
 import com.faanggang.wisetrack.model.stats.StatReport;
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,7 +81,7 @@ public class StatManager {
      * Generate Data Points for histogram use.
      * @param trialData: Results from trial runs
      * @param trialType: Type of the experiment
-     * @return
+     * @return dataPoints list for histogram use.
      */
     public List<DataPoint> generateStatHistogram(List<Float> trialData, int trialType) {
         List<DataPoint> dataPointList = new ArrayList<>();
@@ -108,22 +109,26 @@ public class StatManager {
         }
     }
 
-    public void generateStatPlot(List<Float> trialData, int trialType) {// plots overtime * change return
+    /**
+     * Generate Data Points for plot use.
+     * @param trialData: Results from trial runs
+     * @param timeStamps: Time at which the result was taken
+     * @param trialType: Type of the experiment.
+     * @return  dataPoints list for plot use.
+     */
+    public List<DataPoint> generateStatPlot(List<Float> trialData, List<Timestamp> timeStamps, int trialType) {// plots overtime * change return
         switch (trialType){
             case 0: // count
-                currentTrialPlot.drawPlot();
-                break;
+                return currentTrialPlot.drawPlotCount(trialData);
             case 1: // binomial
-                currentTrialPlot.drawPlot();
-                break;
+                return currentTrialPlot.drawPlotBinomial(trialData);
             case 2: // NNIC
-                currentTrialPlot.drawPlot();
-                break;
+                return currentTrialPlot.drawPlotNNIC(trialData);
             case 3: // Measurement
-                currentTrialPlot.drawPlot();
-                break;
+                return currentTrialPlot.drawPlotMeasurement(trialData);
             default:
                 Log.w("STSManager", "Plot: Error Trial Type");
+                return null;
 
 
         }
