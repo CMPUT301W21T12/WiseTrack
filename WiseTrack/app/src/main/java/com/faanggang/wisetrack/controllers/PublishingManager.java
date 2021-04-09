@@ -83,6 +83,7 @@ public class PublishingManager {
         data.put("published", true); // published by default
         data.put("subscribers", new ArrayList<String>());
         data.put("username", userName);
+        data.put("blockedUsers", new ArrayList<String>());
 
         return data;
     }
