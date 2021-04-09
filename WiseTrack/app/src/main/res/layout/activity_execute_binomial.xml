@@ -18,7 +18,6 @@
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown"
         android:text="select trial result"
-        app:layout_constraintBottom_toTopOf="@+id/trial_geolocation_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textview_select_trial_result" />
