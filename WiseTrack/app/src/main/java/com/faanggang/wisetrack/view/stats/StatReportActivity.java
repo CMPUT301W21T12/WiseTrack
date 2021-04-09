@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -44,7 +45,8 @@ public class StatReportActivity extends AppCompatActivity {
     private TextView statMaximum;
 
     private List<Float> trialData = new ArrayList<Float>();// why is it still saying "Attempt to invoke virtual method 'void com.faanggang.wisetrack.controllers.StatManager.generateStatReport(java.util.List)' on a null object reference" :(
-    private List<Timestamp> trialStamps = new ArrayList<Timestamp>();
+    private List<Timestamp> trialTimeStamp = new ArrayList<Timestamp>();
+    private List<Date> dateStamp = new ArrayList<>();
     /**
      * 42f , 3f, 4f, 7f, 18f, 21f, 26f, 44f, 69f, 10f IDK WHY EVERYHING POINTS TO NULL :(
      * Initialize all private names
@@ -63,17 +65,16 @@ public class StatReportActivity extends AppCompatActivity {
         statQuartile =  findViewById(R.id.stat_quartiles2);
         statMinimum = findViewById(R.id.stat_minimum2);
         statMaximum = findViewById(R.id.stat_maximum2);
-        experimentManager = new ExperimentManager();
         expID = getIntent().getStringExtra("EXP_ID");
 
         experimentQuery();
-        trialDataQuery();
-        Log.i("Stat Report123123", String.valueOf(statManager.getMax()) + String.valueOf(statManager.getMin()) + String.valueOf(statManager.getQuartiles()) + String.valueOf(statManager.getMean()) );
-        setTextView();
+        trialDataQuery(); // MAYBE FIX LATER IDK not cohesive
+
+
     }
 
     /**
-     * Query for a Experiment's name
+     * Query for a Experiment's name and experiment type.
      */
     public void experimentQuery() {
         experimentManager.getExperimentInfo(expID, task->{
@@ -103,7 +104,8 @@ public class StatReportActivity extends AppCompatActivity {
 
     /**
      * Query for Trial's data
-     *
+     * generates Stat report :(
+     * Sets the textviews
      */
     public void trialDataQuery() {
         trialData.clear();
@@ -113,16 +115,23 @@ public class StatReportActivity extends AppCompatActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
                 float resultValue = 0f;
-                Timestamp dateStamp = null;
+                Timestamp trialStamp = null;
+                Date trialDate = null;
                 for (DocumentSnapshot doc : documents) {
                     resultValue = doc.getLong("result").floatValue();
-                    dateStamp = doc.getTimestamp("date");
+                    trialStamp = doc.getTimestamp("date");
 
+                    trialDate = trialStamp.toDate();
                     trialData.add(resultValue);
-                    trialStamps.add(dateStamp);
+                    trialTimeStamp.add(trialStamp);
+                    dateStamp.add(trialDate);
+
                 }
                 Log.i("TrialData", trialData.toString());
+                Log.i("StampData", trialTimeStamp.toString());
+                Log.i("TimeStamps", dateStamp.toString());
                 statManager.generateStatReport(trialData);
+                setTextView();
             }
         });
         task.addOnFailureListener(new OnFailureListener() {
@@ -131,9 +140,6 @@ public class StatReportActivity extends AppCompatActivity {
                 Log.w("Stats Report", "Trial Data NOT FOUND.");
             }
         });
-
-
-
     }
 
     /**
@@ -144,7 +150,7 @@ public class StatReportActivity extends AppCompatActivity {
      *  Quartiles
      */
     public void setTextView() {
-        Log.i("Stat Report", String.valueOf(statManager.getMax()) + String.valueOf(statManager.getMin()) + String.valueOf(statManager.getQuartiles()) + String.valueOf(statManager.getMean()) );
+        Log.i("Stat Report88888", String.valueOf(statManager.getMax()) + String.valueOf(statManager.getMin()) + String.valueOf(statManager.getQuartiles()) + String.valueOf(statManager.getMean()) );
         statMinimum.setText(String.valueOf(statManager.getMin()));
         statMaximum.setText(String.valueOf(statManager.getMax()));
         statMean.setText(String.valueOf(statManager.getMean()));

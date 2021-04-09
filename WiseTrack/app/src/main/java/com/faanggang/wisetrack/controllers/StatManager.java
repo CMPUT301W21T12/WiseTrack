@@ -48,7 +48,12 @@ public class StatManager {
             currentTrialReport.setInterquartileRange(currentTrialReport.calculateInterquartileRange(trialData));
             currentTrialReport.setMaximum(currentTrialReport.calculateMax(trialData));
             currentTrialReport.setMinimum(currentTrialReport.calculateMin(trialData));
-            Log.i("Stat Manager", String.valueOf(currentTrialReport.getMaximum()) + String.valueOf(currentTrialReport.getMinimum()) + String.valueOf(currentTrialReport.getQuartiles()) + String.valueOf(currentTrialReport.getMean()) );
+            Log.i("Stat Manager",
+                    "Max " + String.valueOf(currentTrialReport.getMaximum()) +
+                            "Min " + String.valueOf(currentTrialReport.getMinimum()) +
+                            "QTR " + String.valueOf(currentTrialReport.getQuartiles()) +
+                            "Mean " + String.valueOf(currentTrialReport.getMean()) +
+                            "Median" + String.valueOf(currentTrialReport.getMedian()) );
         }
 
 
@@ -87,7 +92,7 @@ public class StatManager {
         }
     }
 
-    public void generateHistorgram(List<Float> trialData, int trialType) { // theres a library somewhere * change return
+    public void generateStatHistogram(List<Float> trialData, int trialType) { // theres a library somewhere * change return
         switch (trialType){
             case 0: // count
                 currentTrialHistogram.drawHistogramCount();
