@@ -32,11 +32,19 @@ public class BlockUserController {
                 .addOnCompleteListener(task ->{
                     if (task.isSuccessful()) {
                         ArrayList<String> blockedUsers = (ArrayList<String>) task.getResult().get("blockedUsers");
-                        if (!blockedUsers.contains(conductorID)){ // if the user is not already blocked, add it to list
+                        if (blockedUsers == null){  // initialize new field if not already exists
+                            blockedUsers = new ArrayList<String>();
                             HashMap<String,Object> map = new HashMap<>();
                             blockedUsers.add(conductorID);
                             map.put("blockedUsers", blockedUsers);
                             db.collection("Experiments").document(expID).update(map);
+                        } else {
+                            if (!blockedUsers.contains(conductorID)){ // if the user is not already blocked, add it to list
+                                HashMap<String,Object> map = new HashMap<>();
+                                blockedUsers.add(conductorID);
+                                map.put("blockedUsers", blockedUsers);
+                                db.collection("Experiments").document(expID).update(map);
+                            }
                         }
                     }
                 });
