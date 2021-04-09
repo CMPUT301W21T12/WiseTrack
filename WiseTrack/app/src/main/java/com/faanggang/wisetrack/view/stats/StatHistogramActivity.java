@@ -54,8 +54,11 @@ public class StatHistogramActivity extends AppCompatActivity {
     private List<Float> trialData = new ArrayList<Float>();
     private List<Timestamp> trialStamp = new ArrayList<Timestamp>();
     private List<DataPoint> dataPointList = new ArrayList<>();
+
     /**
-     * display graph
+     * STUFF
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,41 +76,27 @@ public class StatHistogramActivity extends AppCompatActivity {
         experimentQuery();
         trialDataQuery();
         histogramBounds(histogram);
-
-
-
-
-
-    }
-
-    /**
-     *
-     */
-    public void dataParsing() {
-        double x,y;
-        x = 0;
-        y = 0;
-        Log.i("results log TWO", trialData.toString() + "::" + String.valueOf(trialType));
-        dataPointList = statManager.generateStatHistogram(trialData,trialType);
-        Log.i("results log THREE", trialData.toString() + "::" + String.valueOf(trialType));
-        for (int j = 0 ; j < dataPointList.size(); j ++ ) {
-            y= dataPointList.get(j).getY();
-            x= dataPointList.get(j).getX();;
-            series.appendData(new DataPoint(x,y),true,100);
-        }
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Toast.makeText(StatHistogramActivity.this, "Data Point clicked: (" +dataPoint.getX() + ", " + dataPoint.getY() + ")", Toast.LENGTH_SHORT).show();
+            }
+        });
+        
 
     }
 
+
     /**
-     *      // add logic for this later.
-     *         // set manual bounds
+     *  Bounds go negative ?>??
      * @param histogram
      */
     public void histogramBounds(GraphView histogram){
         histogram.getViewport().setYAxisBoundsManual(true);
-        histogram.getViewport().setMinY(0);
-        histogram.getViewport().setMaxY(300);
         histogram.getViewport().setXAxisBoundsManual(true);
+        histogram.getViewport().setMinY(0);
+        histogram.getViewport().setMaxY(10);
+
         histogram.getViewport().setMinX(0);
         histogram.getViewport().setMaxX(6);
         histogram.addSeries(series);
@@ -159,7 +148,17 @@ public class StatHistogramActivity extends AppCompatActivity {
                     trialStamp.add(dateStamp);
                     Log.i("results log ONE", String.valueOf(resultValue) + "::" + String.valueOf(trialType));
                 }
-                dataParsing();
+                double x,y;
+                x = 0;
+                y = 0;
+                Log.i("results log TWO", trialData.toString() + "::" + String.valueOf(trialType));
+                dataPointList = statManager.generateStatHistogram(trialData,trialType);
+                Log.i("results log THREE", trialData.toString() + "::" + String.valueOf(trialType));
+                for (int j = 0 ; j < dataPointList.size(); j ++ ) {
+                    y= dataPointList.get(j).getY();
+                    x= dataPointList.get(j).getX();;
+                    series.appendData(new DataPoint(x,y),true,100);
+                }
             }
         });
         task.addOnFailureListener(new OnFailureListener() {
@@ -184,8 +183,9 @@ public class StatHistogramActivity extends AppCompatActivity {
                 return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
-        series.setSpacing(2);
+        //series.setSpacing(5);
         series.setValuesOnTopSize(45);
+
 
     }
 }

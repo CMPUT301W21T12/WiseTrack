@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.model.stats;
 
 
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import com.jjoe64.graphview.series.DataPoint;
 
@@ -72,6 +73,7 @@ public class StatHistogram {
      */
     public List<DataPoint>  drawHistogramNNIC(List<Float> trialData) {
         List<DataPoint> dataPointList = new ArrayList<>();
+        Log.i("results log inner NNIC", trialData.toString());
         DataPoint dataPoint = new DataPoint(0,0);
         for (int j = 0; j < calculateMax(trialData)+1; j++) {
             int totalCount = 0;

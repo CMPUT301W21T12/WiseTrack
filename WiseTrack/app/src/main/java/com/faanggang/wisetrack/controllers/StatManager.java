@@ -32,8 +32,8 @@ import java.util.List;
 // add test for values
 public class StatManager {
     public StatReport currentTrialReport = new StatReport();
-    private StatHistogram currentTrialHistogram;
-    private StatPlot currentTrialPlot;
+    private StatHistogram currentTrialHistogram = new StatHistogram();
+    private StatPlot currentTrialPlot = new StatPlot();
     public StatManager () {
 
     }
@@ -83,21 +83,25 @@ public class StatManager {
      * @return
      */
     public List<DataPoint> generateStatHistogram(List<Float> trialData, int trialType) {
-
-        String msg = trialData.toString() + "::" + String.valueOf(trialType);
+        List<DataPoint> dataPointList = new ArrayList<>();
+        String msg = trialData.toString() + "::" + String.valueOf(trialType) + "::" + trialData.size();
         switch (trialType){
             case 0: // count
                 Log.i("results log COUNT", msg);
-                return currentTrialHistogram.drawHistogramCount(trialData);
+                dataPointList = currentTrialHistogram.drawHistogramCount(trialData);
+                return dataPointList;
             case 1: // binomial
                 Log.i("results log BINOM", msg);
-                return currentTrialHistogram.drawHistogramBinomial(trialData);
+                dataPointList = currentTrialHistogram.drawHistogramBinomial(trialData);
+                return dataPointList;
             case 2: // NNIC
-                Log.i("results log NNIC", msg);
-                return currentTrialHistogram.drawHistogramNNIC(trialData);
+                Log.i("results log NNIC", trialData.toString() + "::" + String.valueOf(trialType) + "::" + trialData.size());
+                dataPointList =  currentTrialHistogram.drawHistogramNNIC(trialData);
+                return dataPointList;
             case 3: // Measurement
                 Log.i("results log MST", msg);
-                return currentTrialHistogram.drawHistogramMeasurement(trialData);
+                dataPointList =  currentTrialHistogram.drawHistogramMeasurement(trialData);
+                return dataPointList;
             default:
                 Log.w("STSManager", "Histogram: Error Trial Type");
                 return null;
