@@ -85,8 +85,6 @@ public class SubscriptionManager {
                         } else {Log.w("SUBSCRIPTION", "Trying to remove sub that doesn't exist");}
                         map.put("subscriptions",subs);
                         db.collection("Users").document(userID).update(map);
-                    }else {
-                        Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
                     }
                 });
         db.collection("Experiments").document(expID).get()
@@ -118,7 +116,6 @@ public class SubscriptionManager {
                 ArrayList<Experiment> results = new ArrayList<Experiment>();
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
                 for(DocumentSnapshot doc: documents){
-                    Log.w("EXPERIMENT", doc.getString("name"));
                     Experiment e = new Experiment(
                             doc.getString("name"),
                             doc.getString("description"),
