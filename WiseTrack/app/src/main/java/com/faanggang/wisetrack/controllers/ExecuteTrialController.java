@@ -15,13 +15,21 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class controls the execution and storing process of Trials sub-collection inside
+ * Experiments collection which stores the current experiment's trials.
+ * Blocked experimenters are restricted from executing trials of the current experiment.
+ *     trialCollectionReference: Collection reference to trials collection.
+ *     db: Firebase Reference
+ *     experimentID: Document id of current experiment.
+ */
 public class ExecuteTrialController {
-    private CollectionReference trialCollectionReference;
+    private final CollectionReference trialCollectionReference;
     private FirebaseFirestore db;
     private String experimentID;
 
     /**
-     * @param expID: experiment ID of current trial
+     * @param expID experiment ID of current trial
      */
     public ExecuteTrialController(String expID) {
         experimentID = expID;
@@ -32,8 +40,8 @@ public class ExecuteTrialController {
     }
 
     /**
-     * @param trial: current trial to be inserted into Cloud Firebase
-     * @return data: hashmap trial object ready to be inserted
+     * @param trial current trial to be inserted into Cloud Firebase
+     * @return data hashmap trial object ready to be inserted
      */
     public Map createTrialDocument(Trial trial) {
         Map<String, Object> data = new HashMap<>();
@@ -51,6 +59,9 @@ public class ExecuteTrialController {
         return data;
     }
 
+    /**
+     * @param trial the trial to be stored into Firebase.
+     */
     public void executeTrial(Map<String, Object> trial) {
         trialCollectionReference
                 .add(trial)
