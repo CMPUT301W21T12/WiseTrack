@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.controllers;
 
 import android.util.Log;
 
+import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.model.experiment.Searcher;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -77,16 +78,27 @@ public class SubscriptionManager {
         db.collection("Users").document(userID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
-                        ArrayList<String> subs = (ArrayList<String>) task.getResult().get("Subscriptions");
+                        ArrayList<String> subs = (ArrayList<String>) task.getResult().get("subscriptions");
                         HashMap<String, Object> map = new HashMap<String,Object>();
                         if (subs.contains(expID)){
                             subs.remove(expID);
                         } else {Log.w("SUBSCRIPTION", "Trying to remove sub that doesn't exist");}
-                        map.put("Subscriptions",subs);
+                        map.put("subscriptions",subs);
                         db.collection("Users").document(userID).update(map);
-                        Log.w("SUBSCRIPTION","added new twitch prime sub :)");
                     }else {
                         Log.w("SUBSCRIPTION","NO USER FOUND BRUH");
+                    }
+                });
+        db.collection("Experiments").document(expID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        ArrayList<String> subs = (ArrayList<String>) task.getResult().get("subscribers");
+                        HashMap<String, Object> map = new HashMap<String,Object>();
+                        if (subs.contains(userID)){
+                            subs.remove(userID);
+                        }else {Log.w("SUBSCRIPTION", "Trying to remove sub that doesn't exist");}
+                        map.put("subscribers",subs);
+                        db.collection("Experiments").document(expID).update(map);
                     }
                 });
     }
@@ -102,6 +114,7 @@ public class SubscriptionManager {
         db.collection("Experiments").whereArrayContains("subscribers", userID).get()
         .addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                ArrayList<String> stringResults = new ArrayList<String>();
                 ArrayList<Experiment> results = new ArrayList<Experiment>();
                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
                 for(DocumentSnapshot doc: documents){
@@ -119,9 +132,14 @@ public class SubscriptionManager {
                     e.setOpen(doc.getBoolean("open"));
                     e.setExpID(doc.getId());
                     results.add(e);
-                    searcher.onSearchSuccess(results);
+                    stringResults.add(doc.getId());
+
                 }
+                if (searcher !=null) searcher.onSearchSuccess(results);
+                WiseTrackApplication.setUserSubscriptions(stringResults);
             }
         });
     }
+
+
 }
