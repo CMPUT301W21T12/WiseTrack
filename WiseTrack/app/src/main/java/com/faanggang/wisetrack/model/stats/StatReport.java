@@ -161,7 +161,7 @@ public class StatReport {
 
      /**
       * THIS IS SUPPLEMENTARY AND NOT ASKED OF BY THE STUDY but could be useful in terms of stats
-      * @returns IQR of a data set
+      * @return IQR of a data set
       */
      public float calculateInterquartileRange(List<Float> trialTests) {
           float interquartileRange = 0;

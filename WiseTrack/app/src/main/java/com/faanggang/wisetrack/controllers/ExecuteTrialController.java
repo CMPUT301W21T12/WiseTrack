@@ -21,7 +21,7 @@ public class ExecuteTrialController {
     private String experimentID;
 
     /**
-     * @param expID: experiment ID of current trial
+     * @param expID experiment ID of current trial
      */
     public ExecuteTrialController(String expID) {
         experimentID = expID;
@@ -32,8 +32,8 @@ public class ExecuteTrialController {
     }
 
     /**
-     * @param trial: current trial to be inserted into Cloud Firebase
-     * @return data: hashmap trial object ready to be inserted
+     * @param trial current trial to be inserted into Cloud Firebase
+     * @return data hashmap trial object ready to be inserted
      */
     public Map createTrialDocument(Trial trial) {
         Map<String, Object> data = new HashMap<>();

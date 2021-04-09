@@ -40,7 +40,7 @@ public class GeolocationManager {
      * of the activity using the class.
      * @param context
      * context is the Context of the activity using this manager
-     * @return
+     * @return instance of GeolocationManager
      */
     public static GeolocationManager getInstance(Context context) {
         if (geolocationManager == null) {

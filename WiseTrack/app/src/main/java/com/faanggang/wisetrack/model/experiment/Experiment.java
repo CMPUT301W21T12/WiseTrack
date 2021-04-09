@@ -6,20 +6,20 @@ import java.util.Date;
 
 public class Experiment implements Serializable {
     /**
-     * @param name
-     * @param description
-     * @param region
-     * @param minTrials: Minimum # of Trials. Must be greater than 1
-     * @param trialType: 0 = Counts, 1 = Binomial, 2 = Non-negative integer counts,
+     * name
+     * description
+     * region
+     * minTrials: Minimum # of Trials. Must be greater than 1
+     * trialType: 0 = Counts, 1 = Binomial, 2 = Non-negative integer counts,
      *                 3 = measurement trials
-     * @param geolocation: true = geolocation required, false = geolocation optional
-     * @param date
-     * @param uID: userID of the owner (the user publishing the experiment)
-     * @param expID: the firebase ID of the current experiment
-     * @param open: is the experiment open or closed/unpublished? Set TRUE upon creation of
+     * geolocation: true = geolocation required, false = geolocation optional
+     * date
+     * uID: userID of the owner (the user publishing the experiment)
+     * expID: the firebase ID of the current experiment
+     * open: is the experiment open or closed/unpublished? Set TRUE upon creation of
      *            experiment
-     * @param subscribers: list of user's that are subscribed to this experiment.
-     * @param published: automatically set true upon creation. When user clicks "unpublish", set to
+     * subscribers: list of user's that are subscribed to this experiment.
+     * published: automatically set true upon creation. When user clicks "unpublish", set to
      *                 false
      */
     private String name;
