@@ -2,9 +2,13 @@ package com.faanggang.wisetrack.controllers;
 
 import android.util.Log;
 
+import com.faanggang.wisetrack.model.stats.StatHistogram;
+import com.faanggang.wisetrack.model.stats.StatPlot;
 import com.faanggang.wisetrack.model.stats.StatReport;
+import com.google.firebase.Timestamp;
+import com.jjoe64.graphview.series.DataPoint;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,18 +22,13 @@ import java.util.List;
  * 3 - Measurements
  */
 
-/**
- * Testing
- * value check
- * hopefully inner values
- */
-
 // add test for values
 public class StatManager {
-    public StatReport currentTrialReport = new StatReport(0,100,50,50,39.52, Arrays.asList(12.5f,50f,87.5f));
-    //private StatHistogram currentTrialHistogram;
-    //private StatPlot currentTrialPlot;
-    public StatManager () {
+    public StatReport currentTrialReport = new StatReport();
+    private StatHistogram currentTrialHistogram = new StatHistogram();
+    private StatPlot currentTrialPlot = new StatPlot();
+
+    public StatManager() {
 
     }
     /**
@@ -46,6 +45,14 @@ public class StatManager {
             currentTrialReport.setInterquartileRange(currentTrialReport.calculateInterquartileRange(trialData));
             currentTrialReport.setMaximum(currentTrialReport.calculateMax(trialData));
             currentTrialReport.setMinimum(currentTrialReport.calculateMin(trialData));
+            Log.i("Stat Manager",
+                    "Max " + String.valueOf(currentTrialReport.getMaximum()) +
+                            "Min " + String.valueOf(currentTrialReport.getMinimum()) +
+                            "QTR " + String.valueOf(currentTrialReport.getQuartiles()) +
+                            "Mean " + String.valueOf(currentTrialReport.getMean()) +
+                            "Median " + String.valueOf(currentTrialReport.getMedian()) +
+                            "STDEV " + String.valueOf(currentTrialReport.getStdev())
+            );
         }
 
 
@@ -63,14 +70,62 @@ public class StatManager {
     public float getIQR() {return currentTrialReport.getInterquartileRange();}
 
 
-    public void generateStatPlot() {// plots overtime * change return
-
+    /**
+     * Generate Data Points for histogram use.
+     * @param trialData: Results from trial runs
+     * @param trialType: Type of the experiment
+     * @return dataPoints list for histogram use.
+     */
+    public List<DataPoint> generateStatHistogram(List<Float> trialData, int trialType) {
+        List<DataPoint> dataPointList = new ArrayList<>();
+        String msg = trialData.toString() + "::" + String.valueOf(trialType) + "::" + trialData.size();
+        switch (trialType){
+            case 0: // count
+                Log.i("results log COUNT", msg);
+                dataPointList = currentTrialHistogram.drawHistogramCount(trialData);
+                return dataPointList;
+            case 1: // binomial
+                Log.i("results log BINOM", msg);
+                dataPointList = currentTrialHistogram.drawHistogramBinomial(trialData);
+                return dataPointList;
+            case 2: // NNIC
+                Log.i("results log NNIC", trialData.toString() + "::" + String.valueOf(trialType) + "::" + trialData.size());
+                dataPointList =  currentTrialHistogram.drawHistogramNNIC(trialData);
+                return dataPointList;
+            case 3: // Measurement
+                Log.i("results log MST", msg);
+                dataPointList =  currentTrialHistogram.drawHistogramMeasurement(trialData);
+                return dataPointList;
+            default:
+                Log.w("STSManager", "Histogram: Error Trial Type");
+                return null;
+        }
     }
 
-    public void generateHistorgram() { // theres a library somewhere * change return
+    /**
+     * Generate Data Points for plot use.
+     * @param trialData: Results from trial runs
+     * @param timeStamps: Time at which the result was taken
+     * @param trialType: Type of the experiment.
+     * @return  dataPoints list for plot use.
+     */
+    public List<DataPoint> generateStatPlot(List<Float> trialData, List<Timestamp> timeStamps, int trialType) {// plots overtime * change return
+        switch (trialType){
+            case 0: // count
+                return currentTrialPlot.drawPlotCount(trialData, timeStamps);
+            case 1: // binomial
+                return currentTrialPlot.drawPlotBinomial(trialData, timeStamps);
+            case 2: // NNIC
+                return currentTrialPlot.drawPlotNNIC(trialData, timeStamps);
+            case 3: // Measurement
+                return currentTrialPlot.drawPlotMeasurement(trialData, timeStamps);
+            default:
+                Log.w("STSManager", "Plot: Error Trial Type");
+                return null;
 
+
+        }
     }
-
 
 }
 

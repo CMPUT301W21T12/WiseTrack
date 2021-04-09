@@ -1,6 +1,9 @@
 package com.faanggang.wisetrack.model.stats;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,7 +36,7 @@ public class StatReport {
           this.mean = 0;
           this.median = 0;
           this.stdev = 0;
-          this.quartiles = new ArrayList<Float>();
+          this.quartiles = new ArrayList<Float>(Arrays.asList(0f,0f,0f));
      }
 
      /**
@@ -68,12 +71,11 @@ public class StatReport {
       * @return Mean
       */
      public float calculateMean(List<Float> trialTests) {
+          mean = 0;
           for (int index = 0; index < trialTests.size(); index ++ ) {
                mean += trialTests.get(index);
           }
           mean = mean/trialTests.size();
-
-
           return mean;
      }
 
@@ -109,13 +111,12 @@ public class StatReport {
       * @return Standard deviation of a trial
       */
      public double calculateStdev(List<Float> trialTests) {
-          mean = calculateMean(trialTests);
           double sum = 0;
+          float currentMean = calculateMean(trialTests);
           for (int index = 0 ; index < trialTests.size(); index++) {
-               sum += Math.pow((trialTests.get(index) - mean),2);
+               sum += Math.pow((trialTests.get(index) - currentMean),2);
           }
           stdev = Math.sqrt(sum/(trialTests.size()-1));
-
 
           return stdev;
      }
@@ -168,11 +169,11 @@ public class StatReport {
           List<Float> quartiles = new ArrayList<Float>();
 
           quartiles = calculateQuartiles(trialTests);
-          interquartileRange = quartiles.get(3) - quartiles.get(0);
+          interquartileRange = quartiles.get(2) - quartiles.get(0);
 
           return interquartileRange;
      }
-     
+
      public float getMean() {
           return mean;
      }
