@@ -1,15 +1,21 @@
 package com.faanggang.wisetrack.controllers;
 
 import android.location.Location;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.faanggang.wisetrack.model.executeTrial.Trial;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -89,36 +95,6 @@ public class TrialFetchManager {
      * by the Object that is receiving the data.
      * @param expID: ID of the experiment that you are fetching its trials from.
      */
-    /*public void fetchTrials(String expID){
-        db.collection("Experiments").document(expID).get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        int trialType = task.getResult().getLong("trialType").intValue();
-
-                        db.collection("Experiments").document(expID).collection("Trials")
-                                .orderBy("date", Query.Direction.DESCENDING).get().addOnCompleteListener(task1 -> {
-                            if (task1.isSuccessful()) {
-                                Log.e("", String.valueOf(task1.getResult().size()));
-                                if (task1.getResult().size() != 0) {
-                                    ArrayList<Trial> trials = new ArrayList<>();
-                                    List<DocumentSnapshot> docSnapList = task1.getResult().getDocuments();
-                                    for (DocumentSnapshot docSnapshot : docSnapList) {
-                                        Location geolocation = createLocationFromSnapshot(docSnapshot);
-                                        Trial trial = createTrialFromSnapshot(docSnapshot, geolocation, trialType);
-                                        trials.add(trial);
-                                    }
-                                    fetcher.onSuccessfulFetch(trials);
-                                }
-                            } else {
-                                Log.w("TRIAL","DID NOT FIND");
-                            }
-                        });
-                    } else {
-                        Log.w("EXPERIMENT","DID NOT FIND");
-                    }
-                });
-    }*/
-
     public void fetchUnblockedUserTrials(String expID) {
         db.collection("Experiments").document(expID).get()
                 .addOnCompleteListener(task -> {
@@ -126,7 +102,12 @@ public class TrialFetchManager {
                         DocumentSnapshot snapshot = task.getResult();
                         int trialType = snapshot.getLong("trialType").intValue();
 
-                        ArrayList<String> blocked = (ArrayList<String>)snapshot.get("blockedUsers");
+                        ArrayList<String> blocked;
+                        if (snapshot.get("blockedUsers") == null) {
+                            blocked = new ArrayList<String>();
+                        } else {
+                            blocked = (ArrayList<String>)snapshot.get("blockedUsers");
+                        }
 
                         db.collection("Experiments").document(expID).collection("Trials").get()
                                 .addOnCompleteListener(task1 -> {
