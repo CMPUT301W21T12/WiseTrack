@@ -1,6 +1,7 @@
 package com.faanggang.wisetrack.view.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.faanggang.wisetrack.controllers.UserManager;
 import com.faanggang.wisetrack.model.WiseTrackApplication;
 import com.faanggang.wisetrack.model.executeTrial.Trial;
 import com.faanggang.wisetrack.model.experiment.Experiment;
+import com.faanggang.wisetrack.view.user.ViewOtherActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.math.RoundingMode;
@@ -82,6 +84,14 @@ public class TrialAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         item.getResultTextView().setText(trialResultView);
         item.getDateTextView().setText(getDateString(trials.get(position).getDatetime()));
+        item.getTrialConductorTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileIntent = new Intent(context, ViewOtherActivity.class);
+                profileIntent.putExtra("USER_ID", trials.get(position).getExperimenterID());
+                context.startActivity(profileIntent);
+            }
+        });
     }
 
     @Override
