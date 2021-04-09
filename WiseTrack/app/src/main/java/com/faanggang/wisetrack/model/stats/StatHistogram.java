@@ -33,7 +33,6 @@ public class StatHistogram {
 
         dataPointList.add(dataPoint);
 
-        setValues(trialData);
         return dataPointList;
 
     }
@@ -62,7 +61,6 @@ public class StatHistogram {
         dataPointList.add(successPoint);
         dataPointList.add(failurePoint);
 
-        setValues(trialData);
         return dataPointList;
     }
     /**
@@ -88,7 +86,6 @@ public class StatHistogram {
                 dataPointList.add(dataPoint);
             }
         }
-        setValues(trialData);
         return dataPointList;
     }
 
@@ -131,17 +128,9 @@ public class StatHistogram {
 
         }
 
-        setValues(trialData);
         return dataPointList;
     }
 
-
-    public void setValues(List<Float> data){
-        values = data;
-    }
-    public List<Float> getValues() {
-        return values;
-    }
 
 
 }

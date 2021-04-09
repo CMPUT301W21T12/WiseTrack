@@ -89,18 +89,18 @@ public class StatHistogramActivity extends AppCompatActivity {
 
 
     /**
-     *  Modifies the bounds of the graph view
-     *  bug makes the bound but it goes negative :(
+     * Modifies the bounds of the graph view
+     *
      * @param histogram
      */
     public void histogramBounds(GraphView histogram){
         histogram.getViewport().setYAxisBoundsManual(true);
         histogram.getViewport().setXAxisBoundsManual(true);
         histogram.getViewport().setMinY(0);
-        histogram.getViewport().setMaxY(2);
+        histogram.getViewport().setMaxY(50);
 
         histogram.getViewport().setMinX(0);
-        histogram.getViewport().setMaxX(100);
+        histogram.getViewport().setMaxX(50);
         histogram.addSeries(series);
     }
 
@@ -153,8 +153,9 @@ public class StatHistogramActivity extends AppCompatActivity {
                 for (int j = 0 ; j < dataPointList.size(); j ++ ) {
                     y= dataPointList.get(j).getY();
                     x= dataPointList.get(j).getX();;
-                    series.appendData(new DataPoint(x,y),true,100);
+                    series.appendData(new DataPoint(x,y),false,100);
                 }
+
             }
         });
         task.addOnFailureListener(new OnFailureListener() {
@@ -179,9 +180,7 @@ public class StatHistogramActivity extends AppCompatActivity {
                 return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
-        series.setSpacing(88);
+        series.setSpacing(5);
         series.setValuesOnTopSize(45);
-
-
     }
 }

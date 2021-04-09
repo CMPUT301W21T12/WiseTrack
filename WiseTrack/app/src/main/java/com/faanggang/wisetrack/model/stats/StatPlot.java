@@ -7,84 +7,124 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class StatPlot {
     private List<Float> values;
 
-    public StatPlot (){
+    public StatPlot() {
 
+    }
+
+    /**
+     * Converts timestamp lists into date lists
+     *
+     * @param timeStamp
+     * @return dateList
+     */
+    public List<Date> timeStampToDate(List<Timestamp> timeStamp) {
+        List<Date> dateList = new ArrayList<>();
+
+        for (int x = 0; x < timeStamp.size(); x++) {
+            dateList.add(timeStamp.get(x).toDate());
+        }
+        return dateList;
     }
 
     /**
      * Creates a dataPointList for the total resultant count.
-     * Get the total value of all the counts
-     * X: One bar for total count
-     * Y: Total Count value
+     * X: Time range
+     * Y: Count value during the time range
+     * 24 hour interval
+     *
      * @param trialData
      */
     public List<DataPoint> drawPlotCount(List<Float> trialData, List<Timestamp> timeStamp) {
+
         List<DataPoint> dataPointList = new ArrayList<>();
-        DataPoint dataPoint = new DataPoint(1,trialData.size()); // see how this goes when you play with it.
+        List<Date> dateList = new ArrayList<>();
+        dateList = timeStampToDate(timeStamp);
 
-        dataPointList.add(dataPoint);
+        for (int j = 0; j < dateList.size(); j++) {
+            int currentCount = 0;
+            for (int k = 0; k < dateList.size(); k++) {
+                if (dateList.get(k) == dateList.get(j)) {
+                    currentCount += 1;
+                }
 
-        setValues(trialData);
+            }
+            DataPoint dataPoint = new DataPoint(dateList.get(j), currentCount);
+            if (currentCount != 0) {
+                dataPointList.add(dataPoint);
+            }
+
+        }
         return dataPointList;
 
     }
+
     /**
-     * Creates a dataPointList of the successes and failures
-     * X1: Successes
-     * X2: Failures
-     * Y: Value of each X(n)
+     * Creates a dataPointList of the successes
+     * X: Time range
+     * Y: Successes for that day
+     * 24 hour interval
+     *
      * @param trialData
      */
-    public List<DataPoint>  drawPlotBinomial(List<Float> trialData, List<Timestamp> timeStamp) {
-        double success,failure;
-        success = 0;
-        failure = 0;
-        List<DataPoint> dataPointList = new ArrayList<>();
+    public List<DataPoint> drawPlotBinomial(List<Float> trialData, List<Timestamp> timeStamp) {
 
-        for (int y = 0; y < trialData.size(); y++) {
-            if (trialData.get(y) == 1) { // success
-                success += 1;
-            } else { // failure
-                failure += 1;
+        List<DataPoint> dataPointList = new ArrayList<>();
+        List<Date> dateList = new ArrayList<>();
+        dateList = timeStampToDate(timeStamp);
+
+        int success = 0;
+        for (int x = 0; x < dateList.size(); x++) {
+            for (int y = 0; y < dateList.size(); y++ ) {
+                if (dateList.get(x) == dateList.get(y)) {// same day
+                    if(trialData.get(x) == 1) { // success
+                        success += 1;
+                    }
+                }
+            }
+            DataPoint successPoint = new DataPoint(dateList.get(x), success);
+            if (success != 0) {
+                dataPointList.add(successPoint);
             }
         }
-        DataPoint successPoint = new DataPoint(0,success);
-        DataPoint failurePoint = new DataPoint( 1,failure);
-        dataPointList.add(successPoint);
-        dataPointList.add(failurePoint);
-
-        setValues(trialData);
         return dataPointList;
     }
+
     /**
-     * Creates a dataPoint list of occurrences of certain counts.
-     * X: A resultant count value
-     * Y: # of appearances of respective x value
+     * Creates a dataPoint list of mean value counts.
+     * X: Time range
+     * Y: Mean value for one day
+     * 24 hour interval
      * @param trialData
      */
     public List<DataPoint>  drawPlotNNIC(List<Float> trialData, List<Timestamp> timeStamp) {
         List<DataPoint> dataPointList = new ArrayList<>();
-        Log.i("results log inner NNIC", trialData.toString());
-        DataPoint dataPoint = new DataPoint(0,0);
-        for (int j = 0; j < calculateMax(trialData)+1; j++) {
-            int totalCount = 0;
-            for (int k = 0; k < trialData.size(); k++) {
-                if (j == trialData.get(k)) {
-                    totalCount+= 1;
-                }
+        List<Date> dateList = new ArrayList<>();
+        dateList = timeStampToDate(timeStamp);
 
+        for (int x = 0; x < dateList.size() ; x++) {
+            float mean = 0f;
+            int instance = 0;
+            for (int y = 0; y < dateList.size(); y++) {
+                if (dateList.get(x) == dateList.get(y) ) {
+                    mean += trialData.get(x);
+                    instance += 1;
+                }
             }
-            dataPoint = new DataPoint(j,totalCount);
-            if (dataPoint.getY() != 0) { // only add dataPoints with values innit.
-                dataPointList.add(dataPoint);
+            if (instance > 0) {
+                mean = mean / instance;
+                DataPoint dataPoint = new DataPoint(dateList.get(x),mean);
+                if (mean != 0) {
+                    dataPointList.add(dataPoint);
+                }
             }
+
         }
-        setValues(trialData);
         return dataPointList;
     }
 
@@ -99,43 +139,38 @@ public class StatPlot {
         return maximum;
     }
 
+
     /**
      * Creates a dataPointList of occurrences of measurements with a corrective rate of +/-~1
-     * X: Measurement value
+     * X: Time range
      * Y: Total occurence of a measurement within the x to x+1 from trial results.
      * @param trialData
      */
     public List<DataPoint>  drawPlotMeasurement(List<Float> trialData, List<Timestamp> timeStamp) { // similar to NNIC just correct the range of floating point values.
         List<DataPoint> dataPointList = new ArrayList<>();
-        DataPoint dataPoint = new DataPoint(0,0);
-        int upperBound = 1;
-        int lowerBound = 0;
-        for (int j = 0; j < calculateMax(trialData)+1; j++) {
-            int totalCount = 0;
-            upperBound = j+1;
-            lowerBound = j;
-            for (int k = 0; k < trialData.size(); k++) {
-                if (trialData.get(k) >= lowerBound && trialData.get(k) < upperBound) {
-                    totalCount += 1;
+        List<Date> dateList = new ArrayList<>();
+        dateList = timeStampToDate(timeStamp);
+
+        for (int x = 0; x < dateList.size() ; x++) {
+            float mean = 0f;
+            int instance = 0;
+            for (int y = 0; y < dateList.size(); y++) {
+                if (dateList.get(x) == dateList.get(y) ) {
+                    mean += trialData.get(x);
+                    instance += 1;
                 }
 
             }
-            dataPoint = new DataPoint(lowerBound, totalCount);
-            if (dataPoint.getY() != 0) { // only add non-zero values
-                dataPointList.add(dataPoint);
+            if (instance > 0) {
+                mean = mean / instance;
+                DataPoint dataPoint = new DataPoint(dateList.get(x),mean);
+                if (mean != 0) {
+                    dataPointList.add(dataPoint);
+                }
             }
-
         }
-
-        setValues(trialData);
         return dataPointList;
     }
 
 
-    public void setValues(List<Float> data){
-        values = data;
-    }
-    public List<Float> getValues() {
-        return values;
-    }
 }

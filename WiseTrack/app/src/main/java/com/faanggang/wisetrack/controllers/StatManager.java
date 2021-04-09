@@ -1,17 +1,14 @@
 package com.faanggang.wisetrack.controllers;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.faanggang.wisetrack.model.stats.StatHistogram;
 import com.faanggang.wisetrack.model.stats.StatPlot;
 import com.faanggang.wisetrack.model.stats.StatReport;
-import com.faanggang.wisetrack.model.stats.TrialSearcher;
 import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,25 +22,13 @@ import java.util.List;
  * 3 - Measurements
  */
 
-/**
- * Testing
- * value check
- * hopefully inner values
- */
-
 // add test for values
 public class StatManager {
     public StatReport currentTrialReport = new StatReport();
     private StatHistogram currentTrialHistogram = new StatHistogram();
     private StatPlot currentTrialPlot = new StatPlot();
 
-    private TrialSearcher listener;
-
     public StatManager() {
-
-    }
-    public StatManager (TrialSearcher listener) {
-        this.listener = listener;
 
     }
     /**
