@@ -54,13 +54,8 @@ public class StatHistogramActivity extends AppCompatActivity {
     private List<Float> trialData = new ArrayList<Float>();
     private List<Timestamp> trialStamp = new ArrayList<Timestamp>();
     private List<DataPoint> dataPointList = new ArrayList<>();
-
     /**
-     * Grab experiment and trial data
-     * draw colors
      * display graph
-     * @param savedInstanceState
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
