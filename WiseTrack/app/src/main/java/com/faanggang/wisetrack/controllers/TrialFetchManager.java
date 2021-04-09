@@ -102,7 +102,12 @@ public class TrialFetchManager {
                         DocumentSnapshot snapshot = task.getResult();
                         int trialType = snapshot.getLong("trialType").intValue();
 
-                        ArrayList<String> blocked = (ArrayList<String>)snapshot.get("blockedUsers");
+                        ArrayList<String> blocked;
+                        if (snapshot.get("blockedUsers") == null) {
+                            blocked = new ArrayList<String>();
+                        } else {
+                            blocked = (ArrayList<String>)snapshot.get("blockedUsers");
+                        }
 
                         db.collection("Experiments").document(expID).collection("Trials").get()
                                 .addOnCompleteListener(task1 -> {
