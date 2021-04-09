@@ -13,7 +13,7 @@ Inflated Contribution Numbers:
 <h3>Ava</h3> 
 
 Contribution's not listed under GitHub contributions:
-* Commits [db86e1c](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/db86e1ca8146720b1f63a2f8a1e42ce585da9cc7) to [3dca83a](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/0bae39a60c51f4ec0f8ecf742f665a8cd19303e5), and [02c6ff4](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/02c6ff4c84ea996fdf9d47696ad209d2eceacca5) are unlisted due to her GitHub account being unlinked.
+* Commits [db86e1c](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/db86e1ca8146720b1f63a2f8a1e42ce585da9cc7) to [3dca83a](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/0bae39a60c51f4ec0f8ecf742f665a8cd19303e5), and [02c6ff4](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/02c6ff4c84ea996fdf9d47696ad209d2eceacca5) are unlisted due to my GitHub account being unlinked.
 
 
 <h3>Celina</h3>
