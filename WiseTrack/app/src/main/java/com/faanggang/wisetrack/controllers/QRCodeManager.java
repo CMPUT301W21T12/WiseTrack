@@ -54,6 +54,15 @@ public class QRCodeManager {
     }
 
     /**
+     * Dependency injection
+     * @param Mock
+     */
+    public QRCodeManager(FirebaseFirestore Mock){
+        db = Mock;
+    }
+
+
+    /**
      * Takes in a string, and dimensions and returns a bitmap that represents the string.
      * Source: Adapter from Alexander Farber, https://stackoverflow.com/a/30529128
      * @param str
