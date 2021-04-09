@@ -41,18 +41,18 @@ public class ViewExperimentResultsActivity extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.view_statistics_button) {
-            Toast.makeText(this, "STATS REPORT", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "STATISTICS REPORT", Toast.LENGTH_SHORT).show();
             Intent reportIntent = new Intent(ViewExperimentResultsActivity.this, StatReportActivity.class);
             reportIntent.putExtra("EXP_ID", expID);
             startActivity(reportIntent);
 
         } else if (v.getId() == R.id.view_histogram_button) {
-            Toast.makeText(this, "HISTOGRAM (UNAVAILABLE)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "HISTOGRAM ", Toast.LENGTH_SHORT).show();
             Intent histogramIntent = new Intent(ViewExperimentResultsActivity.this, StatHistogramActivity.class);
             histogramIntent.putExtra("EXP_ID", expID);
             startActivity(histogramIntent);
         } else if (v.getId() == R.id.view_plots_button) {
-            Toast.makeText(this, "PLOT (UNAVAILABLE)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PLOT OVER TIME", Toast.LENGTH_SHORT).show();
             Intent plotIntent = new Intent(ViewExperimentResultsActivity.this, StatPlotActivity.class);
             plotIntent.putExtra("EXP_ID", expID);
             startActivity(plotIntent);

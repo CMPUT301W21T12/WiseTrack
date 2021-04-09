@@ -150,12 +150,11 @@ public class StatReportActivity extends AppCompatActivity {
      *  Quartiles
      */
     public void setTextView() {
-        Log.i("Stat Report88888", String.valueOf(statManager.getMax()) + String.valueOf(statManager.getMin()) + String.valueOf(statManager.getQuartiles()) + String.valueOf(statManager.getMean()) );
         statMinimum.setText(String.valueOf(statManager.getMin()));
         statMaximum.setText(String.valueOf(statManager.getMax()));
         statMean.setText(String.valueOf(statManager.getMean()));
         statMedian.setText(String.valueOf(statManager.getMedian()));
-        statStdev.setText(String.valueOf(anotherTrialType)); //statManager.getStdev()
+        statStdev.setText(String.valueOf(statManager.getStdev()));
 
         String quartileString = "";
         List<Float> quartile = statManager.getQuartiles();

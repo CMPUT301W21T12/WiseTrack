@@ -1,11 +1,14 @@
 package com.faanggang.wisetrack.controllers;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.faanggang.wisetrack.model.stats.StatHistogram;
 import com.faanggang.wisetrack.model.stats.StatPlot;
 import com.faanggang.wisetrack.model.stats.StatReport;
+import com.jjoe64.graphview.series.DataPoint;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +56,9 @@ public class StatManager {
                             "Min " + String.valueOf(currentTrialReport.getMinimum()) +
                             "QTR " + String.valueOf(currentTrialReport.getQuartiles()) +
                             "Mean " + String.valueOf(currentTrialReport.getMean()) +
-                            "Median" + String.valueOf(currentTrialReport.getMedian()) );
+                            "Median " + String.valueOf(currentTrialReport.getMedian()) +
+                            "STDEV " + String.valueOf(currentTrialReport.getStdev())
+            );
         }
 
 
@@ -70,6 +75,34 @@ public class StatManager {
     public List<Float> getQuartiles() {return currentTrialReport.getQuartiles();}
     public float getIQR() {return currentTrialReport.getInterquartileRange();}
 
+
+    /**
+     * Generate Data Points for histogram use.
+     * @param trialData: Results from trial runs
+     * @param trialType: Type of the experiment
+     * @return
+     */
+    public List<DataPoint> generateStatHistogram(List<Float> trialData, int trialType) {
+
+        String msg = trialData.toString() + "::" + String.valueOf(trialType);
+        switch (trialType){
+            case 0: // count
+                Log.i("results log COUNT", msg);
+                return currentTrialHistogram.drawHistogramCount(trialData);
+            case 1: // binomial
+                Log.i("results log BINOM", msg);
+                return currentTrialHistogram.drawHistogramBinomial(trialData);
+            case 2: // NNIC
+                Log.i("results log NNIC", msg);
+                return currentTrialHistogram.drawHistogramNNIC(trialData);
+            case 3: // Measurement
+                Log.i("results log MST", msg);
+                return currentTrialHistogram.drawHistogramMeasurement(trialData);
+            default:
+                Log.w("STSManager", "Histogram: Error Trial Type");
+                return null;
+        }
+    }
 
     public void generateStatPlot(List<Float> trialData, int trialType) {// plots overtime * change return
         switch (trialType){
@@ -91,32 +124,6 @@ public class StatManager {
 
         }
     }
-
-    public void generateStatHistogram(List<Float> trialData, int trialType) { // theres a library somewhere * change return
-        switch (trialType){
-            case 0: // count
-                currentTrialHistogram.drawHistogramCount();
-                break;
-            case 1: // binomial
-                currentTrialHistogram.drawHistogramBinomial();
-                break;
-            case 2: // NNIC
-                currentTrialHistogram.drawHistogramNNIC();
-                break;
-
-            case 3: // Measurement
-                currentTrialHistogram.drawHistogramMeasurement();
-                break;
-            default:
-                Log.w("STSManager", "Histogram: Error Trial Type");
-        }
-
-
-
-
-
-    }
-
 
 }
 

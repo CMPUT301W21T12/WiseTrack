@@ -1,10 +1,12 @@
 package com.faanggang.wisetrack.view.stats;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +22,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +45,7 @@ public class StatHistogramActivity extends AppCompatActivity {
     private String expID;
     private StatManager statManager = new StatManager();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private int trialType;
+    private int trialType = -1;
 
     // text view one for name other for type
     private TextView exprName;
@@ -46,6 +53,7 @@ public class StatHistogramActivity extends AppCompatActivity {
 
     private List<Float> trialData = new ArrayList<Float>();
     private List<Timestamp> trialStamp = new ArrayList<Timestamp>();
+    private List<DataPoint> dataPointList = new ArrayList<>();
 
     /**
      * Grab experiment and trial data
@@ -57,20 +65,60 @@ public class StatHistogramActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stats_histogram_screen);
+
+        experimentManager = new ExperimentManager();
+        expID = getIntent().getStringExtra("EXP_ID");
+
+        exprName = findViewById(R.id.histogram_trial_name);
+        exprTrialType = findViewById(R.id.histogram_trial_type);
+
         GraphView histogram = (GraphView) findViewById(R.id.stats_histogram);
 
 
+        experimentQuery();
+        trialDataQuery();
+        histogramBounds(histogram);
 
-        double x,y;
-        x = 0;
-        y= 0;
 
-        int bars = 100 ;
-        series.appendData(new DataPoint(x,y),true,100   );
-        histogram.addSeries(series);
+
 
 
     }
+
+    /**
+     *
+     */
+    public void dataParsing() {
+        double x,y;
+        x = 0;
+        y = 0;
+        Log.i("results log TWO", trialData.toString() + "::" + String.valueOf(trialType));
+        dataPointList = statManager.generateStatHistogram(trialData,trialType);
+        Log.i("results log THREE", trialData.toString() + "::" + String.valueOf(trialType));
+        for (int j = 0 ; j < dataPointList.size(); j ++ ) {
+            y= dataPointList.get(j).getY();
+            x= dataPointList.get(j).getX();;
+            series.appendData(new DataPoint(x,y),true,100);
+        }
+
+    }
+
+    /**
+     *      // add logic for this later.
+     *         // set manual bounds
+     * @param histogram
+     */
+    public void histogramBounds(GraphView histogram){
+        histogram.getViewport().setYAxisBoundsManual(true);
+        histogram.getViewport().setMinY(0);
+        histogram.getViewport().setMaxY(300);
+        histogram.getViewport().setXAxisBoundsManual(true);
+        histogram.getViewport().setMinX(0);
+        histogram.getViewport().setMaxX(6);
+        histogram.addSeries(series);
+        histogramStyling();
+    }
+
     /**
      * Query for a Experiment's name
      * ** ADD TEXTVIEW FOR CLASS TYPE LATER
@@ -80,17 +128,16 @@ public class StatHistogramActivity extends AppCompatActivity {
             DocumentSnapshot docSnap = task.getResult();
             exprName.setText(docSnap.getString("name"));
             trialType = docSnap.getLong("trialType").intValue();
-            String trialType_str;
             if (trialType == 0) {
-                trialType_str = "Count";
+                exprTrialType.setText("[Count]");;
             } else if (trialType == 1) {
-                trialType_str = "Binomial trials";
+                exprTrialType.setText("[Binomial Trial]");
             } else if (trialType == 2) {
-                trialType_str = "Non-negative integer counts";
+                exprTrialType.setText(" [Non-negative Integer Count]");
             } else if (trialType == 3) {
-                trialType_str = "Measurement trials";
+                exprTrialType.setText("[Measurement Trial]");
             } else {
-                trialType_str = "Unknown Unicorn";// invalid
+                exprTrialType.setText("[Unknown Unicorn]");// invalid
             }
         });
 
@@ -115,9 +162,9 @@ public class StatHistogramActivity extends AppCompatActivity {
 
                     trialData.add(resultValue);
                     trialStamp.add(dateStamp);
+                    Log.i("results log ONE", String.valueOf(resultValue) + "::" + String.valueOf(trialType));
                 }
-                Log.i("TrialData", trialData.toString());
-                statManager.generateStatHistogram(trialData, trialType);
+                dataParsing();
             }
         });
         task.addOnFailureListener(new OnFailureListener() {
@@ -142,8 +189,8 @@ public class StatHistogramActivity extends AppCompatActivity {
                 return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
             }
         });
-        series.setSpacing(50);
-        series.setValuesOnTopSize(30);
+        series.setSpacing(2);
+        series.setValuesOnTopSize(45);
 
     }
 }
