@@ -2,6 +2,7 @@ package com.faanggang.wisetrack.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             Log.w("EXISTING USERID", currentUser.getUid());
             userManager.storeCurrentUser(currentUser.getUid(), userManager);
             Intent intent = new Intent(this, MainMenuActivity.class);
+            SystemClock.sleep(500);
             startActivity(intent);
         }
     }

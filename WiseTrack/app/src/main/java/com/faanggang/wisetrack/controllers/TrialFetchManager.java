@@ -95,7 +95,7 @@ public class TrialFetchManager {
      * by the Object that is receiving the data.
      * @param expID: ID of the experiment that you are fetching its trials from.
      */
-    public void fetchTrials(String expID){
+    /*public void fetchTrials(String expID){
         db.collection("Experiments").document(expID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -124,5 +124,42 @@ public class TrialFetchManager {
                         Log.w("EXPERIMENT","DID NOT FIND");
                     }
                 });
+    }*/
+
+    public void fetchUnblockedUserTrials(String expID) {
+        db.collection("Experiments").document(expID).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot snapshot = task.getResult();
+                        int trialType = snapshot.getLong("trialType").intValue();
+
+                        ArrayList<String> blocked = (ArrayList<String>)snapshot.get("blockedUsers");
+
+                        db.collection("Experiments").document(expID).collection("Trials").get()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        if (task1.getResult().size() != 0) {
+                                            ArrayList<Trial> trials = new ArrayList<Trial>();
+                                            ArrayList<DocumentSnapshot> docSnapList = (ArrayList<DocumentSnapshot>)task1.getResult().getDocuments();
+                                            for (DocumentSnapshot doc : docSnapList) {
+                                                if (blocked.contains(doc.getString("conductor id"))) {
+                                                    continue;
+                                                } else {
+                                                    Location geolocation = createLocationFromSnapshot(doc);
+                                                    Trial trial = createTrialFromSnapshot(doc, geolocation, trialType);
+                                                    trials.add(trial);
+                                                }
+                                            }
+                                            fetcher.onSuccessfulFetch(trials);
+                                        }
+                                    } else {
+                                        Log.w("TRIAL(S)","DID NOT FIND");
+                                    }
+                        });
+                    } else {
+                        Log.w("EXPERIMENT","DID NOT FIND");
+                    }
+                });
     }
+
 }

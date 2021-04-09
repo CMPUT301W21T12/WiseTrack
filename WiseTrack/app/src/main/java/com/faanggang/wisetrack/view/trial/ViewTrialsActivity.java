@@ -52,7 +52,7 @@ public class ViewTrialsActivity extends AppCompatActivity implements TrialFetchM
         Bundle extras = getIntent().getExtras();
         expID = extras.getString("EXP_ID");
 
-        trialFetchManager.fetchTrials(expID);
+        trialFetchManager.fetchUnblockedUserTrials(expID);
     }
 
     /**
