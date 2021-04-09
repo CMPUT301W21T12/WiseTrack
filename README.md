@@ -19,4 +19,4 @@ Contribution's not listed under GitHub contributions:
 <h3>Celina</h3>
 
 Inflated Contribution Numbers:
-1. Generated Javadoc with ~46,000 lines. Commit [42efd7cc99483a2aebed955bc89f99bd37d8bb66](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/42efd7cc99483a2aebed955bc89f99bd37d8bb66)
+1. Generated Javadoc with ~46,000 lines. Commits can be found in branch `javadoc` [42efd7cc99483a2aebed955bc89f99bd37d8bb66](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/42efd7cc99483a2aebed955bc89f99bd37d8bb66), [00a181fd122f836abb8f9d69c00e5a1e17c304b5](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/00a181fd122f836abb8f9d69c00e5a1e17c304b5), [f6921b8dda507b104afd8d4616667c098dc1d64d](https://github.com/CMPUT301W21T12/FAANG-GANG/commit/00a181fd122f836abb8f9d69c00e5a1e17c304b5)
