@@ -290,13 +290,35 @@ public class ViewExperimentActivity extends AppCompatActivity
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.experiment_action_menu_owner, menu);
 
+        boolean open = experiment.isOpen();
+        boolean published = experiment.isPublished();
+
         // determine which options should be displayed based on whether the current experimenter is the owner
         if (getOwnerID().equals(WiseTrackApplication.getCurrentUser().getUserID())) {
-            menu.setGroupVisible(R.id.owner_only_options, true);
+
+            menu.setGroupVisible(R.id.owner_view_trials, true);
+
+            if(published)
+                menu.setGroupVisible(R.id.owner_unpublish, true);
+            else
+                menu.setGroupVisible(R.id.owner_unpublish, false);
+
+            if(open)
+                menu.setGroupVisible(R.id.owner_end_experiment, true);
+            else
+                menu.setGroupVisible(R.id.owner_end_experiment, false);
+
         } else if (!getOwnerID().equals(WiseTrackApplication.getCurrentUser().getUserID())) {
-            menu.setGroupVisible(R.id.owner_only_options, false);
+            menu.setGroupVisible(R.id.owner_view_trials, false);
+            menu.setGroupVisible(R.id.owner_end_experiment, false);
+            menu.setGroupVisible(R.id.owner_unpublish, false);
         }
         menu.setGroupVisible(R.id.experimenter_options, true);
+
+        if(open)
+            menu.setGroupVisible(R.id.trial_related_options, true);
+        else
+            menu.setGroupVisible(R.id.trial_related_options, false);
     }
 
     @Override
@@ -443,10 +465,6 @@ public class ViewExperimentActivity extends AppCompatActivity
         experimentDB.update("keywords", FieldValue.arrayUnion("CLOSED"));
 
         experiment.setOpen(false);
-
-        // Go back to main
-        Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -471,5 +489,15 @@ public class ViewExperimentActivity extends AppCompatActivity
                 });
 
         experiment.setPublished(false);
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Successfully unpublished the experiment.\nGoing back to main...",
+                Toast.LENGTH_SHORT);
+
+        toast.show();
+
+        // Go back to main
+        Intent intent = new Intent(ViewExperimentActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
