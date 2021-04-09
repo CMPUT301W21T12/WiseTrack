@@ -87,7 +87,7 @@ public class ViewTrialsActivity extends AppCompatActivity implements TrialFetchM
         switch (item.getItemId()) {
             case R.id.view_profile_option:
                 Intent viewUserIntent = new Intent(this, ViewOtherActivity.class);
-                //viewUserIntent.putExtra("UID")
+                //viewUserIntent.putExtra("UID");
                 return true;
             case R.id.block_user_option:
                 Toast.makeText(this, "block user option selected", Toast.LENGTH_SHORT).show();
