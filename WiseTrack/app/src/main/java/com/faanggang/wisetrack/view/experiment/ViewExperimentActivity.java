@@ -305,6 +305,7 @@ public class ViewExperimentActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.subscribe_option:
                 subManager.addSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
+                Toast.makeText(getApplicationContext(),"You have successfully subscribed to this experiment!", Toast.LENGTH_SHORT).show();
                 return true;  // item clicked return true
             case R.id.unpublish_option:
                 Toast.makeText(this, "Unpublish option selected", Toast.LENGTH_SHORT).show();

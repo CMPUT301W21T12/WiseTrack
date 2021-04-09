@@ -54,7 +54,11 @@ public class UserNameCreationActivity extends AppCompatActivity {
                     String username = editUserName.getText().toString();
                     if (detectSpecial(username)) {
                         Toast.makeText(getApplicationContext(), "Username cannot contain special characters", Toast.LENGTH_LONG).show();
-                    } else {
+                    }
+                    else if (username.length() > 20) {
+                        Toast.makeText(getApplicationContext(), "Username cannot contain more than 20 characters", Toast.LENGTH_LONG).show();
+                    }
+                    else {
                         CollectionReference usersRef = db.collection("Users");
                         // query for all user document with the username input by the new user
                         usersRef.whereEqualTo("userName", username)
