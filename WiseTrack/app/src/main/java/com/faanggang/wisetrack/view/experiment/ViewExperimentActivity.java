@@ -7,6 +7,8 @@ import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.view.MainMenuActivity;
 import com.faanggang.wisetrack.view.map.MapActivity;
+import com.faanggang.wisetrack.view.publish.PublishExperiment3_Geolocation;
+import com.faanggang.wisetrack.view.publish.PublishExperiment4_Complete;
 import com.faanggang.wisetrack.view.qrcodes.BarcodeRegisterActivity;
 import com.faanggang.wisetrack.view.qrcodes.CameraScannerActivity;
 import com.faanggang.wisetrack.view.trial.ExecuteBinomialActivity;
@@ -444,6 +446,10 @@ public class ViewExperimentActivity extends AppCompatActivity
                 Toast.LENGTH_SHORT);
 
         toast.show();
+
+        //Refresh
+        setTextWithObject();
+        onRestart();
     }
 
     @Override
@@ -474,7 +480,15 @@ public class ViewExperimentActivity extends AppCompatActivity
                 Toast.LENGTH_SHORT);
 
         toast.show();
+
+        //Refresh
+        setTextWithObject();
+        onRestart();
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+    }
 
 }
