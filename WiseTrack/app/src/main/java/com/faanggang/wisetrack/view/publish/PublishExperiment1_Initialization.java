@@ -87,6 +87,7 @@ public class PublishExperiment1_Initialization extends AppCompatActivity {
                     intent.putExtra("EXTRA_MIN_TRIALS", intMinTrials);
 
                     startActivity(intent);
+                    finish();
 
                 }
             });

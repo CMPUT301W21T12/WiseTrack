@@ -1,6 +1,7 @@
 package com.faanggang.wisetrack.view.experiment;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -37,7 +38,6 @@ public class MySubscriptionActivity extends AppCompatActivity implements Searche
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
-
         subManager.getSubscriptions(WiseTrackApplication.getCurrentUser().getUserID());
 
     }
@@ -46,5 +46,12 @@ public class MySubscriptionActivity extends AppCompatActivity implements Searche
         experiments.clear();
         experiments.addAll(results);
         expAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        subManager.getSubscriptions(WiseTrackApplication.getCurrentUser().getUserID());
+
     }
 }

@@ -59,6 +59,7 @@ public class PublishExperiment3_Geolocation extends AppCompatActivity
         intent.putExtra("EXTRA_GEOLOCATION", geolocation);
 
         startActivity(intent);
+        finish();
 
     }
 

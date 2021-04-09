@@ -69,6 +69,7 @@ public class PublishExperiment2_TrialType extends AppCompatActivity
         intent.putExtra("EXTRA_TRIAL_TYPE", trialType);
 
         startActivity(intent);
+        finish();
 
     }
 }

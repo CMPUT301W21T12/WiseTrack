@@ -14,6 +14,7 @@ import com.faanggang.wisetrack.model.experiment.Experiment;
 import com.faanggang.wisetrack.view.MainActivity;
 import com.faanggang.wisetrack.R;
 import com.faanggang.wisetrack.controllers.PublishingManager;
+import com.faanggang.wisetrack.view.MainMenuActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -119,8 +120,9 @@ public class PublishExperiment4_Complete extends AppCompatActivity
         }
 
         // GO back to main
-        Intent intent = new Intent(PublishExperiment4_Complete.this, MainActivity.class);
+        Intent intent = new Intent(PublishExperiment4_Complete.this, MainMenuActivity.class);
         startActivity(intent);
+        finish();
 
     }
 }
