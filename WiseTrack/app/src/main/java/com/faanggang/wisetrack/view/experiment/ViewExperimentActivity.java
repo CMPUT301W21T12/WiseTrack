@@ -291,6 +291,8 @@ public class ViewExperimentActivity extends AppCompatActivity
         // check which item was clicked
         switch (item.getItemId()) {
             case R.id.subscribe_option:
+                subManager.addSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
+                Toast.makeText(getApplicationContext(),"You have successfully subscribed to this experiment!", Toast.LENGTH_SHORT).show();
                 if (WiseTrackApplication.getUserSubscriptions().contains(expID)) {
                     subManager.removeSubscription(expID, WiseTrackApplication.getCurrentUser().getUserID());
                     ArrayList<String> subs = WiseTrackApplication.getUserSubscriptions();
